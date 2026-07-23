@@ -111,13 +111,15 @@ export struct RecommendTab {
     Stack({ alignContent: Alignment.BottomStart }) {
       // 封面占位：无真实素材时用渐变 + 标题展示，接入素材后替换为 Image($r('app.media.xxx'))
       Column() {
-        Text(item.englishTitle.toUpperCase())
-          .fontSize(13)
-          .fontWeight(FontWeight.Bold)
-          .fontColor('rgba(255,255,255,0.85)')
-          .maxLines(2)
-          .textAlign(TextAlign.Center)
-          .padding({ left: 8, right: 8 })
+        // Image($r('app.media.Palworld'))
+        Image($r('app.media.chain'))
+        // Text(item.englishTitle.toUpperCase())
+        //   .fontSize(13)
+        //   .fontWeight(FontWeight.Bold)
+        //   .fontColor('rgba(255,255,255,0.85)')
+        //   .maxLines(2)
+        //   .textAlign(TextAlign.Center)
+        //   .padding({ left: 8, right: 8 })
       }
       .width('100%')
       .height('100%')
