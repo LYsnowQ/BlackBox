@@ -11,10 +11,13 @@ export struct RankingTab {
   private filters: string[] = ['付费', '游戏类型', '折扣区间', '评分'];
 
   private goDetail(id: string): void {
-    router.pushUrl({
-      url: 'pages/GameDetail/GameDetail',
-      params: { id },
-    });
+    try {
+      router.pushUrl({
+        url: 'pages/GameDetail/GameDetail',
+        params: { id },
+      });
+    } catch (err) {
+    }
   }
 
   @Builder
@@ -90,13 +93,20 @@ export struct RankingTab {
   @Builder
   ThumbBuilder(item: GameItem) {
     Stack({ alignContent: Alignment.TopStart }) {
-      Column()
-        .width('100%')
-        .height('100%')
-        .linearGradient({
-          angle: 120,
-          colors: [[item.gradientColors[0], 0], [item.gradientColors[1], 1]],
-        })
+      if (item.coverImg) {
+        Image(item.coverImg)
+          .width('100%')
+          .height('100%')
+          .objectFit(ImageFit.Cover)
+      } else {
+        Column()
+          .width('100%')
+          .height('100%')
+          .linearGradient({
+            angle: 120,
+            colors: [[item.gradientColors[0], 0], [item.gradientColors[1], 1]],
+          })
+      }
 
       Row() {
         Text('🎮')
