@@ -1,8 +1,5 @@
-import { Home } from './Home/Home';
-import { Hot } from './Hot/Hot';
-import { RecommendTab } from './GameLibrary/RecommendTab';
-import { RankingTab } from './GameLibrary/RankingTab';
-import { Me } from './Me/Me';
+import { RecommendTab } from './RecommendTab';
+import { RankingTab } from './RankingTab';
 
 interface BottomNavItem {
   label: string;
@@ -11,9 +8,11 @@ interface BottomNavItem {
 
 @Entry
 @Component
-struct Index {
-  @State bottomTabIndex: number = 3;
+struct GameLibrary {
+  // 0 = 推荐, 1 = 榜单
   @State topTabIndex: number = 0;
+  // 底部导航当前选中项，本页面对应"游戏库"
+  @State bottomTabIndex: number = 3;
 
   private bottomNavItems: BottomNavItem[] = [
     { label: '首页', icon: '△' },
@@ -24,7 +23,7 @@ struct Index {
   ];
 
   @Builder
-  GameLibraryHeaderBuilder() {
+  TopHeaderBuilder() {
     Row() {
       Row() {
         Text('推荐')
@@ -60,6 +59,7 @@ struct Index {
     Row() {
       ForEach(this.bottomNavItems, (item: BottomNavItem, index: number) => {
         if (index === 2) {
+          // 中间的"＋"发布按钮，样式独立突出
           Column() {
             Text(item.icon)
               .fontSize(20)
@@ -88,44 +88,21 @@ struct Index {
       })
     }
     .width('100%')
-    .height(40)
+    .height(64)
     .backgroundColor(Color.White)
     .border({ width: { top: 1 }, color: '#F0F0F0' })
   }
 
-  @Builder
-  PageContentBuilder() {
-    if (this.bottomTabIndex === 0) {
-      Home()
-    } else if (this.bottomTabIndex === 1) {
-      Hot()
-    } else if (this.bottomTabIndex === 3) {
-      Column() {
-        this.GameLibraryHeaderBuilder()
-        if (this.topTabIndex === 0) {
-          RecommendTab()
-        } else {
-          RankingTab()
-        }
-      }
-      .width('100%')
-      .layoutWeight(1)
-    } else if (this.bottomTabIndex === 4) {
-      Me()
-    } else {
-      Column() {
-        Text('发布功能')
-          .fontSize(20)
-      }
-      .width('100%')
-      .layoutWeight(1)
-      .justifyContent(FlexAlign.Center)
-    }
-  }
-
   build() {
     Column() {
-      this.PageContentBuilder()
+      this.TopHeaderBuilder()
+
+      if (this.topTabIndex === 0) {
+        RecommendTab()
+      } else {
+        RankingTab()
+      }
+
       this.BottomNavBuilder()
     }
     .width('100%')
