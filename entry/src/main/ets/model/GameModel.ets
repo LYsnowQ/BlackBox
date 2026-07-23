@@ -981,29 +981,78 @@ export interface RegionPrice {
   isLowest?: boolean;
 }
 
-export function getFilteredGames(platformIndex: number, categoryIndex: number): GameItem[] {
+export function getFilteredGames(
+  platformIndex: number,
+  categoryIndex: number,
+  payFilter?: string,
+  typeFilter?: string,
+  discountFilter?: string,
+  scoreFilter?: string
+): GameItem[] {
   let result = [...gameList];
 
-  if (categoryIndex === 1) {
+  // 1. 平台筛选
+  if (platformIndex === 1) {
+    result = result.filter((g) => g.tags.includes('休闲') || g.tags.includes('独立') || g.tags.includes('解谜') || g.tags.includes('平台跳跃') || g.id === 'party-animals' || g.id === 'love-choice');
+  } else if (platformIndex === 2) {
+    result = result.filter((g) => g.tags.includes('动作') || g.tags.includes('角色扮演') || g.tags.includes('暗黑奇幻') || g.id === 'rdr2' || g.id === 'elden-ring');
+  } else if (platformIndex === 3) {
+    result = result.filter((g) => g.tags.includes('竞速') || g.tags.includes('开放世界') || g.tags.includes('射击') || g.id === 'palworld' || g.id === 'forza-horizon-5');
+  }
+
+  // 2. 付费筛选
+  if (payFilter && payFilter !== '全部') {
+    if (payFilter === '免费游玩') {
+      result = result.filter((g) => g.price === 0);
+    } else if (payFilter === '100元以下') {
+      result = result.filter((g) => g.price > 0 && g.price <= 100);
+    } else if (payFilter === '100-200元') {
+      result = result.filter((g) => g.price > 100 && g.price <= 200);
+    } else if (payFilter === '200元以上') {
+      result = result.filter((g) => g.price > 200);
+    }
+  }
+
+  // 3. 游戏类型筛选
+  if (typeFilter && typeFilter !== '全部') {
+    result = result.filter((g) => g.tags.includes(typeFilter) || (g.secondaryTags && g.secondaryTags.includes(typeFilter)));
+  }
+
+  // 4. 折扣区间筛选
+  if (discountFilter && discountFilter !== '全部') {
+    if (discountFilter === '特惠中') {
+      result = result.filter((g) => g.discountPercent !== undefined && g.discountPercent > 0);
+    } else if (discountFilter === '5折及以上') {
+      result = result.filter((g) => g.discountPercent !== undefined && g.discountPercent >= 50);
+    } else if (discountFilter === '7折及以上') {
+      result = result.filter((g) => g.discountPercent !== undefined && g.discountPercent >= 70);
+    }
+  }
+
+  // 5. 评分筛选
+  if (scoreFilter && scoreFilter !== '全部') {
+    if (scoreFilter === '9.0分以上') {
+      result = result.filter((g) => g.rating !== undefined && g.rating >= 9.0);
+    } else if (scoreFilter === '9.5分以上') {
+      result = result.filter((g) => g.rating !== undefined && g.rating >= 9.5);
+    }
+  }
+
+  // 6. 分类排序
+  if (categoryIndex === 0) {
+    result.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
+  } else if (categoryIndex === 1) {
     result = result.filter((g) => g.discountPercent !== undefined && g.discountPercent > 0);
     result.sort((a, b) => (b.discountPercent ?? 0) - (a.discountPercent ?? 0));
-  } else if (categoryIndex === 0) {
-    result.sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0));
+  } else if (categoryIndex === 2) {
+    result.sort((a, b) => (parseFloat(b.wishlistCount ?? '0')) - (parseFloat(a.wishlistCount ?? '0')));
   } else if (categoryIndex === 3) {
     result.sort((a, b) => (b.price ?? 0) - (a.price ?? 0));
   } else if (categoryIndex === 4) {
     result.sort((a, b) => (parseFloat(b.onlineNow ?? '0')) - (parseFloat(a.onlineNow ?? '0')));
   }
 
-  if (platformIndex === 1) {
-    result = result.filter((g) => g.tags.includes('休闲') || g.tags.includes('独立') || g.tags.includes('解谜') || g.tags.includes('多人') || g.id === 'party-animals');
-  } else if (platformIndex === 2) {
-    result = result.filter((g) => g.tags.includes('动作') || g.tags.includes('冒险') || g.tags.includes('恐怖') || g.id === 'rdr2');
-  } else if (platformIndex === 3) {
-    result = result.filter((g) => g.tags.includes('竞速') || g.tags.includes('开放世界') || g.tags.includes('射击') || g.id === 'palworld');
-  }
-
-  return result.length > 0 ? result : gameList;
+  return result;
 }
 
 export function getGameCommunityPosts(gameId: string): CommunityPost[] {

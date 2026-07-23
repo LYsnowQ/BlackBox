@@ -5,12 +5,23 @@ import { GameItem, GameDataSource, getFilteredGames } from '../../model/GameMode
 export struct RankingTab {
   @State platformIndex: number = 0;
   @State categoryIndex: number = 0;
-  @State activeFilter: string = '';
+  @State activeFilterMenu: string = ''; // '' | '付费' | '游戏类型' | '折扣区间' | '评分'
+  @State selectedPayFilter: string = '全部';
+  @State selectedTypeFilter: string = '全部';
+  @State selectedDiscountFilter: string = '全部';
+  @State selectedScoreFilter: string = '全部';
+  @State isFilterDrawerOpen: boolean = false;
+
   private dataSource: GameDataSource = new GameDataSource(getFilteredGames(0, 0));
 
   private platforms: string[] = ['PC', 'Switch', 'PSN', 'Xbox'];
   private categories: string[] = ['最受欢迎', '优惠促销', '最受期待', '商城热销', '当前在线'];
   private filters: string[] = ['付费', '游戏类型', '折扣区间', '评分'];
+
+  private payOptions: string[] = ['全部', '免费游玩', '100元以下', '100-200元', '200元以上'];
+  private typeOptions: string[] = ['全部', '动作', '角色扮演', '开放世界', '解谜', '休闲', '沙盒'];
+  private discountOptions: string[] = ['全部', '特惠中', '5折及以上', '7折及以上'];
+  private scoreOptions: string[] = ['全部', '9.0分以上', '9.5分以上'];
 
   private goDetail(id: string): void {
     try {
@@ -23,7 +34,50 @@ export struct RankingTab {
   }
 
   private updateList(): void {
-    this.dataSource.setItems(getFilteredGames(this.platformIndex, this.categoryIndex));
+    this.dataSource.setItems(getFilteredGames(
+      this.platformIndex,
+      this.categoryIndex,
+      this.selectedPayFilter,
+      this.selectedTypeFilter,
+      this.selectedDiscountFilter,
+      this.selectedScoreFilter
+    ));
+  }
+
+  private resetAllFilters(): void {
+    this.selectedPayFilter = '全部';
+    this.selectedTypeFilter = '全部';
+    this.selectedDiscountFilter = '全部';
+    this.selectedScoreFilter = '全部';
+    this.activeFilterMenu = '';
+    this.updateList();
+  }
+
+  private getChipLabel(name: string): string {
+    if (name === '付费' && this.selectedPayFilter !== '全部') {
+      return this.selectedPayFilter;
+    }
+    if (name === '游戏类型' && this.selectedTypeFilter !== '全部') {
+      return this.selectedTypeFilter;
+    }
+    if (name === '折扣区间' && this.selectedDiscountFilter !== '全部') {
+      return this.selectedDiscountFilter;
+    }
+    if (name === '评分' && this.selectedScoreFilter !== '全部') {
+      return this.selectedScoreFilter;
+    }
+    return name;
+  }
+
+  private isChipActive(name: string): boolean {
+    if (this.activeFilterMenu === name) {
+      return true;
+    }
+    if (name === '付费' && this.selectedPayFilter !== '全部') return true;
+    if (name === '游戏类型' && this.selectedTypeFilter !== '全部') return true;
+    if (name === '折扣区间' && this.selectedDiscountFilter !== '全部') return true;
+    if (name === '评分' && this.selectedScoreFilter !== '全部') return true;
+    return false;
   }
 
   @Builder
@@ -71,23 +125,23 @@ export struct RankingTab {
   @Builder
   FilterChipBuilder(name: string) {
     Row() {
-      Text(name)
+      Text(this.getChipLabel(name))
         .fontSize(12)
-        .fontColor(this.activeFilter === name ? '#2BC48A' : '#666666')
-        .fontWeight(this.activeFilter === name ? FontWeight.Bold : FontWeight.Normal)
+        .fontColor(this.isChipActive(name) ? '#2BC48A' : '#666666')
+        .fontWeight(this.isChipActive(name) ? FontWeight.Bold : FontWeight.Normal)
       Text(' ▾')
         .fontSize(10)
-        .fontColor(this.activeFilter === name ? '#2BC48A' : '#999999')
+        .fontColor(this.isChipActive(name) ? '#2BC48A' : '#999999')
     }
     .padding({ left: 10, right: 10, top: 6, bottom: 6 })
-    .backgroundColor(this.activeFilter === name ? '#E3F4E9' : '#F5F5F7')
+    .backgroundColor(this.isChipActive(name) ? '#E3F4E9' : '#F5F5F7')
     .borderRadius(8)
     .margin({ right: 8 })
     .onClick(() => {
-      if (this.activeFilter === name) {
-        this.activeFilter = '';
+      if (this.activeFilterMenu === name) {
+        this.activeFilterMenu = '';
       } else {
-        this.activeFilter = name;
+        this.activeFilterMenu = name;
       }
     })
   }
@@ -277,72 +331,318 @@ export struct RankingTab {
     .onClick(() => this.goDetail(item.id))
   }
 
-  build() {
-    Column() {
-      Row() {
-        ForEach(this.platforms, (name: string, index: number) => {
-          this.PlatformTabBuilder(name, index)
-        })
-      }
-      .width('100%')
-      .padding({ top: 14, bottom: 14 })
-
-      Row() {
-        Scroll() {
-          Row() {
-            ForEach(this.categories, (name: string, index: number) => {
-              this.CategoryTabBuilder(name, index)
+  @Builder
+  FilterOptionsSubBarBuilder() {
+    if (this.activeFilterMenu !== '') {
+      Scroll() {
+        Row({ space: 8 }) {
+          if (this.activeFilterMenu === '付费') {
+            ForEach(this.payOptions, (opt: string) => {
+              Text(opt)
+                .fontSize(12)
+                .fontColor(this.selectedPayFilter === opt ? Color.White : '#1A1A1A')
+                .backgroundColor(this.selectedPayFilter === opt ? '#2BC48A' : '#F0F0F2')
+                .padding({ left: 12, right: 12, top: 5, bottom: 5 })
+                .borderRadius(14)
+                .onClick(() => {
+                  this.selectedPayFilter = opt;
+                  this.updateList();
+                })
+            })
+          } else if (this.activeFilterMenu === '游戏类型') {
+            ForEach(this.typeOptions, (opt: string) => {
+              Text(opt)
+                .fontSize(12)
+                .fontColor(this.selectedTypeFilter === opt ? Color.White : '#1A1A1A')
+                .backgroundColor(this.selectedTypeFilter === opt ? '#2BC48A' : '#F0F0F2')
+                .padding({ left: 12, right: 12, top: 5, bottom: 5 })
+                .borderRadius(14)
+                .onClick(() => {
+                  this.selectedTypeFilter = opt;
+                  this.updateList();
+                })
+            })
+          } else if (this.activeFilterMenu === '折扣区间') {
+            ForEach(this.discountOptions, (opt: string) => {
+              Text(opt)
+                .fontSize(12)
+                .fontColor(this.selectedDiscountFilter === opt ? Color.White : '#1A1A1A')
+                .backgroundColor(this.selectedDiscountFilter === opt ? '#2BC48A' : '#F0F0F2')
+                .padding({ left: 12, right: 12, top: 5, bottom: 5 })
+                .borderRadius(14)
+                .onClick(() => {
+                  this.selectedDiscountFilter = opt;
+                  this.updateList();
+                })
+            })
+          } else if (this.activeFilterMenu === '评分') {
+            ForEach(this.scoreOptions, (opt: string) => {
+              Text(opt)
+                .fontSize(12)
+                .fontColor(this.selectedScoreFilter === opt ? Color.White : '#1A1A1A')
+                .backgroundColor(this.selectedScoreFilter === opt ? '#2BC48A' : '#F0F0F2')
+                .padding({ left: 12, right: 12, top: 5, bottom: 5 })
+                .borderRadius(14)
+                .onClick(() => {
+                  this.selectedScoreFilter = opt;
+                  this.updateList();
+                })
             })
           }
         }
-        .scrollable(ScrollDirection.Horizontal)
-        .scrollBar(BarState.Off)
+        .padding({ top: 4, bottom: 8 })
       }
+      .scrollable(ScrollDirection.Horizontal)
+      .scrollBar(BarState.Off)
       .width('100%')
+    }
+  }
 
-      Row() {
-        Scroll() {
-          Row() {
-            ForEach(this.filters, (name: string) => {
-              this.FilterChipBuilder(name)
-            })
-          }
-        }
-        .scrollable(ScrollDirection.Horizontal)
-        .scrollBar(BarState.Off)
-        .layoutWeight(1)
+  @Builder
+  FilterDrawerModalBuilder() {
+    Stack({ alignContent: Alignment.Bottom }) {
+      // 遮罩层
+      Column()
+        .width('100%')
+        .height('100%')
+        .backgroundColor('rgba(0,0,0,0.5)')
+        .onClick(() => (this.isFilterDrawerOpen = false))
 
+      // 底部抽屉面板
+      Column() {
+        // 面板 Header
         Row() {
-          Text('▤')
-            .fontSize(14)
-            .fontColor('#666666')
-          Text(' 筛选')
-            .fontSize(12)
-            .fontColor('#666666')
+          Text('高级筛选')
+            .fontSize(16)
+            .fontWeight(FontWeight.Bold)
+            .fontColor('#1A1A1A')
+          Blank()
+          Text('✕')
+            .fontSize(18)
+            .fontColor('#999999')
+            .onClick(() => (this.isFilterDrawerOpen = false))
         }
-        .padding({ left: 4 })
-      }
-      .width('100%')
-      .margin({ top: 12, bottom: 8 })
+        .width('100%')
+        .padding(16)
+        .border({ width: { bottom: 1 }, color: '#F0F0F0' })
 
-      List() {
-        LazyForEach(this.dataSource, (item: GameItem, index: number) => {
-          ListItem() {
+        Scroll() {
+          Column({ space: 16 }) {
+            // 付费模式
             Column() {
-              this.GameRowBuilder(item, index + 1)
-              Divider().color('#EDEDED').strokeWidth(1)
+              Text('付费模式')
+                .fontSize(14)
+                .fontWeight(FontWeight.Bold)
+                .fontColor('#1A1A1A')
+                .margin({ bottom: 10 })
+                .width('100%')
+
+              Flex({ wrap: FlexWrap.Wrap }) {
+                ForEach(this.payOptions, (opt: string) => {
+                  Text(opt)
+                    .fontSize(12)
+                    .fontColor(this.selectedPayFilter === opt ? Color.White : '#1A1A1A')
+                    .backgroundColor(this.selectedPayFilter === opt ? '#2BC48A' : '#F5F5F7')
+                    .padding({ left: 14, right: 14, top: 7, bottom: 7 })
+                    .borderRadius(16)
+                    .margin({ right: 8, bottom: 8 })
+                    .onClick(() => (this.selectedPayFilter = opt))
+                })
+              }
+            }
+
+            // 游戏类型
+            Column() {
+              Text('游戏类型')
+                .fontSize(14)
+                .fontWeight(FontWeight.Bold)
+                .fontColor('#1A1A1A')
+                .margin({ bottom: 10 })
+                .width('100%')
+
+              Flex({ wrap: FlexWrap.Wrap }) {
+                ForEach(this.typeOptions, (opt: string) => {
+                  Text(opt)
+                    .fontSize(12)
+                    .fontColor(this.selectedTypeFilter === opt ? Color.White : '#1A1A1A')
+                    .backgroundColor(this.selectedTypeFilter === opt ? '#2BC48A' : '#F5F5F7')
+                    .padding({ left: 14, right: 14, top: 7, bottom: 7 })
+                    .borderRadius(16)
+                    .margin({ right: 8, bottom: 8 })
+                    .onClick(() => (this.selectedTypeFilter = opt))
+                })
+              }
+            }
+
+            // 折扣区间
+            Column() {
+              Text('折扣区间')
+                .fontSize(14)
+                .fontWeight(FontWeight.Bold)
+                .fontColor('#1A1A1A')
+                .margin({ bottom: 10 })
+                .width('100%')
+
+              Flex({ wrap: FlexWrap.Wrap }) {
+                ForEach(this.discountOptions, (opt: string) => {
+                  Text(opt)
+                    .fontSize(12)
+                    .fontColor(this.selectedDiscountFilter === opt ? Color.White : '#1A1A1A')
+                    .backgroundColor(this.selectedDiscountFilter === opt ? '#2BC48A' : '#F5F5F7')
+                    .padding({ left: 14, right: 14, top: 7, bottom: 7 })
+                    .borderRadius(16)
+                    .margin({ right: 8, bottom: 8 })
+                    .onClick(() => (this.selectedDiscountFilter = opt))
+                })
+              }
+            }
+
+            // 评分筛选
+            Column() {
+              Text('评分筛选')
+                .fontSize(14)
+                .fontWeight(FontWeight.Bold)
+                .fontColor('#1A1A1A')
+                .margin({ bottom: 10 })
+                .width('100%')
+
+              Flex({ wrap: FlexWrap.Wrap }) {
+                ForEach(this.scoreOptions, (opt: string) => {
+                  Text(opt)
+                    .fontSize(12)
+                    .fontColor(this.selectedScoreFilter === opt ? Color.White : '#1A1A1A')
+                    .backgroundColor(this.selectedScoreFilter === opt ? '#2BC48A' : '#F5F5F7')
+                    .padding({ left: 14, right: 14, top: 7, bottom: 7 })
+                    .borderRadius(16)
+                    .margin({ right: 8, bottom: 8 })
+                    .onClick(() => (this.selectedScoreFilter = opt))
+                })
+              }
             }
           }
-        }, (item: GameItem) => item.id)
+          .padding(16)
+        }
+        .layoutWeight(1)
+        .width('100%')
+
+        // 底部重置 & 完成按钮
+        Row({ space: 12 }) {
+          Button('重置')
+            .type(ButtonType.Normal)
+            .fontSize(14)
+            .fontColor('#1A1A1A')
+            .backgroundColor('#F0F0F2')
+            .borderRadius(20)
+            .layoutWeight(1)
+            .height(40)
+            .onClick(() => this.resetAllFilters())
+
+          Button('完成')
+            .type(ButtonType.Normal)
+            .fontSize(14)
+            .fontColor(Color.White)
+            .backgroundColor('#2BC48A')
+            .borderRadius(20)
+            .layoutWeight(2)
+            .height(40)
+            .onClick(() => {
+              this.updateList();
+              this.isFilterDrawerOpen = false;
+            })
+        }
+        .width('100%')
+        .padding({ left: 16, right: 16, top: 10, bottom: 20 })
+        .backgroundColor(Color.White)
+        .border({ width: { top: 1 }, color: '#F0F0F0' })
+      }
+      .width('100%')
+      .height('65%')
+      .backgroundColor(Color.White)
+      .borderRadius({ topLeft: 16, topRight: 16 })
+    }
+    .width('100%')
+    .height('100%')
+  }
+
+  build() {
+    Stack({ alignContent: Alignment.Bottom }) {
+      Column() {
+        Row() {
+          ForEach(this.platforms, (name: string, index: number) => {
+            this.PlatformTabBuilder(name, index)
+          })
+        }
+        .width('100%')
+        .padding({ top: 14, bottom: 14 })
+
+        Row() {
+          Scroll() {
+            Row() {
+              ForEach(this.categories, (name: string, index: number) => {
+                this.CategoryTabBuilder(name, index)
+              })
+            }
+          }
+          .scrollable(ScrollDirection.Horizontal)
+          .scrollBar(BarState.Off)
+        }
+        .width('100%')
+
+        Row() {
+          Scroll() {
+            Row() {
+              ForEach(this.filters, (name: string) => {
+                this.FilterChipBuilder(name)
+              })
+            }
+          }
+          .scrollable(ScrollDirection.Horizontal)
+          .scrollBar(BarState.Off)
+          .layoutWeight(1)
+
+          Row() {
+            Text('▤')
+              .fontSize(14)
+              .fontColor(this.isFilterDrawerOpen ? '#2BC48A' : '#666666')
+            Text(' 筛选')
+              .fontSize(12)
+              .fontColor(this.isFilterDrawerOpen ? '#2BC48A' : '#666666')
+              .fontWeight(this.isFilterDrawerOpen ? FontWeight.Bold : FontWeight.Normal)
+          }
+          .padding({ left: 6, right: 4, top: 4, bottom: 4 })
+          .onClick(() => (this.isFilterDrawerOpen = true))
+        }
+        .width('100%')
+        .margin({ top: 12, bottom: 4 })
+
+        // 展开的子选项栏
+        this.FilterOptionsSubBarBuilder()
+
+        List() {
+          LazyForEach(this.dataSource, (item: GameItem, index: number) => {
+            ListItem() {
+              Column() {
+                this.GameRowBuilder(item, index + 1)
+                Divider().color('#EDEDED').strokeWidth(1)
+              }
+            }
+          }, (item: GameItem) => item.id)
+        }
+        .width('100%')
+        .layoutWeight(1)
+        .scrollBar(BarState.Off)
+        .divider({ strokeWidth: 0 })
       }
       .width('100%')
       .layoutWeight(1)
-      .scrollBar(BarState.Off)
-      .divider({ strokeWidth: 0 })
+      .padding({ left: 16, right: 16 })
+
+      if (this.isFilterDrawerOpen) {
+        this.FilterDrawerModalBuilder()
+      }
     }
     .width('100%')
-    .layoutWeight(1)
-    .padding({ left: 16, right: 16 })
+    .height('100%')
   }
 }
 
