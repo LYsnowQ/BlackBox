@@ -1,10 +1,12 @@
 import { router } from '@kit.ArkUI';
-import { GameItem, gameList } from '../../model/GameModel';
+import { GameItem, GameDataSource, getFilteredGames } from '../../model/GameModel';
 
 @Component
 export struct RankingTab {
   @State platformIndex: number = 0;
   @State categoryIndex: number = 0;
+  @State activeFilter: string = '';
+  private dataSource: GameDataSource = new GameDataSource(getFilteredGames(0, 0));
 
   private platforms: string[] = ['PC', 'Switch', 'PSN', 'Xbox'];
   private categories: string[] = ['最受欢迎', '优惠促销', '最受期待', '商城热销', '当前在线'];
@@ -18,6 +20,10 @@ export struct RankingTab {
       });
     } catch (err) {
     }
+  }
+
+  private updateList(): void {
+    this.dataSource.setItems(getFilteredGames(this.platformIndex, this.categoryIndex));
   }
 
   @Builder
@@ -35,7 +41,10 @@ export struct RankingTab {
         .margin({ top: 6 })
     }
     .padding({ right: 26 })
-    .onClick(() => (this.platformIndex = index))
+    .onClick(() => {
+      this.platformIndex = index;
+      this.updateList();
+    })
   }
 
   @Builder
@@ -53,7 +62,10 @@ export struct RankingTab {
         .margin({ top: 6 })
     }
     .padding({ right: 20 })
-    .onClick(() => (this.categoryIndex = index))
+    .onClick(() => {
+      this.categoryIndex = index;
+      this.updateList();
+    })
   }
 
   @Builder
@@ -61,15 +73,69 @@ export struct RankingTab {
     Row() {
       Text(name)
         .fontSize(12)
-        .fontColor('#666666')
+        .fontColor(this.activeFilter === name ? '#2BC48A' : '#666666')
+        .fontWeight(this.activeFilter === name ? FontWeight.Bold : FontWeight.Normal)
       Text(' ▾')
         .fontSize(10)
-        .fontColor('#999999')
+        .fontColor(this.activeFilter === name ? '#2BC48A' : '#999999')
     }
     .padding({ left: 10, right: 10, top: 6, bottom: 6 })
-    .backgroundColor('#F5F5F7')
+    .backgroundColor(this.activeFilter === name ? '#E3F4E9' : '#F5F5F7')
     .borderRadius(8)
     .margin({ right: 8 })
+    .onClick(() => {
+      if (this.activeFilter === name) {
+        this.activeFilter = '';
+      } else {
+        this.activeFilter = name;
+      }
+    })
+  }
+
+  @Builder
+  RankBadgeBuilder(rank: number) {
+    if (rank === 1) {
+      Text('1')
+        .fontSize(12)
+        .fontWeight(FontWeight.Bold)
+        .fontColor(Color.White)
+        .backgroundColor('#FFB300')
+        .width(20)
+        .height(20)
+        .borderRadius(10)
+        .textAlign(TextAlign.Center)
+        .margin({ right: 8 })
+    } else if (rank === 2) {
+      Text('2')
+        .fontSize(12)
+        .fontWeight(FontWeight.Bold)
+        .fontColor(Color.White)
+        .backgroundColor('#90A4AE')
+        .width(20)
+        .height(20)
+        .borderRadius(10)
+        .textAlign(TextAlign.Center)
+        .margin({ right: 8 })
+    } else if (rank === 3) {
+      Text('3')
+        .fontSize(12)
+        .fontWeight(FontWeight.Bold)
+        .fontColor(Color.White)
+        .backgroundColor('#CD7F32')
+        .width(20)
+        .height(20)
+        .borderRadius(10)
+        .textAlign(TextAlign.Center)
+        .margin({ right: 8 })
+    } else {
+      Text(`${rank}`)
+        .fontSize(12)
+        .fontWeight(FontWeight.Medium)
+        .fontColor('#B0B0B0')
+        .width(20)
+        .textAlign(TextAlign.Center)
+        .margin({ right: 8 })
+    }
   }
 
   @Builder
@@ -98,6 +164,7 @@ export struct RankingTab {
           .width('100%')
           .height('100%')
           .objectFit(ImageFit.Cover)
+          .alt($r('app.media.background'))
       } else {
         Column()
           .width('100%')
@@ -130,7 +197,7 @@ export struct RankingTab {
           .align(Alignment.TopEnd)
       }
     }
-    .width(112)
+    .width(108)
     .aspectRatio(1.72)
     .borderRadius(10)
     .clip(true)
@@ -139,6 +206,7 @@ export struct RankingTab {
   @Builder
   GameRowBuilder(item: GameItem, rank: number) {
     Row() {
+      this.RankBadgeBuilder(rank)
       this.ThumbBuilder(item)
 
       Column() {
@@ -187,32 +255,25 @@ export struct RankingTab {
           }
         }
         .width('100%')
-        .margin({ top: 8 })
+        .margin({ top: 6 })
 
-        if (item.favoriteCount) {
-          Row() {
-            Text('♡')
-              .fontSize(12)
-              .fontColor('#B0B0B0')
-            Text(item.favoriteCount)
-              .fontSize(12)
-              .fontColor('#999999')
-              .margin({ left: 4 })
-          }
-          .margin({ top: 8 })
+        Row() {
+          Text(item.tags.slice(0, 2).join(' | '))
+            .fontSize(11)
+            .fontColor('#999999')
         }
+        .margin({ top: 6 })
       }
       .alignItems(HorizontalAlign.Start)
       .layoutWeight(1)
-      .height(65)
       .justifyContent(FlexAlign.Center)
-      .padding({ left: 12 })
+      .padding({ left: 10 })
 
       this.RatingBadgeBuilder(item)
     }
     .width('100%')
-    .alignItems(VerticalAlign.Top)
-    .padding({ top: 16, bottom: 16 })
+    .alignItems(VerticalAlign.Center)
+    .padding({ top: 14, bottom: 14 })
     .onClick(() => this.goDetail(item.id))
   }
 
@@ -265,13 +326,10 @@ export struct RankingTab {
       .margin({ top: 12, bottom: 8 })
 
       List() {
-        ForEach(gameList, (item: GameItem, index: number) => {
+        LazyForEach(this.dataSource, (item: GameItem, index: number) => {
           ListItem() {
-            this.GameRowBuilder(item, index + 1)
-          }
-
-          if (index !== gameList.length - 1) {
-            ListItem() {
+            Column() {
+              this.GameRowBuilder(item, index + 1)
               Divider().color('#EDEDED').strokeWidth(1)
             }
           }
@@ -287,3 +345,4 @@ export struct RankingTab {
     .padding({ left: 16, right: 16 })
   }
 }
+

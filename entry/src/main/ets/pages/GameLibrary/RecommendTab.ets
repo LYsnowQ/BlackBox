@@ -183,6 +183,17 @@ export struct RecommendTab {
     .padding(10)
     .backgroundColor('#F5F5F7')
     .borderRadius(12)
+    .onClick(() => {
+      if (item.title === '喜加一') {
+        this.goDetail('rise-of-tomb-raider');
+      } else if (item.title === '黑盒商城') {
+        this.goDetail('palworld');
+      } else if (item.title === '赛事中心') {
+        this.goDetail('street-fighter-6');
+      } else if (item.title === '黑盒语音') {
+        this.goDetail('party-animals');
+      }
+    })
   }
 
   @Builder
