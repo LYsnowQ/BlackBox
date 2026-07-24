@@ -316,7 +316,7 @@ export const gameList: GameItem[] = [
     wishlistCount: '142w',
     awardLabel: 'Game Awards 最佳剧情/最佳音乐',
     deckSupport: 'playable',
-    intro: '亚瑟·摩根和范德林德帮众是一群逃亡在外的亡命之徒。联邦侦探和全国顶尖的赏金猎人在他们身后穷追不舍，亚瑟一行人必须选择在蛮荒的美国腹地奔逃、劫掠与挣扎求生。',
+    intro: '亚瑟·摩根和范德林德帮众是一群逃亡在外的亡命之徒。联邦侦探和全国顶尖的赏金猎人在他们身后穷追不合，亚瑟一行人必须选择在蛮荒的美国腹地奔逃、劫掠与挣扎求生。',
   },
   {
     id: 'overcooked2',

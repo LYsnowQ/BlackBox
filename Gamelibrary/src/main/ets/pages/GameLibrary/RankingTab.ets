@@ -1,4 +1,5 @@
 import { GameItem, GameDataSource, getFilteredGames } from '../../model/GameLibrary/GameLibraryModel';
+import { GameLibraryRoutes } from '../../router/GameLibraryRoutes';
 
 @Component
 export struct RankingTab {
@@ -25,7 +26,7 @@ export struct RankingTab {
   private goDetail(id: string): void {
     try {
       this.getUIContext().getRouter().pushUrl({
-        url: 'pages/GameDetail/GameDetail',
+        url: GameLibraryRoutes.GAME_DETAIL,
         params: { id },
       });
     } catch (err) {

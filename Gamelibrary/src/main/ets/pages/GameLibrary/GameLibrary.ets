@@ -1,18 +1,17 @@
-import { Home } from './Home/Home';
-import { Hot } from './Hot/Hot';
-import { RecommendTab, RankingTab } from 'gamelibrary';
-import { Me } from 'profile';
+import { RecommendTab } from './RecommendTab';
+import { RankingTab } from './RankingTab';
 
 interface BottomNavItem {
   label: string;
   icon: string;
 }
 
-@Entry
 @Component
-struct Index {
-  @State bottomTabIndex: number = 3;
+export struct GameLibrary {
+  // 0 = 推荐, 1 = 榜单
   @State topTabIndex: number = 0;
+  // 底部导航当前选中项，本页面对应"游戏库"
+  @State bottomTabIndex: number = 3;
   @State isForYouPageOpen: boolean = false;
   @State activeNavPage: string = '';
 
@@ -25,7 +24,7 @@ struct Index {
   ];
 
   @Builder
-  GameLibraryHeaderBuilder() {
+  TopHeaderBuilder() {
     Row() {
       Row() {
         Text('推荐')
@@ -61,6 +60,7 @@ struct Index {
     Row() {
       ForEach(this.bottomNavItems, (item: BottomNavItem, index: number) => {
         if (index === 2) {
+          // 中间的"＋"发布按钮，样式独立突出
           Column() {
             Text(item.icon)
               .fontSize(20)
@@ -95,42 +95,22 @@ struct Index {
     .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.BOTTOM])
   }
 
-  @Builder
-  PageContentBuilder() {
-    if (this.bottomTabIndex === 0) {
-      Home()
-    } else if (this.bottomTabIndex === 1) {
-      Hot()
-    } else if (this.bottomTabIndex === 3) {
-      Column() {
-        if (!this.isForYouPageOpen && this.activeNavPage === '') {
-          this.GameLibraryHeaderBuilder()
-        }
-        if (this.topTabIndex === 0) {
-          RecommendTab({ isForYouPageOpen: $isForYouPageOpen, activeNavPage: $activeNavPage })
-        } else {
-          RankingTab()
-        }
-      }
-      .width('100%')
-      .layoutWeight(1)
-    } else if (this.bottomTabIndex === 4) {
-      Me()
-    } else {
-      Column() {
-        Text('发布功能')
-          .fontSize(20)
-      }
-      .width('100%')
-      .layoutWeight(1)
-      .justifyContent(FlexAlign.Center)
-    }
-  }
-
   build() {
     Stack({ alignContent: Alignment.Bottom }) {
       Column() {
-        this.PageContentBuilder()
+        if (!this.isForYouPageOpen && this.activeNavPage === '') {
+          this.TopHeaderBuilder()
+        }
+
+        Stack() {
+          if (this.topTabIndex === 0) {
+            RecommendTab({ isForYouPageOpen: $isForYouPageOpen, activeNavPage: $activeNavPage })
+          } else {
+            RankingTab()
+          }
+        }
+        .width('100%')
+        .layoutWeight(1)
       }
       .width('100%')
       .height('100%')
