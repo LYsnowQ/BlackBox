@@ -21,7 +21,7 @@ design/Home/
 
 | 文件 | 内容要点 | 实现落点 |
 |---|---|---|
-| `recommend.jpg` | 顶栏关注/推荐、圈子横滑、图文帖卡片 | `HomeRecommend` + `PostCard` |
+| `recommend.jpg` | 顶栏关注/推荐、圈子横滑、图文帖卡片 | `HomeRecommend`（按 `circleId` 过滤）+ `PostCard` |
 | `follow.jpg` | 关注用户头像条、盒友动态流 | `FollowFeed` + `PostCard` |
 | `follow-content/*` | 单用户筛选后的关注内容 | `FollowFeed` 按 `authorId` 过滤 |
 | `post/detail-*` | 正文（作者、标签、配图、段落） | `PostDetailPage` 上部 |

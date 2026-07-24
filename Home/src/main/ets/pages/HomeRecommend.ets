@@ -5,6 +5,13 @@ import { PostCard } from './PostCard';
 export struct HomeRecommend {
   @State selectedCircleId: string = 'all';
 
+  private filteredPosts(): FeedPost[] {
+    if (this.selectedCircleId === 'all') {
+      return recommendPosts;
+    }
+    return recommendPosts.filter((post: FeedPost) => post.circleId === this.selectedCircleId);
+  }
+
   @Builder
   CircleItemBuilder(item: CircleItem) {
     Column() {
@@ -55,7 +62,7 @@ export struct HomeRecommend {
         .width('100%')
       }
 
-      ForEach(recommendPosts, (post: FeedPost) => {
+      ForEach(this.filteredPosts(), (post: FeedPost) => {
         ListItem() {
           Column() {
             Divider()
@@ -64,10 +71,10 @@ export struct HomeRecommend {
             PostCard({ post: post, variant: 'recommend' })
           }
         }
-      }, (post: FeedPost) => post.id)
+      }, (post: FeedPost) => `${this.selectedCircleId}|${post.id}`)
 
       ListItem() {
-        Text('已经到底了')
+        Text(this.filteredPosts().length === 0 ? '暂无内容' : '已经到底了')
           .fontSize(12)
           .fontColor('#C0C0C0')
           .width('100%')

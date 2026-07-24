@@ -26,6 +26,8 @@ export interface FeedPost {
   id: string;
   /** 对应 FollowUser.id；关注流按此过滤 */
   authorId: string;
+  /** 对应 CircleItem.id；推荐流按此过滤（不含 all） */
+  circleId: string;
   authorName: string;
   authorAvatarColor: string;
   authorAvatarText: string;
@@ -68,6 +70,7 @@ export const recommendPosts: FeedPost[] = [
   {
     id: 'r1',
     authorId: '',
+    circleId: 'digital',
     authorName: '明天去月球',
     authorAvatarColor: '#5B8DEF',
     authorAvatarText: '月',
@@ -91,6 +94,7 @@ export const recommendPosts: FeedPost[] = [
   {
     id: 'r2',
     authorId: '',
+    circleId: 'chat',
     authorName: '虾米游',
     authorAvatarColor: '#3D5A80',
     authorAvatarText: '虾',
@@ -116,6 +120,7 @@ export const recommendPosts: FeedPost[] = [
   {
     id: 'r3',
     authorId: 'u4',
+    circleId: 'digital',
     authorName: 'Honglizi',
     authorAvatarColor: '#C9A227',
     authorAvatarText: 'H',
@@ -137,12 +142,112 @@ export const recommendPosts: FeedPost[] = [
     commentCount: 86,
     likeCount: 312,
   },
+  {
+    id: 'r4',
+    authorId: '',
+    circleId: 'dave',
+    authorName: '深海打工人',
+    authorAvatarColor: '#4EC6E8',
+    authorAvatarText: '海',
+    levelLabel: 'Lv.8',
+    isOfficial: false,
+    isFollowing: false,
+    title: '潜水员戴夫：刷完图鉴后的毕业装分享',
+    summary: '肝了三周终于集齐图鉴，整理了一套当前版本比较稳的毕业装备路线，适合还在卡关的盒友…',
+    images: [
+      { mediaKey: 'Palworld', placeholderColor: '#4EC6E8' },
+      { mediaKey: 'monster', placeholderColor: '#2A8BB0' },
+    ],
+    imageCount: 6,
+    imageLayout: 'grid',
+    tagText: '潜水员戴夫',
+    tagTone: 'topic',
+    gameTag: '潜水员戴夫',
+    timeText: '',
+    commentCount: 41,
+    likeCount: 156,
+  },
+  {
+    id: 'r5',
+    authorId: '',
+    circleId: 'steam',
+    authorName: '史低雷达',
+    authorAvatarColor: '#1B2838',
+    authorAvatarText: 'S',
+    levelLabel: 'Lv.20',
+    isOfficial: true,
+    isFollowing: false,
+    title: '本周 Steam 史低合集：这几款别再犹豫了',
+    summary: '整理本周值得入手的史低与新史低，含动作、策略、独立游戏，附愿望单链接…',
+    images: [
+      { mediaKey: 'chain', placeholderColor: '#1B2838' },
+    ],
+    imageCount: 1,
+    imageLayout: 'right',
+    tagText: 'Steam',
+    tagTone: 'topic',
+    gameTag: '',
+    timeText: '',
+    commentCount: 128,
+    likeCount: 420,
+  },
+  {
+    id: 'r6',
+    authorId: '',
+    circleId: 'pc',
+    authorName: '帧数狂魔',
+    authorAvatarColor: '#E0B84A',
+    authorAvatarText: '帧',
+    levelLabel: 'Lv.11',
+    isOfficial: false,
+    isFollowing: false,
+    title: '4070 超级画质全开实测：这几款 3A 稳 100+ 帧',
+    summary: '统一 1440p + DLSS 质量档，对比无帧生成与有帧生成的体感差异，附设置截图…',
+    images: [
+      { mediaKey: 'fighter', placeholderColor: '#2B2B2B' },
+      { mediaKey: 'nba', placeholderColor: '#D0D4DA' },
+      { mediaKey: '', placeholderColor: '#E0B84A' },
+    ],
+    imageCount: 9,
+    imageLayout: 'grid',
+    tagText: 'PC游戏',
+    tagTone: 'topic',
+    gameTag: '',
+    timeText: '',
+    commentCount: 67,
+    likeCount: 233,
+  },
+  {
+    id: 'r7',
+    authorId: '',
+    circleId: 'chat',
+    authorName: '今晚不熬夜',
+    authorAvatarColor: '#6B7CFF',
+    authorAvatarText: '夜',
+    levelLabel: 'Lv.6',
+    isOfficial: false,
+    isFollowing: false,
+    title: '盒友真实：你们是怎么控制买游戏冲动的？',
+    summary: '愿望单已经三位数了，每次促销还是忍不住，求靠谱的自制力方法论…',
+    images: [
+      { mediaKey: '', placeholderColor: '#EEF2FF' },
+    ],
+    imageCount: 1,
+    imageLayout: 'grid',
+    tagText: '盒友杂谈',
+    tagTone: 'topic',
+    gameTag: '',
+    timeText: '',
+    commentCount: 95,
+    likeCount: 188,
+  },
 ];
 
 export const followPosts: FeedPost[] = [
   {
     id: 'f1',
     authorId: 'u1',
+    circleId: '',
     authorName: '天王寺璃奈',
     authorAvatarColor: '#F7C6D8',
     authorAvatarText: '璃',
@@ -168,6 +273,7 @@ export const followPosts: FeedPost[] = [
   {
     id: 'f2',
     authorId: 'ux',
+    circleId: '',
     authorName: '刺客南窗傲',
     authorAvatarColor: '#4A5568',
     authorAvatarText: '刺',
@@ -191,6 +297,7 @@ export const followPosts: FeedPost[] = [
   {
     id: 'f3',
     authorId: 'u2',
+    circleId: 'chat',
     authorName: '我不吃牛肉讷',
     authorAvatarColor: '#B8E0D2',
     authorAvatarText: '牛',
@@ -214,6 +321,7 @@ export const followPosts: FeedPost[] = [
   {
     id: 'f4',
     authorId: 'u2',
+    circleId: 'chat',
     authorName: '我不吃牛肉讷',
     authorAvatarColor: '#B8E0D2',
     authorAvatarText: '牛',
@@ -237,6 +345,7 @@ export const followPosts: FeedPost[] = [
   {
     id: 'f5',
     authorId: 'u2',
+    circleId: 'chat',
     authorName: '我不吃牛肉讷',
     authorAvatarColor: '#B8E0D2',
     authorAvatarText: '牛',
@@ -260,6 +369,7 @@ export const followPosts: FeedPost[] = [
   {
     id: 'f6',
     authorId: 'u3',
+    circleId: 'chat',
     authorName: '软件格律诗',
     authorAvatarColor: '#F5C16C',
     authorAvatarText: '诗',
@@ -285,6 +395,7 @@ export const followPosts: FeedPost[] = [
   {
     id: 'f7',
     authorId: 'u3',
+    circleId: 'chat',
     authorName: '软件格律诗',
     authorAvatarColor: '#F5C16C',
     authorAvatarText: '诗',

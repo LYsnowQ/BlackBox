@@ -17,6 +17,7 @@
 |---|---|---|
 | 首页壳（顶栏 关注/推荐） | 已完成 | `Home/src/main/ets/pages/Home.ets` |
 | 推荐 Tab | 已完成 | `HomeRecommend.ets` |
+| 圈子筛选 | 已完成 | 点圈子按 `circleId` 过滤；「全部」显示全量 |
 | 关注 Tab | 已完成 | `FollowFeed.ets` |
 | 关注用户筛选 | 已完成 | 点头像过滤该用户帖子，再点取消；无帖显示「暂无动态」 |
 | 帖子详情 + 评论连续滚动 | 已完成 | `PostDetailPage` + entry 壳 `pages/Home/PostDetail` |
@@ -64,6 +65,7 @@ docs/Home.md / ROUTE_CONTRACT.md
 
 > 每完成一小部分功能，在此追加一条（新在上）。
 
+- 2026-07-24 · 推荐圈子筛选真正过滤 + 扩充各圈子 mock · `HomeRecommend` `HomeModel` `PostCard` · commit:pending
 - 2026-07-24 · 关注用户筛选真正过滤列表 + 扩充 mock（u2/u3） · `FollowFeed` `HomeModel` `PostCard` · commit:83d984e
 - 2026-07-24 · 文档同步：主分支合并后模块化与依赖现状 · `docs/*` `CLAUDE.md` `design/README.md` · commit:a35a146
 - 2026-07-24 · merge origin/master 进 home，编译运行通过 · commit:fe2d5c6
@@ -77,7 +79,6 @@ docs/Home.md / ROUTE_CONTRACT.md
 
 ## 已知问题 / 待办
 
-- 圈子筛选未真正过滤（推荐 Tab）
 - 搜索、消息未做；评论输入为本地 mock
 - 帖图复用游戏库 media 占位；图标多用 emoji
 - Hot 业务仍主要在 `entry/.../pages/Hot/`，`Hot/` HAR 尚未承接业务

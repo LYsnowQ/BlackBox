@@ -7,6 +7,7 @@ export struct PostCard {
   @Prop post: FeedPost = {
     id: '',
     authorId: '',
+    circleId: '',
     authorName: '',
     authorAvatarColor: '#CCCCCC',
     authorAvatarText: '',
