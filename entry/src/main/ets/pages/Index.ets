@@ -1,7 +1,6 @@
 import { Home } from 'home';
 import { Hot } from './Hot/Hot';
-import { RecommendTab } from './GameLibrary/RecommendTab';
-import { RankingTab } from './GameLibrary/RankingTab';
+import { RecommendTab, RankingTab } from 'gamelibrary';
 import { Me } from 'profile';
 
 interface BottomNavItem {
@@ -14,6 +13,8 @@ interface BottomNavItem {
 struct Index {
   @State bottomTabIndex: number = 3;
   @State topTabIndex: number = 0;
+  @State isForYouPageOpen: boolean = false;
+  @State activeNavPage: string = '';
 
   private bottomNavItems: BottomNavItem[] = [
     { label: '首页', icon: '△' },
@@ -88,9 +89,10 @@ struct Index {
       })
     }
     .width('100%')
-    .height(40)
+    .height(56)
     .backgroundColor(Color.White)
     .border({ width: { top: 1 }, color: '#F0F0F0' })
+    .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.BOTTOM])
   }
 
   @Builder
@@ -101,9 +103,11 @@ struct Index {
       Hot()
     } else if (this.bottomTabIndex === 3) {
       Column() {
-        this.GameLibraryHeaderBuilder()
+        if (!this.isForYouPageOpen && this.activeNavPage === '') {
+          this.GameLibraryHeaderBuilder()
+        }
         if (this.topTabIndex === 0) {
-          RecommendTab()
+          RecommendTab({ isForYouPageOpen: $isForYouPageOpen, activeNavPage: $activeNavPage })
         } else {
           RankingTab()
         }
@@ -124,9 +128,17 @@ struct Index {
   }
 
   build() {
-    Column() {
-      this.PageContentBuilder()
-      this.BottomNavBuilder()
+    Stack({ alignContent: Alignment.Bottom }) {
+      Column() {
+        this.PageContentBuilder()
+      }
+      .width('100%')
+      .height('100%')
+      .padding({ bottom: (this.isForYouPageOpen || this.activeNavPage !== '') ? 0 : 56 })
+
+      if (!this.isForYouPageOpen && this.activeNavPage === '') {
+        this.BottomNavBuilder()
+      }
     }
     .width('100%')
     .height('100%')
