@@ -1,4 +1,5 @@
 import { promptAction, router } from '@kit.ArkUI';
+import { HomeInteractStore, PostInteractState } from '../model/HomeInteractStore';
 import {
   CommentReply,
   PostComment,
@@ -28,23 +29,86 @@ export struct PostDetailPage {
   @State showComposer: boolean = false;
   private listScroller: Scroller = new Scroller();
   private jumpToComment: boolean = false;
+  private postId: string = '';
 
   aboutToAppear(): void {
     const params = router.getParams() as Record<string, Object>;
     const id = params ? (params['id'] as string) : '';
     const tab = params ? (params['tab'] as string) : '';
+    this.postId = id;
     this.detail = getPostDetailById(id);
     if (this.detail) {
-      this.following = this.detail.isFollowing;
-      this.likeCount = this.detail.likeCount;
-      this.starCount = this.detail.starCount;
-      this.awardCount = this.detail.awardCount;
-      this.commentCount = this.detail.commentCount;
-      this.comments = this.detail.comments.slice();
+      this.applyBase(this.detail);
     }
     if (tab === 'comment') {
       this.jumpToComment = true;
     }
+    const ctx = getContext(this) as Context;
+    HomeInteractStore.ensureLoaded(ctx).then(() => {
+      this.applyPersisted();
+    });
+  }
+
+  private applyBase(d: PostDetailModel): void {
+    this.following = d.isFollowing;
+    this.liked = false;
+    this.starred = false;
+    this.awarded = false;
+    this.likeCount = d.likeCount;
+    this.starCount = d.starCount;
+    this.awardCount = d.awardCount;
+    this.commentCount = d.commentCount;
+    this.comments = d.comments.slice();
+  }
+
+  private applyPersisted(): void {
+    if (!this.detail || this.postId.length === 0) {
+      return;
+    }
+    const saved = HomeInteractStore.get(this.postId);
+    if (!saved) {
+      return;
+    }
+    this.following = saved.following;
+    this.liked = saved.liked;
+    this.starred = saved.starred;
+    this.awarded = saved.awarded;
+    this.likeCount = saved.likeCount;
+    this.starCount = saved.starCount;
+    this.awardCount = saved.awardCount;
+    this.commentCount = saved.commentCount;
+    const merged: PostComment[] = [];
+    for (let i = 0; i < saved.extraComments.length; i++) {
+      merged.push(saved.extraComments[i]);
+    }
+    for (let i = 0; i < this.detail.comments.length; i++) {
+      merged.push(this.detail.comments[i]);
+    }
+    this.comments = merged;
+  }
+
+  private persist(): void {
+    if (!this.detail || this.postId.length === 0) {
+      return;
+    }
+    const extra: PostComment[] = [];
+    for (let i = 0; i < this.comments.length; i++) {
+      if (this.comments[i].id.indexOf('local-') === 0) {
+        extra.push(this.comments[i]);
+      }
+    }
+    const state: PostInteractState = {
+      liked: this.liked,
+      starred: this.starred,
+      awarded: this.awarded,
+      following: this.following,
+      likeCount: this.likeCount,
+      starCount: this.starCount,
+      awardCount: this.awardCount,
+      commentCount: this.commentCount,
+      extraComments: extra,
+    };
+    HomeInteractStore.save(getContext(this) as Context, this.postId, state);
   }
 
   onPageShow(): void {
@@ -102,6 +166,7 @@ export struct PostDetailPage {
       this.liked = true;
       this.likeCount = this.likeCount + 1;
     }
+    this.persist();
   }
 
   private toggleStar(): void {
@@ -112,6 +177,7 @@ export struct PostDetailPage {
       this.starred = true;
       this.starCount = this.starCount + 1;
     }
+    this.persist();
   }
 
   private toggleAward(): void {
@@ -123,6 +189,12 @@ export struct PostDetailPage {
       this.awardCount = this.awardCount + 1;
       promptAction.showToast({ message: '充电成功（mock）', duration: 1500 });
     }
+    this.persist();
+  }
+
+  private toggleFollowing(): void {
+    this.following = !this.following;
+    this.persist();
   }
 
   private submitComment(): void {
@@ -161,6 +233,7 @@ export struct PostDetailPage {
     this.draft = '';
     this.showComposer = false;
     this.scrollToComments();
+    this.persist();
     promptAction.showToast({ message: '评论已发布（mock）', duration: 1200 });
   }
 
@@ -301,9 +374,7 @@ export struct PostDetailPage {
           .padding({ left: 10, right: 10, top: 5, bottom: 5 })
           .borderRadius(14)
           .margin({ left: 8 })
-          .onClick(() => {
-            this.following = !this.following;
-          })
+          .onClick(() => this.toggleFollowing())
 
         Blank()
 
@@ -372,9 +443,7 @@ export struct PostDetailPage {
           .backgroundColor(this.following ? '#F0F0F0' : '#1A1A1A')
           .padding({ left: 12, right: 12, top: 6, bottom: 6 })
           .borderRadius(16)
-          .onClick(() => {
-            this.following = !this.following;
-          })
+          .onClick(() => this.toggleFollowing())
       }
       .width('100%')
       .margin({ top: 16 })

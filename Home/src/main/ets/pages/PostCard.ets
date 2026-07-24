@@ -1,4 +1,5 @@
 import { router } from '@kit.ArkUI';
+import { HomeInteractStore } from '../model/HomeInteractStore';
 import { FeedPost, PostImage } from '../model/HomeModel';
 import { HomeRoutes } from '../router/HomeRoutes';
 
@@ -28,6 +29,19 @@ export struct PostCard {
   };
   /** follow = 关注流；recommend = 推荐流 */
   @Prop variant: string = 'recommend';
+  /** 详情页互动持久化后递增，驱动列表计数刷新 */
+  @StorageProp('homeInteractVersion') interactVersion: number = 0;
+
+  private displayCommentCount(): number {
+    // 读取 interactVersion，保证持久化后 Footer 会重绘
+    const _v = this.interactVersion;
+    return HomeInteractStore.getCommentCount(this.post.id, this.post.commentCount) + _v * 0;
+  }
+
+  private displayLikeCount(): number {
+    const _v = this.interactVersion;
+    return HomeInteractStore.getLikeCount(this.post.id, this.post.likeCount) + _v * 0;
+  }
 
   private tagBg(): string {
     if (this.post.tagTone === 'hot') {
@@ -296,14 +310,14 @@ export struct PostCard {
         Text('💬')
           .fontSize(13)
           .fontColor('#B0B0B0')
-        Text(`${this.post.commentCount}`)
+        Text(`${this.displayCommentCount()}`)
           .fontSize(12)
           .fontColor('#B0B0B0')
           .margin({ left: 3, right: 14 })
         Text('👍')
           .fontSize(13)
           .fontColor('#B0B0B0')
-        Text(`${this.post.likeCount}`)
+        Text(`${this.displayLikeCount()}`)
           .fontSize(12)
           .fontColor('#B0B0B0')
           .margin({ left: 3 })

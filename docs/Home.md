@@ -22,6 +22,7 @@
 | 关注用户筛选 | 已完成 | 点头像过滤该用户帖子，再点取消；无帖显示「暂无动态」 |
 | 帖子详情 + 评论连续滚动 | 已完成 | `PostDetailPage` + entry 壳 `pages/Home/PostDetail` |
 | 底栏赞/藏/充/评 | 已完成 | mock 本地状态 |
+| 互动数据持久化 | 已完成 | Preferences 存赞/藏/充/关注/评论；列表计数同步 |
 | Home 模块化 | 已完成 | 业务在 `Home/` HAR，entry 仅壳 |
 | 与主分支模块化对齐 | 已完成 | 已 merge master；游戏库/Profile 同为 HAR |
 
@@ -32,6 +33,7 @@ Home/                                   # HAR 包名 home · 本分支主战场
 ├── Index.ets                           # 导出 Home / PostDetailPage / HomeRoutes 等
 └── src/main/ets/
     ├── model/HomeModel.ets
+    │   ├── model/HomeInteractStore.ets   # Preferences 互动持久化
     ├── pages/
     │   ├── Home.ets
     │   ├── HomeRecommend.ets
@@ -65,6 +67,7 @@ docs/Home.md / ROUTE_CONTRACT.md
 
 > 每完成一小部分功能，在此追加一条（新在上）。
 
+- 2026-07-24 · 赞/藏/充/关注/评论本地持久化 · `HomeInteractStore` `PostDetailPage` `PostCard` `Home` · commit:pending
 - 2026-07-24 · 推荐圈子筛选真正过滤 + 扩充各圈子 mock · `HomeRecommend` `HomeModel` `PostCard` · commit:42d4b2e
 - 2026-07-24 · 关注用户筛选真正过滤列表 + 扩充 mock（u2/u3） · `FollowFeed` `HomeModel` `PostCard` · commit:83d984e
 - 2026-07-24 · 文档同步：主分支合并后模块化与依赖现状 · `docs/*` `CLAUDE.md` `design/README.md` · commit:a35a146
@@ -81,11 +84,10 @@ docs/Home.md / ROUTE_CONTRACT.md
 
 - 搜索入口（顶栏 🔍）未做
 - 消息入口（顶栏 ✉️）未做；可评估复用 Profile Messages 路由
-- 评论输入为本地 mock，可继续完善交互
-- 点赞 / 评论 / 收藏 / 充电等互动数据仅页面内状态，**尝试本地持久化**（Preferences 等），列表与详情计数同步
+- 评论输入为本地 mock，可继续完善交互（已持久化用户发出的评论）
 - 帖图复用游戏库 media 占位；图标多用 emoji
 - Hot 业务仍主要在 `entry/.../pages/Hot/`，`Hot/` HAR 尚未承接业务
-- 充电无真实支付；仅本地计数 + toast
+- 充电无真实支付；仅本地计数 + toast（状态已持久化）
 
 ## 编译注意
 

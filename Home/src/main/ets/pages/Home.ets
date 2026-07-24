@@ -1,3 +1,4 @@
+import { HomeInteractStore } from '../model/HomeInteractStore';
 import { FollowFeed } from './FollowFeed';
 import { HomeRecommend } from './HomeRecommend';
 
@@ -5,6 +6,10 @@ import { HomeRecommend } from './HomeRecommend';
 export struct Home {
   /** 0 = 关注，1 = 推荐（默认推荐，与截图一致） */
   @State topTabIndex: number = 1;
+
+  aboutToAppear(): void {
+    HomeInteractStore.ensureLoaded(getContext(this) as Context);
+  }
 
   @Builder
   HeaderBuilder() {
