@@ -36,7 +36,7 @@ docs/Home.md                     # 本文件
 
 > 每完成一小部分功能，在此追加一条（新在上）。格式：日期 · 摘要 · 涉及路径 · 对应 commit。
 
-- 2026-07-24 · 首页关注/推荐可切换流（mock 帖卡、圈子与关注用户条） · `pages/Home/*` `model/HomeModel.ets` · commit:待提交
+- 2026-07-24 · 首页关注/推荐可切换流（mock 帖卡、圈子与关注用户条） · `pages/Home/*` `model/HomeModel.ets` · commit:9e34403
 - 2026-07-24 · 协作约束 + 设计图 + 开发文档骨架 · `CLAUDE.md` `design/` `docs/Home.md` · commit:3537d5b
 
 ## 已知问题 / 待办
