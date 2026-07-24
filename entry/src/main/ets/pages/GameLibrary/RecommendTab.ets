@@ -1,5 +1,6 @@
 import { router } from '@kit.ArkUI';
 import { GameItem, gameList } from '../../model/GameModel';
+import { AppRoutes } from '../../router/AppRoutes';
 
 interface QuickNav {
   title: string;
@@ -33,7 +34,7 @@ export struct RecommendTab {
 
   private goDetail(id: string): void {
     router.pushUrl({
-      url: 'pages/GameDetail/GameDetail',
+      url: AppRoutes.GAME_DETAIL,
       params: { id },
     });
   }

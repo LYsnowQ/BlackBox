@@ -1,5 +1,6 @@
 import { router } from '@kit.ArkUI';
 import { GameItem, gameList } from '../../model/GameModel';
+import { AppRoutes } from '../../router/AppRoutes';
 
 @Component
 export struct RankingTab {
@@ -12,7 +13,7 @@ export struct RankingTab {
 
   private goDetail(id: string): void {
     router.pushUrl({
-      url: 'pages/GameDetail/GameDetail',
+      url: AppRoutes.GAME_DETAIL,
       params: { id },
     });
   }
