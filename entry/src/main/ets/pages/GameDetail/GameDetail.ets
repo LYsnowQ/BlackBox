@@ -2449,6 +2449,7 @@ struct GameDetail {
             .padding({ left: 16, right: 16, top: 10, bottom: 10 })
             .backgroundColor(Color.White)
             .border({ width: { top: 1 }, color: '#F0F0F0' })
+            .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.BOTTOM])
           }
           .width('100%')
           .layoutWeight(1)

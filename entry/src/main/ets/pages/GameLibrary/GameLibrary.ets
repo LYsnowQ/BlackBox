@@ -88,24 +88,30 @@ struct GameLibrary {
       })
     }
     .width('100%')
-    .height(64)
+    .height(56)
     .backgroundColor(Color.White)
     .border({ width: { top: 1 }, color: '#F0F0F0' })
+    .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.BOTTOM])
   }
 
   build() {
-    Column() {
-      this.TopHeaderBuilder()
+    Stack({ alignContent: Alignment.Bottom }) {
+      Column() {
+        this.TopHeaderBuilder()
 
-      Stack() {
-        if (this.topTabIndex === 0) {
-          RecommendTab()
-        } else {
-          RankingTab()
+        Stack() {
+          if (this.topTabIndex === 0) {
+            RecommendTab()
+          } else {
+            RankingTab()
+          }
         }
+        .width('100%')
+        .layoutWeight(1)
       }
       .width('100%')
-      .layoutWeight(1)
+      .height('100%')
+      .padding({ bottom: 56 })
 
       this.BottomNavBuilder()
     }

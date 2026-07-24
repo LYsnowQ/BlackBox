@@ -88,9 +88,10 @@ struct Index {
       })
     }
     .width('100%')
-    .height(40)
+    .height(56)
     .backgroundColor(Color.White)
     .border({ width: { top: 1 }, color: '#F0F0F0' })
+    .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.BOTTOM])
   }
 
   @Builder
@@ -124,8 +125,14 @@ struct Index {
   }
 
   build() {
-    Column() {
-      this.PageContentBuilder()
+    Stack({ alignContent: Alignment.Bottom }) {
+      Column() {
+        this.PageContentBuilder()
+      }
+      .width('100%')
+      .height('100%')
+      .padding({ bottom: 56 })
+
       this.BottomNavBuilder()
     }
     .width('100%')
