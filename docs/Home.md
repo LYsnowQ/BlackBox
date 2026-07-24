@@ -36,7 +36,7 @@ entry/src/main/ets/
 
 > 每完成一小部分功能，在此追加一条（新在上）。
 
-- 2026-07-24 · 合并 origin/LYsnowQ + 首页迁入 Home HAR · `Home/**` `entry` 壳与依赖 · commit:待提交
+- 2026-07-24 · 合并 origin/LYsnowQ + 首页迁入 Home HAR · `Home/**` `entry` 壳与依赖 · commit:b30b006
 - 2026-07-24 · 详情底栏赞藏充评论交互 + 正文评论连续滚动 · `PostDetail` · commit:789675b
 - 2026-07-24 · 修复 PostDetail 与基类 tabIndex 命名冲突 · commit:9551075
 - 2026-07-24 · 帖子详情正文/评论 + 列表跳转 · commit:88fa36e
