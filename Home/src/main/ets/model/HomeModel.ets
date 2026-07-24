@@ -980,7 +980,6 @@ export const postDetails: PostDetail[] = [
       },
     ],
   },
-,
   {
     id: 'rs1',
     fullTitle: '王虹曾考虑放弃数学去学建筑？四位菲尔兹奖得主的自我介绍',
