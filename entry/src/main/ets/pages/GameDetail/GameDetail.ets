@@ -636,6 +636,8 @@ struct GameDetail {
       })
     }
     .width('100%')
+    .justifyContent(FlexAlign.Start)
+    .alignItems(HorizontalAlign.Start)
     .padding({ left: 14, right: 14, top: 10, bottom: 90 })
   }
 
@@ -1300,7 +1302,9 @@ struct GameDetail {
       .width('100%')
     }
     .width('100%')
-    .padding(14)
+    .justifyContent(FlexAlign.Start)
+    .alignItems(HorizontalAlign.Start)
+    .padding({ left: 14, right: 14, top: 10, bottom: 90 })
   }
 
   @Builder
@@ -1390,7 +1394,9 @@ struct GameDetail {
       .borderRadius(10)
     }
     .width('100%')
-    .padding(14)
+    .justifyContent(FlexAlign.Start)
+    .alignItems(HorizontalAlign.Start)
+    .padding({ left: 14, right: 14, top: 10, bottom: 90 })
   }
 
   @Builder
@@ -1746,7 +1752,9 @@ struct GameDetail {
       .margin({ top: 12 })
     }
     .width('100%')
-    .padding(14)
+    .justifyContent(FlexAlign.Start)
+    .alignItems(HorizontalAlign.Start)
+    .padding({ left: 14, right: 14, top: 10, bottom: 90 })
   }
 
   @Builder
@@ -2044,7 +2052,9 @@ struct GameDetail {
       .margin({ top: 12 })
     }
     .width('100%')
-    .padding(14)
+    .justifyContent(FlexAlign.Start)
+    .alignItems(HorizontalAlign.Start)
+    .padding({ left: 14, right: 14, top: 10, bottom: 90 })
   }
 
   @Builder
@@ -2358,7 +2368,11 @@ struct GameDetail {
                   this.StatsContentBuilder(this.game.id)
                 }
               }
+              .width('100%')
+              .justifyContent(FlexAlign.Start)
+              .alignItems(HorizontalAlign.Start)
             }
+            .align(Alignment.Top)
             .scrollBar(BarState.Off)
             .width('100%')
             .height('100%')
