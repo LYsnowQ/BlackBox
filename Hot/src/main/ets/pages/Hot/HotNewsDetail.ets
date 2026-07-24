@@ -334,6 +334,7 @@ export struct HotNewsDetail {
     } else if (block.type === 'image') {
       Stack({ alignContent: Alignment.BottomEnd }) {
         if (block.imageSrc) {
+          // 游戏截图 / 展示图：Contain 保比例；整页价格截图同理不被 Cover 裁切
           Image(block.imageSrc)
             .width('100%')
             .objectFit(ImageFit.Contain)
@@ -356,16 +357,16 @@ export struct HotNewsDetail {
             ],
           })
           .borderRadius(8)
+        }
 
-          if (block.imageIndex) {
-            Text(block.imageIndex)
-              .fontSize(11)
-              .fontColor(Color.White)
-              .padding({ left: 8, right: 8, top: 3, bottom: 3 })
-              .backgroundColor('rgba(0,0,0,0.45)')
-              .borderRadius(10)
-              .margin({ right: 10, bottom: 10 })
-          }
+        if (block.imageIndex && !block.imageSrc) {
+          Text(block.imageIndex)
+            .fontSize(11)
+            .fontColor(Color.White)
+            .padding({ left: 8, right: 8, top: 3, bottom: 3 })
+            .backgroundColor('rgba(0,0,0,0.45)')
+            .borderRadius(10)
+            .margin({ right: 10, bottom: 10 })
         }
       }
       .width('100%')
