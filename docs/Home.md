@@ -67,7 +67,7 @@ docs/Home.md / ROUTE_CONTRACT.md
 
 > 每完成一小部分功能，在此追加一条（新在上）。
 
-- 2026-07-24 · 赞/藏/充/关注/评论本地持久化 · `HomeInteractStore` `PostDetailPage` `PostCard` `Home` · commit:pending
+- 2026-07-24 · 赞/藏/充/关注/评论本地持久化 · `HomeInteractStore` `PostDetailPage` `PostCard` `Home` · commit:5d3a60d
 - 2026-07-24 · 推荐圈子筛选真正过滤 + 扩充各圈子 mock · `HomeRecommend` `HomeModel` `PostCard` · commit:42d4b2e
 - 2026-07-24 · 关注用户筛选真正过滤列表 + 扩充 mock（u2/u3） · `FollowFeed` `HomeModel` `PostCard` · commit:83d984e
 - 2026-07-24 · 文档同步：主分支合并后模块化与依赖现状 · `docs/*` `CLAUDE.md` `design/README.md` · commit:a35a146
