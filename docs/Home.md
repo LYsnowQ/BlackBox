@@ -32,8 +32,9 @@
 Home/                                   # HAR 包名 home · 本分支主战场
 ├── Index.ets                           # 导出 Home / PostDetailPage / HomeRoutes 等
 └── src/main/ets/
-    ├── model/HomeModel.ets
-    │   ├── model/HomeInteractStore.ets   # Preferences 互动持久化
+    ├── model/
+    │   ├── HomeModel.ets
+    │   └── HomeInteractStore.ets         # Preferences 互动持久化
     ├── pages/
     │   ├── Home.ets
     │   ├── HomeRecommend.ets
