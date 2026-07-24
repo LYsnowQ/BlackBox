@@ -15,6 +15,12 @@ export class AppRoutes {
   // ── Gamelibrary ──
   /** 游戏详情 params: { id: string } */
   static readonly GAME_DETAIL: string = 'pages/GameDetail/GameDetail';
+  /** 游戏库独立页（若使用） */
+  static readonly GAME_LIBRARY: string = 'pages/GameLibrary/GameLibrary';
+
+  // ── Home ──
+  /** 帖子详情 params: { id: string, tab?: 'comment' } */
+  static readonly HOME_POST_DETAIL: string = 'pages/Home/PostDetail';
 
   // ── Profile ──
   static readonly PROFILE_SETTINGS: string = 'pages/Profile/Settings';

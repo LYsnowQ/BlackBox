@@ -1,4 +1,4 @@
-import { Home } from './Home/Home';
+import { Home } from 'home';
 import { Hot } from './Hot/Hot';
 import { RecommendTab, RankingTab } from 'gamelibrary';
 import { Me } from 'profile';

@@ -24,7 +24,9 @@
 | 常量 | 路径 | 说明 |
 |------|------|------|
 | `AppRoutes.INDEX` | `pages/Index` | 主框架 / 底部 Tab |
+| `AppRoutes.GAME_LIBRARY` | `pages/GameLibrary/GameLibrary` | 游戏库独立页（若使用） |
 | `AppRoutes.GAME_DETAIL` / `GameLibraryRoutes.GAME_DETAIL` | `pages/GameDetail/GameDetail` | 游戏详情 `params: { id }` |
+| `AppRoutes.HOME_POST_DETAIL` / `HomeRoutes.POST_DETAIL` | `pages/Home/PostDetail` | 帖子详情 `params: { id, tab? }` |
 | `AppRoutes.PROFILE_SETTINGS` / `ProfileRoutes.SETTINGS` | `pages/Profile/Settings` | 设置 |
 | `AppRoutes.PROFILE_MESSAGES` / `ProfileRoutes.MESSAGES` | `pages/Profile/Messages` | 消息 |
 | `AppRoutes.PROFILE_SCAN` / `ProfileRoutes.SCAN` | `pages/Profile/Scan` | 扫一扫 |
@@ -33,9 +35,9 @@
 ## 使用示例
 
 ```ts
-// Profile 模块内
-import { ProfileRoutes } from '../router/ProfileRoutes';
-router.pushUrl({ url: ProfileRoutes.SETTINGS });
+// Home 模块内
+import { HomeRoutes } from '../router/HomeRoutes';
+router.pushUrl({ url: HomeRoutes.POST_DETAIL, params: { id } });
 
 // entry 内
 import { AppRoutes } from '../../router/AppRoutes';
