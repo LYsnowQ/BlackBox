@@ -201,6 +201,225 @@ export function getBoundAccount(platformId: string): PlatformAccount | undefined
   return undefined;
 }
 
+// ─────────────────────────────────────────────
+// 平台下方 · 游戏库列表
+// ─────────────────────────────────────────────
+
+/** 主分区：心愿单 / 拥有游戏 / 完美通关 / 我的评分 */
+export type LibraryNavKey = 'wishlist' | 'owned' | 'perfect' | 'rated';
+
+/** 拥有 / 完美通关 下的排序：总时长 / 两周内 / 成就 */
+export type OwnedSortKey = 'total' | 'twoWeek' | 'achievement';
+
+/** 心愿单筛选 */
+export type WishlistFilterKey = 'discount' | 'lowest' | 'steam';
+
+/** 个人库游戏条目 */
+export interface LibraryGame {
+  id: string;
+  title: string;
+  /** 封面占位渐变 */
+  coverColors: [string, string];
+  /** 总时长（小时） */
+  totalHours: number;
+  /** 近两周时长（小时） */
+  twoWeekHours: number;
+  /** 已解锁成就 */
+  achievementUnlocked: number;
+  /** 成就总数 */
+  achievementTotal: number;
+  /** 是否在心愿单 */
+  inWishlist: boolean;
+  /** 是否拥有 */
+  owned: boolean;
+  /** 是否在 Steam 愿望单 */
+  inSteamWishlist: boolean;
+  /** 是否正在折扣 */
+  onDiscount: boolean;
+  /** 是否史低 */
+  isLowest: boolean;
+  /** 我的评分（有值表示点评过） */
+  myRating?: number;
+}
+
+/** 个人库 mock */
+export const libraryGames: LibraryGame[] = [
+  {
+    id: 'lg1',
+    title: '黑神话：悟空',
+    coverColors: ['#2A1810', '#8B4513'],
+    totalHours: 86.5,
+    twoWeekHours: 12.3,
+    achievementUnlocked: 42,
+    achievementTotal: 81,
+    inWishlist: false,
+    owned: true,
+    inSteamWishlist: false,
+    onDiscount: false,
+    isLowest: false,
+    myRating: 9.6,
+  },
+  {
+    id: 'lg2',
+    title: 'Hades II',
+    coverColors: ['#1A0A2E', '#6B2D8B'],
+    totalHours: 42.0,
+    twoWeekHours: 18.7,
+    achievementUnlocked: 28,
+    achievementTotal: 28,
+    inWishlist: false,
+    owned: true,
+    inSteamWishlist: false,
+    onDiscount: true,
+    isLowest: false,
+    myRating: 9.2,
+  },
+  {
+    id: 'lg3',
+    title: '幻兽帕鲁',
+    coverColors: ['#8FD3E8', '#5B9BD5'],
+    totalHours: 320.0,
+    twoWeekHours: 4.2,
+    achievementUnlocked: 30,
+    achievementTotal: 55,
+    inWishlist: false,
+    owned: true,
+    inSteamWishlist: false,
+    onDiscount: true,
+    isLowest: true,
+  },
+  {
+    id: 'lg4',
+    title: '艾尔登法环',
+    coverColors: ['#1C2833', '#5D6D7E'],
+    totalHours: 178.0,
+    twoWeekHours: 0,
+    achievementUnlocked: 42,
+    achievementTotal: 42,
+    inWishlist: false,
+    owned: true,
+    inSteamWishlist: false,
+    onDiscount: false,
+    isLowest: false,
+    myRating: 9.8,
+  },
+  {
+    id: 'lg5',
+    title: '赛博朋克 2077',
+    coverColors: ['#F9E79F', '#D4AC0D'],
+    totalHours: 65.2,
+    twoWeekHours: 22.5,
+    achievementUnlocked: 18,
+    achievementTotal: 57,
+    inWishlist: false,
+    owned: true,
+    inSteamWishlist: false,
+    onDiscount: true,
+    isLowest: true,
+    myRating: 8.4,
+  },
+  {
+    id: 'lg6',
+    title: '空洞骑士：丝之歌',
+    coverColors: ['#1A1A2E', '#4A4A6A'],
+    totalHours: 0,
+    twoWeekHours: 0,
+    achievementUnlocked: 0,
+    achievementTotal: 0,
+    inWishlist: true,
+    owned: false,
+    inSteamWishlist: true,
+    onDiscount: true,
+    isLowest: false,
+  },
+  {
+    id: 'lg7',
+    title: 'Clair Obscur: Expedition 33',
+    coverColors: ['#0D2137', '#1B4F72'],
+    totalHours: 0,
+    twoWeekHours: 0,
+    achievementUnlocked: 0,
+    achievementTotal: 0,
+    inWishlist: true,
+    owned: false,
+    inSteamWishlist: true,
+    onDiscount: false,
+    isLowest: false,
+  },
+  {
+    id: 'lg8',
+    title: '死亡搁浅 2',
+    coverColors: ['#E8D5B7', '#A67C52'],
+    totalHours: 0,
+    twoWeekHours: 0,
+    achievementUnlocked: 0,
+    achievementTotal: 0,
+    inWishlist: true,
+    owned: false,
+    inSteamWishlist: false,
+    onDiscount: true,
+    isLowest: true,
+  },
+  {
+    id: 'lg9',
+    title: '只狼：影逝二度',
+    coverColors: ['#4A0E0E', '#8B0000'],
+    totalHours: 48.0,
+    twoWeekHours: 0,
+    achievementUnlocked: 34,
+    achievementTotal: 34,
+    inWishlist: false,
+    owned: true,
+    inSteamWishlist: false,
+    onDiscount: false,
+    isLowest: false,
+    myRating: 9.5,
+  },
+  {
+    id: 'lg10',
+    title: '星空',
+    coverColors: ['#0B0C10', '#1F2833'],
+    totalHours: 112.0,
+    twoWeekHours: 8.0,
+    achievementUnlocked: 12,
+    achievementTotal: 50,
+    inWishlist: false,
+    owned: true,
+    inSteamWishlist: false,
+    onDiscount: true,
+    isLowest: false,
+  },
+  {
+    id: 'lg11',
+    title: '博德之门 3',
+    coverColors: ['#2C1810', '#6B3A2A'],
+    totalHours: 256.0,
+    twoWeekHours: 1.5,
+    achievementUnlocked: 54,
+    achievementTotal: 54,
+    inWishlist: false,
+    owned: true,
+    inSteamWishlist: false,
+    onDiscount: false,
+    isLowest: false,
+    myRating: 9.7,
+  },
+  {
+    id: 'lg12',
+    title: '怪物猎人：荒野',
+    coverColors: ['#1B4332', '#2D6A4F'],
+    totalHours: 0,
+    twoWeekHours: 0,
+    achievementUnlocked: 0,
+    achievementTotal: 0,
+    inWishlist: true,
+    owned: false,
+    inSteamWishlist: true,
+    onDiscount: false,
+    isLowest: false,
+  },
+];
+
 /** 动态流 */
 export const feedList: FeedItem[] = [
   {

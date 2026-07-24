@@ -4,6 +4,7 @@ import {
   UserProfile,
 } from '../model/ProfileModel';
 import { PlatformPanel } from './PlatformPanel';
+import { GameLibrarySection } from './GameLibrarySection';
 
 /**
  * 「数据」Tab
@@ -116,6 +117,13 @@ export struct DataTab {
         // 紧邻个人信息下方的平台绑定窗口
         Column() {
           PlatformPanel()
+        }
+        .width('100%')
+        .padding({ left: 16, right: 16, top: 12 })
+
+        // 平台卡片下方：游戏库导航 + 列表
+        Column() {
+          GameLibrarySection()
         }
         .width('100%')
         .padding({ left: 16, right: 16, top: 12 })

@@ -5,7 +5,7 @@ import { ProfileRoutes } from '../router/ProfileRoutes';
 
 /**
  * 个人中心内容区（嵌入 Index 底部导航「我」）
- * 仿 GameLibraryContent：顶部「数据 / 动态」切换 + 右侧工具入口
+ * 顶部「数据 / 动态」切换 + 右侧工具入口
  * 布局参照软件小黑盒个人页
  *
  * 路由：使用 ProfileRoutes 契约，由 entry 注册壳页面
