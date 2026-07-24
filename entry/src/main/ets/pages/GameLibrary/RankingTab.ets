@@ -1,5 +1,4 @@
-import { router } from '@kit.ArkUI';
-import { GameItem, GameDataSource, getFilteredGames } from '../../model/GameModel';
+import { GameItem, GameDataSource, getFilteredGames } from '../../model/GameLibrary/GameLibraryModel';
 
 @Component
 export struct RankingTab {
@@ -25,7 +24,7 @@ export struct RankingTab {
 
   private goDetail(id: string): void {
     try {
-      router.pushUrl({
+      this.getUIContext().getRouter().pushUrl({
         url: 'pages/GameDetail/GameDetail',
         params: { id },
       });
@@ -525,7 +524,7 @@ export struct RankingTab {
         .layoutWeight(1)
         .width('100%')
 
-        // 底部重置 & 完成按钮
+        // 底部重置 & 完成按钮 (增加 bottom 边距避开主底栏重叠)
         Row({ space: 12 }) {
           Button('重置')
             .type(ButtonType.Normal)
@@ -551,12 +550,12 @@ export struct RankingTab {
             })
         }
         .width('100%')
-        .padding({ left: 16, right: 16, top: 10, bottom: 20 })
+        .padding({ left: 16, right: 16, top: 10, bottom: 60 })
         .backgroundColor(Color.White)
         .border({ width: { top: 1 }, color: '#F0F0F0' })
       }
       .width('100%')
-      .height('65%')
+      .height('70%')
       .backgroundColor(Color.White)
       .borderRadius({ topLeft: 16, topRight: 16 })
     }
@@ -573,7 +572,7 @@ export struct RankingTab {
           })
         }
         .width('100%')
-        .padding({ top: 14, bottom: 14 })
+        .padding({ top: 8, bottom: 8 })
 
         Row() {
           Scroll() {
@@ -587,6 +586,7 @@ export struct RankingTab {
           .scrollBar(BarState.Off)
         }
         .width('100%')
+        .margin({ top: 2, bottom: 4 })
 
         Row() {
           Scroll() {
@@ -609,11 +609,13 @@ export struct RankingTab {
               .fontColor(this.isFilterDrawerOpen ? '#2BC48A' : '#666666')
               .fontWeight(this.isFilterDrawerOpen ? FontWeight.Bold : FontWeight.Normal)
           }
-          .padding({ left: 6, right: 4, top: 4, bottom: 4 })
+          .padding({ left: 8, right: 6, top: 5, bottom: 5 })
+          .backgroundColor(this.isFilterDrawerOpen ? '#E3F4E9' : '#F5F5F7')
+          .borderRadius(8)
           .onClick(() => (this.isFilterDrawerOpen = true))
         }
         .width('100%')
-        .margin({ top: 12, bottom: 4 })
+        .margin({ top: 6, bottom: 4 })
 
         // 展开的子选项栏
         this.FilterOptionsSubBarBuilder()
@@ -642,7 +644,7 @@ export struct RankingTab {
       }
     }
     .width('100%')
-    .height('100%')
+    .layoutWeight(1)
   }
 }
 

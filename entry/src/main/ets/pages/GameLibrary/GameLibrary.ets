@@ -97,11 +97,15 @@ struct GameLibrary {
     Column() {
       this.TopHeaderBuilder()
 
-      if (this.topTabIndex === 0) {
-        RecommendTab()
-      } else {
-        RankingTab()
+      Stack() {
+        if (this.topTabIndex === 0) {
+          RecommendTab()
+        } else {
+          RankingTab()
+        }
       }
+      .width('100%')
+      .layoutWeight(1)
 
       this.BottomNavBuilder()
     }
