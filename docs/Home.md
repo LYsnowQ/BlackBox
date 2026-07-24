@@ -79,7 +79,10 @@ docs/Home.md / ROUTE_CONTRACT.md
 
 ## 已知问题 / 待办
 
-- 搜索、消息未做；评论输入为本地 mock
+- 搜索入口（顶栏 🔍）未做
+- 消息入口（顶栏 ✉️）未做；可评估复用 Profile Messages 路由
+- 评论输入为本地 mock，可继续完善交互
+- 点赞 / 评论 / 收藏 / 充电等互动数据仅页面内状态，**尝试本地持久化**（Preferences 等），列表与详情计数同步
 - 帖图复用游戏库 media 占位；图标多用 emoji
 - Hot 业务仍主要在 `entry/.../pages/Hot/`，`Hot/` HAR 尚未承接业务
 - 充电无真实支付；仅本地计数 + toast
