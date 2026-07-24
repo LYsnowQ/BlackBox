@@ -1,6 +1,7 @@
 {
   "src": [
     "pages/Index",
+    "pages/GameLibrary/GameLibrary",
     "pages/GameDetail/GameDetail",
     "pages/Profile/Settings",
     "pages/Profile/Messages",

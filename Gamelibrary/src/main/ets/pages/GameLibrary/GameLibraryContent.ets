@@ -4,6 +4,8 @@ import { RankingTab } from './RankingTab';
 @Component
 export struct GameLibraryContent {
   @State topTabIndex: number = 0;
+  @State isForYouPageOpen: boolean = false;
+  @State activeNavPage: string = '';
 
   @Builder
   TopHeaderBuilder() {
@@ -39,10 +41,12 @@ export struct GameLibraryContent {
 
   build() {
     Column() {
-      this.TopHeaderBuilder()
+      if (!this.isForYouPageOpen && this.activeNavPage === '') {
+        this.TopHeaderBuilder()
+      }
 
       if (this.topTabIndex === 0) {
-        RecommendTab()
+        RecommendTab({ isForYouPageOpen: $isForYouPageOpen, activeNavPage: $activeNavPage })
       } else {
         RankingTab()
       }

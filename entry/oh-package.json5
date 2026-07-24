@@ -6,6 +6,7 @@
   "author": "",
   "license": "",
   "dependencies": {
-    "profile": "file:../Profile"
+    "profile": "file:../Profile",
+    "gamelibrary": "file:../Gamelibrary"
   }
 }
