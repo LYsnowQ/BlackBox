@@ -2,6 +2,7 @@
   "src": [
     "pages/Index",
     "pages/GameLibrary/GameLibrary",
-    "pages/GameDetail/GameDetail"
+    "pages/GameDetail/GameDetail",
+    "pages/Home/PostDetail"
   ]
 }

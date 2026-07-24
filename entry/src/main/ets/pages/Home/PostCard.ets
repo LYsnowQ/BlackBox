@@ -1,3 +1,4 @@
+import { router } from '@kit.ArkUI';
 import { FeedPost, PostImage } from '../../model/HomeModel';
 
 @Component
@@ -402,5 +403,11 @@ export struct PostCard {
     .padding({ left: 16, right: 16, top: 14, bottom: 14 })
     .backgroundColor(Color.White)
     .alignItems(HorizontalAlign.Start)
+    .onClick(() => {
+      router.pushUrl({
+        url: 'pages/Home/PostDetail',
+        params: { id: this.post.id },
+      });
+    })
   }
 }
