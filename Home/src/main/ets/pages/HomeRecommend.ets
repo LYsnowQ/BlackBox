@@ -1,4 +1,4 @@
-import { CircleItem, FeedPost, circleList, recommendPosts } from '../../model/HomeModel';
+import { CircleItem, FeedPost, circleList, recommendPosts } from '../model/HomeModel';
 import { PostCard } from './PostCard';
 
 @Component

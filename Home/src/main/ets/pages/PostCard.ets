@@ -1,5 +1,6 @@
 import { router } from '@kit.ArkUI';
-import { FeedPost, PostImage } from '../../model/HomeModel';
+import { FeedPost, PostImage } from '../model/HomeModel';
+import { HomeRoutes } from '../router/HomeRoutes';
 
 @Component
 export struct PostCard {
@@ -405,7 +406,7 @@ export struct PostCard {
     .alignItems(HorizontalAlign.Start)
     .onClick(() => {
       router.pushUrl({
-        url: 'pages/Home/PostDetail',
+        url: HomeRoutes.POST_DETAIL,
         params: { id: this.post.id },
       });
     })

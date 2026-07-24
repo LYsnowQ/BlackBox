@@ -1,8 +1,8 @@
-import { Home } from './Home/Home';
+import { Home } from 'home';
 import { Hot } from './Hot/Hot';
 import { RecommendTab } from './GameLibrary/RecommendTab';
 import { RankingTab } from './GameLibrary/RankingTab';
-import { Me } from './Me/Me';
+import { Me } from 'profile';
 
 interface BottomNavItem {
   label: string;

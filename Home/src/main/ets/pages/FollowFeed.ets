@@ -1,4 +1,4 @@
-import { FeedPost, FollowUser, followPosts, followUsers } from '../../model/HomeModel';
+import { FeedPost, FollowUser, followPosts, followUsers } from '../model/HomeModel';
 import { PostCard } from './PostCard';
 
 @Component

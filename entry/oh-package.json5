@@ -5,6 +5,8 @@
   "main": "",
   "author": "",
   "license": "",
-  "dependencies": {}
+  "dependencies": {
+    "home": "file:../Home",
+    "profile": "file:../Profile"
+  }
 }
-
