@@ -1,4 +1,4 @@
-import { router } from '@kit.ArkUI';
+import { promptAction, router } from '@kit.ArkUI';
 import {
   CommentReply,
   PostComment,
@@ -10,9 +10,22 @@ import {
 @Component
 struct PostDetail {
   @State detail: PostDetailModel | undefined = undefined;
-  @State detailTab: number = 0;
+  /** 0 正文区可见为主，1 已滚入评论区（顶栏样式） */
+  @State headerMode: number = 0;
   @State expandedCommentIds: string[] = [];
   @State following: boolean = false;
+  @State liked: boolean = false;
+  @State starred: boolean = false;
+  @State awarded: boolean = false;
+  @State likeCount: number = 0;
+  @State starCount: number = 0;
+  @State awardCount: number = 0;
+  @State commentCount: number = 0;
+  @State comments: PostComment[] = [];
+  @State draft: string = '';
+  @State showComposer: boolean = false;
+  private listScroller: Scroller = new Scroller();
+  private jumpToComment: boolean = false;
 
   aboutToAppear(): void {
     const params = router.getParams() as Record<string, Object>;
@@ -21,10 +34,32 @@ struct PostDetail {
     this.detail = getPostDetailById(id);
     if (this.detail) {
       this.following = this.detail.isFollowing;
+      this.likeCount = this.detail.likeCount;
+      this.starCount = this.detail.starCount;
+      this.awardCount = this.detail.awardCount;
+      this.commentCount = this.detail.commentCount;
+      this.comments = this.detail.comments.slice();
     }
     if (tab === 'comment') {
-      this.detailTab = 1;
+      this.jumpToComment = true;
     }
+  }
+
+  onPageShow(): void {
+    if (this.jumpToComment) {
+      this.jumpToComment = false;
+      this.scrollToComments();
+    }
+  }
+
+  private scrollToBody(): void {
+    this.listScroller.scrollToIndex(0);
+    this.headerMode = 0;
+  }
+
+  private scrollToComments(): void {
+    this.listScroller.scrollToIndex(1);
+    this.headerMode = 1;
   }
 
   private isExpanded(id: string): boolean {
@@ -55,6 +90,76 @@ struct PostDetail {
       preview.push(comment.replies[i]);
     }
     return preview;
+  }
+
+  private toggleLike(): void {
+    if (this.liked) {
+      this.liked = false;
+      this.likeCount = this.likeCount - 1;
+    } else {
+      this.liked = true;
+      this.likeCount = this.likeCount + 1;
+    }
+  }
+
+  private toggleStar(): void {
+    if (this.starred) {
+      this.starred = false;
+      this.starCount = this.starCount - 1;
+    } else {
+      this.starred = true;
+      this.starCount = this.starCount + 1;
+    }
+  }
+
+  private toggleAward(): void {
+    if (this.awarded) {
+      this.awarded = false;
+      this.awardCount = this.awardCount - 1;
+    } else {
+      this.awarded = true;
+      this.awardCount = this.awardCount + 1;
+      promptAction.showToast({ message: '充电成功（mock）', duration: 1500 });
+    }
+  }
+
+  private submitComment(): void {
+    const text = this.draft.trim();
+    if (text.length === 0) {
+      promptAction.showToast({ message: '先写点什么吧', duration: 1200 });
+      return;
+    }
+    if (!this.detail) {
+      return;
+    }
+    const item: PostComment = {
+      id: `local-${Date.now()}`,
+      authorName: '我',
+      authorAvatarColor: '#1A1A1A',
+      authorAvatarText: '我',
+      levelLabel: 'Lv.1',
+      isAuthor: false,
+      isOfficial: false,
+      isPinned: false,
+      timeText: '刚刚',
+      region: '本地',
+      content: text,
+      imageKey: '',
+      imageColor: '',
+      likeCount: 0,
+      replyTotal: 0,
+      replies: [],
+    };
+    const next: PostComment[] = [item];
+    for (let i = 0; i < this.comments.length; i++) {
+      next.push(this.comments[i]);
+    }
+    this.comments = next;
+    this.commentCount = this.commentCount + 1;
+    this.draft = '';
+    this.showComposer = false;
+    this.scrollToComments();
+    promptAction.showToast({ message: '评论已发布（mock）', duration: 1200 });
   }
 
   @Builder
@@ -126,7 +231,7 @@ struct PostDetail {
 
   @Builder
   TopBarBuilder(d: PostDetailModel) {
-    if (this.detailTab === 0) {
+    if (this.headerMode === 0) {
       Row() {
         Text('‹')
           .fontSize(28)
@@ -148,17 +253,13 @@ struct PostDetail {
               .margin({ top: 4 })
           }
           .alignItems(HorizontalAlign.Center)
-          .onClick(() => {
-            this.detailTab = 0;
-          })
+          .onClick(() => this.scrollToBody())
 
           Text('评论')
             .fontSize(16)
             .fontColor('#B0B0B0')
             .margin({ left: 28 })
-            .onClick(() => {
-              this.detailTab = 1;
-            })
+            .onClick(() => this.scrollToComments())
         }
         .layoutWeight(1)
         .justifyContent(FlexAlign.Center)
@@ -425,7 +526,7 @@ struct PostDetail {
         .fontSize(12)
         .fontColor('#B0B0B0')
         .width('100%')
-        .margin({ bottom: 20 })
+        .margin({ bottom: 8 })
     }
     .width('100%')
     .padding({ left: 16, right: 16, top: 8 })
@@ -598,29 +699,15 @@ struct PostDetail {
   }
 
   @Builder
-  CommentListBuilder(d: PostDetailModel) {
+  CommentSectionBuilder() {
     Column() {
-      Flex({ wrap: FlexWrap.Wrap }) {
-        ForEach(d.topicTags, (t: string) => {
-          Text(`# ${t}`)
-            .fontSize(12)
-            .fontColor('#3B6FE0')
-            .backgroundColor('#EEF3FF')
-            .padding({ left: 10, right: 10, top: 6, bottom: 6 })
-            .borderRadius(6)
-            .margin({ right: 8, bottom: 8 })
-        }, (t: string) => `ct-${t}`)
-      }
-      .width('100%')
-
-      Text('原创')
-        .fontSize(12)
-        .fontColor('#B0B0B0')
-        .width('100%')
+      Divider()
+        .color('#F0F0F0')
+        .strokeWidth(8)
         .margin({ bottom: 12 })
 
       Row() {
-        Text(`评论 ${d.commentCount}`)
+        Text(`评论 ${this.commentCount}`)
           .fontSize(15)
           .fontWeight(FontWeight.Bold)
           .fontColor('#1A1A1A')
@@ -630,81 +717,124 @@ struct PostDetail {
           .fontColor('#888888')
       }
       .width('100%')
+      .padding({ left: 16, right: 16 })
       .margin({ bottom: 12 })
 
-      ForEach(d.comments, (c: PostComment) => {
-        this.CommentItemBuilder(c)
-      }, (c: PostComment) => c.id)
+      Column() {
+        ForEach(this.comments, (c: PostComment) => {
+          this.CommentItemBuilder(c)
+        }, (c: PostComment) => c.id)
+      }
+      .width('100%')
+      .padding({ left: 16, right: 16 })
 
       Text('已经到底了')
         .fontSize(12)
         .fontColor('#C0C0C0')
         .width('100%')
         .textAlign(TextAlign.Center)
-        .padding({ top: 4, bottom: 20 })
+        .padding({ top: 4, bottom: 24 })
     }
     .width('100%')
-    .padding({ left: 16, right: 16, top: 8 })
     .alignItems(HorizontalAlign.Start)
   }
 
   @Builder
-  BottomBarBuilder(d: PostDetailModel) {
-    Row() {
-      Text('来说点什么吧!')
-        .fontSize(13)
-        .fontColor('#B0B0B0')
-        .layoutWeight(1)
-        .padding({ left: 14, right: 14, top: 10, bottom: 10 })
-        .backgroundColor('#F3F4F6')
-        .borderRadius(20)
-
-      Column() {
-        Text('👍')
-          .fontSize(18)
-        Text(`${d.likeCount}`)
-          .fontSize(10)
-          .fontColor('#666666')
-          .margin({ top: 2 })
+  BottomBarBuilder() {
+    Column() {
+      if (this.showComposer) {
+        Row() {
+          TextInput({ text: this.draft, placeholder: '来说点什么吧!' })
+            .layoutWeight(1)
+            .height(36)
+            .fontSize(14)
+            .backgroundColor('#F3F4F6')
+            .borderRadius(18)
+            .padding({ left: 12, right: 12 })
+            .onChange((value: string) => {
+              this.draft = value;
+            })
+          Text('发送')
+            .fontSize(14)
+            .fontColor(Color.White)
+            .backgroundColor('#1A1A1A')
+            .padding({ left: 14, right: 14, top: 8, bottom: 8 })
+            .borderRadius(16)
+            .margin({ left: 8 })
+            .onClick(() => this.submitComment())
+        }
+        .width('100%')
+        .padding({ left: 12, right: 12, top: 8 })
       }
-      .width(44)
-      .margin({ left: 6 })
 
-      Column() {
-        Text('★')
-          .fontSize(18)
-        Text(`${d.starCount}`)
-          .fontSize(10)
-          .fontColor('#666666')
-          .margin({ top: 2 })
-      }
-      .width(44)
+      Row() {
+        Text(this.showComposer ? '收起输入' : '来说点什么吧!')
+          .fontSize(13)
+          .fontColor('#B0B0B0')
+          .layoutWeight(1)
+          .padding({ left: 14, right: 14, top: 10, bottom: 10 })
+          .backgroundColor('#F3F4F6')
+          .borderRadius(20)
+          .onClick(() => {
+            this.showComposer = !this.showComposer;
+          })
 
-      Column() {
-        Text('⚡')
-          .fontSize(18)
-        Text(`${d.awardCount}`)
-          .fontSize(10)
-          .fontColor('#666666')
-          .margin({ top: 2 })
-      }
-      .width(44)
+        Column() {
+          Text('👍')
+            .fontSize(18)
+            .fontColor(this.liked ? '#FF5A5A' : '#1A1A1A')
+          Text(`${this.likeCount}`)
+            .fontSize(10)
+            .fontColor(this.liked ? '#FF5A5A' : '#666666')
+            .fontWeight(this.liked ? FontWeight.Medium : FontWeight.Normal)
+            .margin({ top: 2 })
+        }
+        .width(44)
+        .margin({ left: 6 })
+        .onClick(() => this.toggleLike())
 
-      Column() {
-        Text('💬')
-          .fontSize(18)
-        Text(`${d.commentCount}`)
-          .fontSize(10)
-          .fontColor('#666666')
-          .margin({ top: 2 })
+        Column() {
+          Text(this.starred ? '★' : '☆')
+            .fontSize(18)
+            .fontColor(this.starred ? '#F5A623' : '#1A1A1A')
+          Text(`${this.starCount}`)
+            .fontSize(10)
+            .fontColor(this.starred ? '#F5A623' : '#666666')
+            .margin({ top: 2 })
+        }
+        .width(44)
+        .onClick(() => this.toggleStar())
+
+        Column() {
+          Text('⚡')
+            .fontSize(18)
+            .fontColor(this.awarded ? '#FF7A00' : '#1A1A1A')
+          Text(`${this.awardCount}`)
+            .fontSize(10)
+            .fontColor(this.awarded ? '#FF7A00' : '#666666')
+            .margin({ top: 2 })
+        }
+        .width(44)
+        .onClick(() => this.toggleAward())
+
+        Column() {
+          Text('💬')
+            .fontSize(18)
+          Text(`${this.commentCount}`)
+            .fontSize(10)
+            .fontColor('#666666')
+            .margin({ top: 2 })
+        }
+        .width(44)
+        .onClick(() => {
+          this.showComposer = true;
+          this.scrollToComments();
+        })
       }
-      .width(44)
-      .onClick(() => {
-        this.detailTab = 1;
-      })
+      .width('100%')
+      .padding({ left: 12, right: 8, top: 8, bottom: 8 })
     }
     .width('100%')
-    .padding({ left: 12, right: 8, top: 8, bottom: 8 })
     .backgroundColor(Color.White)
     .border({ width: { top: 1 }, color: '#F0F0F0' })
   }
@@ -714,25 +844,24 @@ struct PostDetail {
       if (this.detail) {
         this.TopBarBuilder(this.detail)
 
-        if (this.detailTab === 0) {
-          Scroll() {
+        List({ scroller: this.listScroller }) {
+          ListItem() {
             this.BodyContentBuilder(this.detail)
           }
-          .layoutWeight(1)
-          .scrollBar(BarState.Off)
-          .edgeEffect(EdgeEffect.Spring)
-          .align(Alignment.Top)
-        } else {
-          Scroll() {
-            this.CommentListBuilder(this.detail)
-          }
-          .layoutWeight(1)
-          .scrollBar(BarState.Off)
-          .edgeEffect(EdgeEffect.Spring)
-          .align(Alignment.Top)
-        }
 
-        this.BottomBarBuilder(this.detail)
+          ListItem() {
+            this.CommentSectionBuilder()
+          }
+        }
+        .width('100%')
+        .layoutWeight(1)
+        .scrollBar(BarState.Off)
+        .edgeEffect(EdgeEffect.Spring)
+        .onScrollIndex((start: number) => {
+          this.headerMode = start >= 1 ? 1 : 0;
+        })
+
+        this.BottomBarBuilder()
       } else {
         Row() {
           Text('‹')

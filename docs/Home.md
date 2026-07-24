@@ -12,9 +12,9 @@
 | 推荐 Tab（圈子横滑 + 图文帖流） | 已完成 | `HomeRecommend.ets` + mock |
 | 关注 Tab（关注用户条 + 盒友动态） | 已完成 | `FollowFeed.ets` + mock |
 | 关注用户筛选内容 | 进行中 | 头像可点选高亮；尚未按用户过滤列表 |
-| 帖子详情（正文） | 已完成 | `PostDetail.ets` 正文 Tab，对照 `post/detail-*` |
-| 帖子评论（列表 / 楼中楼） | 已完成 | 评论 Tab + 展开/收起回复，对照 `post/comments-*` |
-| 首页 mock / model | 已完成 | `HomeModel.ets` 含详情与评论；列表点进详情 |
+| 帖子详情（正文） | 已完成 | 与评论同页连续滚动，`PostDetail.ets` |
+| 帖子评论（列表 / 楼中楼） | 已完成 | 正文滑完直接接评论；顶栏随滚动切换 |
+| 首页 mock / model | 已完成 | 含详情与评论；列表点进详情 |
 
 状态取值：`未开始` / `进行中` / `已完成`。
 
@@ -38,6 +38,7 @@ docs/Home.md
 
 > 每完成一小部分功能，在此追加一条（新在上）。
 
+- 2026-07-24 · 详情底栏赞藏充评论交互 + 正文评论连续滚动 · `PostDetail.ets` · commit:待提交
 - 2026-07-24 · 修复 PostDetail 与基类 tabIndex 命名冲突 · `PostDetail.ets` · commit:9551075
 - 2026-07-24 · 帖子详情正文/评论 + 列表跳转 · `PostDetail.ets` `HomeModel` `PostCard` `main_pages.json` · commit:88fa36e
 - 2026-07-24 · 首页关注/推荐可切换流 · `pages/Home/*` `model/HomeModel.ets` · commit:9e34403
@@ -46,7 +47,8 @@ docs/Home.md
 ## 已知问题 / 待办
 
 - 圈子 / 关注用户筛选目前只改选中态，未真正过滤帖子
-- 搜索、消息、真实发评未做
+- 搜索、消息未做；评论输入为本地 mock 追加
 - 帖图复用游戏库 media 占位
 - 图标暂用 emoji / 符号
 - 评论「查看更多回复」在已展开时仅收起，未分页加载更多 mock
+- 充电为本地计数 + toast，无真实支付
