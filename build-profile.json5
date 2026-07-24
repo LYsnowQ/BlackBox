@@ -37,6 +37,22 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Profile",
+      "srcPath": "./Profile",
+    },
+    {
+      "name": "Gamelibrary",
+      "srcPath": "./Gamelibrary",
+    },
+    {
+      "name": "Hot",
+      "srcPath": "./Hot",
+    },
+    {
+      "name": "Home",
+      "srcPath": "./Home",
     }
   ]
 }

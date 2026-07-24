@@ -1,0 +1,9 @@
+{
+  "module": {
+    "name": "Profile",
+    "type": "har",
+    "deviceTypes": [
+      "default"
+    ]
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "module": {
+    "name": "Hot",
+    "type": "har",
+    "deviceTypes": [
+      "default"
+    ]
+  }
+}
