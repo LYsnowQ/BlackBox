@@ -296,6 +296,36 @@ export struct PostDetailPage {
         .width('100%')
         .height('100%')
         .objectFit(ImageFit.Cover)
+    } else if (key === 'scrape_fields1') {
+      Image($r('app.media.scrape_fields1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (key === 'scrape_fields2') {
+      Image($r('app.media.scrape_fields2'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (key === 'scrape_honor1') {
+      Image($r('app.media.scrape_honor1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (key === 'scrape_honor2') {
+      Image($r('app.media.scrape_honor2'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (key === 'scrape_tom1') {
+      Image($r('app.media.scrape_tom1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (key === 'scrape_gf1') {
+      Image($r('app.media.scrape_gf1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
     } else {
       Column()
         .width('100%')

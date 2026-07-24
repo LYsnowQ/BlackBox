@@ -68,6 +68,7 @@ docs/Home.md / ROUTE_CONTRACT.md
 
 > 每完成一小部分功能，在此追加一条（新在上）。
 
+- 2026-07-24 · 小黑盒真实帖子 mock 扩充（4 帖正文+评论+配图） · `HomeModel` `PostCard` `PostDetailPage` + media `scrape_*` · 原始 JSON 在 `Home/mock_raw/posts/`
 - 2026-07-24 · 赞/藏/充/关注/评论本地持久化 · `HomeInteractStore` `PostDetailPage` `PostCard` `Home` · commit:5d3a60d
 - 2026-07-24 · 推荐圈子筛选真正过滤 + 扩充各圈子 mock · `HomeRecommend` `HomeModel` `PostCard` · commit:42d4b2e
 - 2026-07-24 · 关注用户筛选真正过滤列表 + 扩充 mock（u2/u3） · `FollowFeed` `HomeModel` `PostCard` · commit:83d984e
@@ -86,7 +87,8 @@ docs/Home.md / ROUTE_CONTRACT.md
 - 搜索入口（顶栏 🔍）未做
 - 消息入口（顶栏 ✉️）未做；可评估复用 Profile Messages 路由
 - 评论输入为本地 mock，可继续完善交互（已持久化用户发出的评论）
-- 帖图复用游戏库 media 占位；图标多用 emoji
+- 帖图：部分已用爬取配图 `scrape_*`；其余仍复用游戏库 media / 纯色；图标多用 emoji
+- 真实帖 mock 目前 4 篇（验证码限制批量抓取）；可继续手动过验证后补爬
 - Hot 业务仍主要在 `entry/.../pages/Hot/`，`Hot/` HAR 尚未承接业务
 - 充电无真实支付；仅本地计数 + toast（状态已持久化）
 
