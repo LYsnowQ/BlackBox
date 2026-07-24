@@ -10,7 +10,7 @@ import {
 @Component
 struct PostDetail {
   @State detail: PostDetailModel | undefined = undefined;
-  @State tabIndex: number = 0;
+  @State detailTab: number = 0;
   @State expandedCommentIds: string[] = [];
   @State following: boolean = false;
 
@@ -23,7 +23,7 @@ struct PostDetail {
       this.following = this.detail.isFollowing;
     }
     if (tab === 'comment') {
-      this.tabIndex = 1;
+      this.detailTab = 1;
     }
   }
 
@@ -126,7 +126,7 @@ struct PostDetail {
 
   @Builder
   TopBarBuilder(d: PostDetailModel) {
-    if (this.tabIndex === 0) {
+    if (this.detailTab === 0) {
       Row() {
         Text('‹')
           .fontSize(28)
@@ -149,7 +149,7 @@ struct PostDetail {
           }
           .alignItems(HorizontalAlign.Center)
           .onClick(() => {
-            this.tabIndex = 0;
+            this.detailTab = 0;
           })
 
           Text('评论')
@@ -157,7 +157,7 @@ struct PostDetail {
             .fontColor('#B0B0B0')
             .margin({ left: 28 })
             .onClick(() => {
-              this.tabIndex = 1;
+              this.detailTab = 1;
             })
         }
         .layoutWeight(1)
@@ -700,7 +700,7 @@ struct PostDetail {
       }
       .width(44)
       .onClick(() => {
-        this.tabIndex = 1;
+        this.detailTab = 1;
       })
     }
     .width('100%')
@@ -714,7 +714,7 @@ struct PostDetail {
       if (this.detail) {
         this.TopBarBuilder(this.detail)
 
-        if (this.tabIndex === 0) {
+        if (this.detailTab === 0) {
           Scroll() {
             this.BodyContentBuilder(this.detail)
           }
