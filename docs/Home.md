@@ -64,7 +64,7 @@ docs/Home.md / ROUTE_CONTRACT.md
 
 > 每完成一小部分功能，在此追加一条（新在上）。
 
-- 2026-07-24 · 关注用户筛选真正过滤列表 + 扩充 mock（u2/u3） · `FollowFeed` `HomeModel` `PostCard` · commit:593558b
+- 2026-07-24 · 关注用户筛选真正过滤列表 + 扩充 mock（u2/u3） · `FollowFeed` `HomeModel` `PostCard` · commit:83d984e
 - 2026-07-24 · 文档同步：主分支合并后模块化与依赖现状 · `docs/*` `CLAUDE.md` `design/README.md` · commit:a35a146
 - 2026-07-24 · merge origin/master 进 home，编译运行通过 · commit:fe2d5c6
 - 2026-07-24 · ohpm install 链接 home/profile · commit:f78eda4
