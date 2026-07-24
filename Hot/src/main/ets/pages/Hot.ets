@@ -9,7 +9,7 @@ import {
   hotChannels,
   hotRankList,
   getAllFeedNews,
-} from '../../model/HotModel';
+} from '../model/HotModel';
 import {
   HotThemeColors,
   HotThemeMode,
@@ -17,6 +17,7 @@ import {
   getHotTheme,
   rankBadgeBackground,
 } from './HotTheme';
+import { HotRoutes } from '../router/HotRoutes';
 
 /**
  * 热点 Tab 主页
@@ -48,7 +49,7 @@ export struct Hot {
 
   private openNews(id: string): void {
     router.pushUrl({
-      url: 'pages/Hot/HotNewsDetail',
+      url: HotRoutes.NEWS_DETAIL,
       params: { id, themeMode: this.themeMode },
     });
   }

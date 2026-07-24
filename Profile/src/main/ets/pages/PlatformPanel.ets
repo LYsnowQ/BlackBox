@@ -191,8 +191,9 @@ export struct PlatformPanel {
 
   @Builder
   BoundBuilder(platform: PlatformItem, account: PlatformAccount) {
+    // 内容区统一左内边距；账号数据 / 好友列表共用同一视觉左缘（contentLeft）
     Column() {
-      // 第一行：头像 + 昵称 + 等级（左顶格）
+      // 第一行：个人信息（头像 + 昵称 + 等级）— 保持不变
       Row() {
         Column() {
           Text(account.avatarChar)
@@ -226,43 +227,52 @@ export struct PlatformPanel {
       .width('100%')
       .alignItems(VerticalAlign.Center)
 
-      // 第二行：数据靠左顶格，列间距略增，字号缩小，最右箭头
-      Row() {
-        Row({ space: 19 }) {
-          this.BoundStatCellBuilder(account.accountValue, '账号价值', platform)
-          this.BoundStatCellBuilder(account.playTime, '游戏时长', platform)
-          this.BoundStatCellBuilder(account.gameCount, '游戏数量', platform)
-        }
-        .layoutWeight(1)
-        .alignItems(VerticalAlign.Center)
-
-        this.ArrowButtonBuilder(platform)
-      }
-      .width('100%')
-      .margin({ top: 8 })
-      .padding({ left: 0, right: 0, top: 6, bottom: 6 })
-      .alignItems(VerticalAlign.Center)
-
-      // 第三行：好友头像与上行同左缘顶格，右侧箭头
-      if (account.friends.length > 0) {
+      // 第二、三行共用同一左缘：账号价值… 与 好友头像 视觉左对齐
+      Column() {
+        // 账号数据行：数据区左顶格 + 右侧箭头
         Row() {
-          Scroll() {
-            Row({ space: 6 }) {
-              ForEach(account.friends, (friend: PlatformFriend) => {
-                this.FriendAvatarBuilder(friend)
-              }, (friend: PlatformFriend) => friend.id)
-            }
+          Row({ space: 19 }) {
+            this.BoundStatCellBuilder(account.accountValue, '账号价值', platform)
+            this.BoundStatCellBuilder(account.playTime, '游戏时长', platform)
+            this.BoundStatCellBuilder(account.gameCount, '游戏数量', platform)
           }
-          .scrollable(ScrollDirection.Horizontal)
-          .scrollBar(BarState.Off)
           .layoutWeight(1)
+          .justifyContent(FlexAlign.Start)
+          .alignItems(VerticalAlign.Top)
 
           this.ArrowButtonBuilder(platform)
         }
         .width('100%')
         .margin({ top: 8 })
+        .padding({ top: 6, bottom: 6 })
         .alignItems(VerticalAlign.Center)
+
+        // 好友列表：头像流左顶格，与上方「账号价值」数字同左缘
+        if (account.friends.length > 0) {
+          Row() {
+            Scroll() {
+              Row({ space: 6 }) {
+                ForEach(account.friends, (friend: PlatformFriend) => {
+                  this.FriendAvatarBuilder(friend)
+                }, (friend: PlatformFriend) => friend.id)
+              }
+              .justifyContent(FlexAlign.Start)
+              .alignItems(VerticalAlign.Center)
+            }
+            .scrollable(ScrollDirection.Horizontal)
+            .scrollBar(BarState.Off)
+            .align(Alignment.Start)
+            .layoutWeight(1)
+
+            this.ArrowButtonBuilder(platform)
+          }
+          .width('100%')
+          .margin({ top: 8 })
+          .alignItems(VerticalAlign.Center)
+        }
       }
+      .width('100%')
+      .alignItems(HorizontalAlign.Start)
     }
     .width('100%')
     .layoutWeight(1)

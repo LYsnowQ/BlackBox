@@ -1,5 +1,5 @@
 import { Home } from 'home';
-import { Hot } from './Hot/Hot';
+import { Hot } from 'hot';
 import { RecommendTab, RankingTab } from 'gamelibrary';
 import { Me } from 'profile';
 
@@ -8,6 +8,13 @@ interface BottomNavItem {
   icon: string;
 }
 
+/**
+ * 主框架：底部 Tab + 各业务 HAR 挂载
+ * - Home：home HAR（远端 master 已接入）
+ * - Hot：hot HAR（本分支工作进度）
+ * - 游戏库：gamelibrary HAR（保留 master 全屏子页时隐藏底栏）
+ * - 我：profile HAR
+ */
 @Entry
 @Component
 struct Index {
