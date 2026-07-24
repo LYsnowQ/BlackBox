@@ -24,6 +24,8 @@ export interface PostImage {
 
 export interface FeedPost {
   id: string;
+  /** 对应 FollowUser.id；关注流按此过滤 */
+  authorId: string;
   authorName: string;
   authorAvatarColor: string;
   authorAvatarText: string;
@@ -65,6 +67,7 @@ export const followUsers: FollowUser[] = [
 export const recommendPosts: FeedPost[] = [
   {
     id: 'r1',
+    authorId: '',
     authorName: '明天去月球',
     authorAvatarColor: '#5B8DEF',
     authorAvatarText: '月',
@@ -87,6 +90,7 @@ export const recommendPosts: FeedPost[] = [
   },
   {
     id: 'r2',
+    authorId: '',
     authorName: '虾米游',
     authorAvatarColor: '#3D5A80',
     authorAvatarText: '虾',
@@ -111,6 +115,7 @@ export const recommendPosts: FeedPost[] = [
   },
   {
     id: 'r3',
+    authorId: 'u4',
     authorName: 'Honglizi',
     authorAvatarColor: '#C9A227',
     authorAvatarText: 'H',
@@ -137,6 +142,7 @@ export const recommendPosts: FeedPost[] = [
 export const followPosts: FeedPost[] = [
   {
     id: 'f1',
+    authorId: 'u1',
     authorName: '天王寺璃奈',
     authorAvatarColor: '#F7C6D8',
     authorAvatarText: '璃',
@@ -161,6 +167,7 @@ export const followPosts: FeedPost[] = [
   },
   {
     id: 'f2',
+    authorId: 'ux',
     authorName: '刺客南窗傲',
     authorAvatarColor: '#4A5568',
     authorAvatarText: '刺',
@@ -180,6 +187,124 @@ export const followPosts: FeedPost[] = [
     timeText: '3天前',
     commentCount: 750,
     likeCount: 1487,
+  },
+  {
+    id: 'f3',
+    authorId: 'u2',
+    authorName: '我不吃牛肉讷',
+    authorAvatarColor: '#B8E0D2',
+    authorAvatarText: '牛',
+    levelLabel: 'Lv.16',
+    isOfficial: false,
+    isFollowing: true,
+    title: '我哭了',
+    summary: '其实我是装的(๑> <)☆哈哈哈哈',
+    images: [
+      { mediaKey: '', placeholderColor: '#E8D5C4' },
+    ],
+    imageCount: 1,
+    imageLayout: 'grid',
+    tagText: '盒友杂谈',
+    tagTone: 'topic',
+    gameTag: '',
+    timeText: '昨天13:31',
+    commentCount: 87,
+    likeCount: 66,
+  },
+  {
+    id: 'f4',
+    authorId: 'u2',
+    authorName: '我不吃牛肉讷',
+    authorAvatarColor: '#B8E0D2',
+    authorAvatarText: '牛',
+    levelLabel: 'Lv.16',
+    isOfficial: false,
+    isFollowing: true,
+    title: '微喇裤焊死在身上',
+    summary: 'yyds微喇裤',
+    images: [
+      { mediaKey: '', placeholderColor: '#3A3A3A' },
+    ],
+    imageCount: 1,
+    imageLayout: 'grid',
+    tagText: '盒友杂谈',
+    tagTone: 'topic',
+    gameTag: '',
+    timeText: '2天前',
+    commentCount: 48,
+    likeCount: 103,
+  },
+  {
+    id: 'f5',
+    authorId: 'u2',
+    authorName: '我不吃牛肉讷',
+    authorAvatarColor: '#B8E0D2',
+    authorAvatarText: '牛',
+    levelLabel: 'Lv.16',
+    isOfficial: false,
+    isFollowing: true,
+    title: '超级可爱特效(๑> <)☆',
+    summary: '去今天爽玩11h千恋万花嘻嘻，睡醒就去健身房～',
+    images: [
+      { mediaKey: '', placeholderColor: '#F0C8D8' },
+    ],
+    imageCount: 1,
+    imageLayout: 'grid',
+    tagText: '盒友杂谈',
+    tagTone: 'topic',
+    gameTag: '',
+    timeText: '3天前',
+    commentCount: 32,
+    likeCount: 91,
+  },
+  {
+    id: 'f6',
+    authorId: 'u3',
+    authorName: '软件格律诗',
+    authorAvatarColor: '#F5C16C',
+    authorAvatarText: '诗',
+    levelLabel: 'Lv.12',
+    isOfficial: false,
+    isFollowing: true,
+    title: '超大更新！有颜值更有音质！11款超热门音乐播放器+歌词工具汇总！',
+    summary: '一、SPlayer《被惊艳到！给的真的多，一款伟大的音乐播放器！前方多图警告！》（点击得到）v3.1.1各架构独立构建…',
+    images: [
+      { mediaKey: '', placeholderColor: '#1A2A3A' },
+      { mediaKey: '', placeholderColor: '#0D1B2A' },
+      { mediaKey: '', placeholderColor: '#2C1810' },
+    ],
+    imageCount: 39,
+    imageLayout: 'grid',
+    tagText: '盒友杂谈',
+    tagTone: 'topic',
+    gameTag: '',
+    timeText: '昨天19:19',
+    commentCount: 18,
+    likeCount: 73,
+  },
+  {
+    id: 'f7',
+    authorId: 'u3',
+    authorName: '软件格律诗',
+    authorAvatarColor: '#F5C16C',
+    authorAvatarText: '诗',
+    levelLabel: 'Lv.12',
+    isOfficial: false,
+    isFollowing: true,
+    title: '让人大开眼界！近59.2k星标，一份中国独立开发者项目列表，收藏！',
+    summary: '如果你关注科技圈、软件产品或者独立开发领域，应该经常会遇到一个问题：国内到底有哪些个人开发者正在做自己的产…',
+    images: [
+      { mediaKey: '', placeholderColor: '#E8F0F5' },
+      { mediaKey: '', placeholderColor: '#F5F0E8' },
+    ],
+    imageCount: 4,
+    imageLayout: 'grid',
+    tagText: '盒友杂谈',
+    tagTone: 'topic',
+    gameTag: '',
+    timeText: '昨天11:26',
+    commentCount: 3,
+    likeCount: 32,
   },
 ];
 

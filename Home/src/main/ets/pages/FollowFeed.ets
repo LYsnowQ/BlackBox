@@ -5,6 +5,13 @@ import { PostCard } from './PostCard';
 export struct FollowFeed {
   @State selectedUserId: string = '';
 
+  private filteredPosts(): FeedPost[] {
+    if (this.selectedUserId === '') {
+      return followPosts;
+    }
+    return followPosts.filter((post: FeedPost) => post.authorId === this.selectedUserId);
+  }
+
   @Builder
   UserItemBuilder(user: FollowUser) {
     Column() {
@@ -70,16 +77,18 @@ export struct FollowFeed {
         .width('100%')
       }
 
-      ListItem() {
-        Text('盒友动态')
-          .fontSize(16)
-          .fontWeight(FontWeight.Bold)
-          .fontColor('#1A1A1A')
-          .width('100%')
-          .padding({ left: 16, right: 16, top: 4, bottom: 6 })
+      if (this.selectedUserId === '') {
+        ListItem() {
+          Text('盒友动态')
+            .fontSize(16)
+            .fontWeight(FontWeight.Bold)
+            .fontColor('#1A1A1A')
+            .width('100%')
+            .padding({ left: 16, right: 16, top: 4, bottom: 6 })
+        }
       }
 
-      ForEach(followPosts, (post: FeedPost) => {
+      ForEach(this.filteredPosts(), (post: FeedPost) => {
         ListItem() {
           Column() {
             Divider()
@@ -88,10 +97,10 @@ export struct FollowFeed {
             PostCard({ post: post, variant: 'follow' })
           }
         }
-      }, (post: FeedPost) => post.id)
+      }, (post: FeedPost) => `${this.selectedUserId}|${post.id}`)
 
       ListItem() {
-        Text('已经到底了')
+        Text(this.filteredPosts().length === 0 ? '暂无动态' : '已经到底了')
           .fontSize(12)
           .fontColor('#C0C0C0')
           .width('100%')

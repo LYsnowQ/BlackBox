@@ -23,7 +23,7 @@ design/Home/
 |---|---|---|
 | `recommend.jpg` | 顶栏关注/推荐、圈子横滑、图文帖卡片 | `HomeRecommend` + `PostCard` |
 | `follow.jpg` | 关注用户头像条、盒友动态流 | `FollowFeed` + `PostCard` |
-| `follow-content/*` | 单用户筛选后的关注内容 | 待做过滤 |
+| `follow-content/*` | 单用户筛选后的关注内容 | `FollowFeed` 按 `authorId` 过滤 |
 | `post/detail-*` | 正文（作者、标签、配图、段落） | `PostDetailPage` 上部 |
 | `post/comments-*` | 评论列表、楼中楼展开 | `PostDetailPage` 连续滚动评论区 |
 

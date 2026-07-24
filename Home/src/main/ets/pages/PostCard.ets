@@ -6,6 +6,7 @@ import { HomeRoutes } from '../router/HomeRoutes';
 export struct PostCard {
   @Prop post: FeedPost = {
     id: '',
+    authorId: '',
     authorName: '',
     authorAvatarColor: '#CCCCCC',
     authorAvatarText: '',
