@@ -27,4 +27,8 @@ export class AppRoutes {
   static readonly PROFILE_MESSAGES: string = 'pages/Profile/Messages';
   static readonly PROFILE_SCAN: string = 'pages/Profile/Scan';
   static readonly PROFILE_EDIT: string = 'pages/Profile/EditProfile';
+
+  // ── Hot ──
+  /** 热点新闻详情 params: { id: string, themeMode?: 'light' | 'dark' } */
+  static readonly HOT_NEWS_DETAIL: string = 'pages/Hot/HotNewsDetail';
 }

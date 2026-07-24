@@ -1,5 +1,5 @@
 import { Home } from 'home';
-import { Hot } from './Hot/Hot';
+import { Hot } from 'hot';
 import { RecommendTab, RankingTab } from 'gamelibrary';
 import { Me } from 'profile';
 

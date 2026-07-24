@@ -1,6 +1,7 @@
 /**
  * 热点模块数据模型与 Mock
- * 说明：仅前端展示，数据全部为 mock；封面/配图用渐变色占位，后续可替换为 Image 资源。
+ * 说明：仅前端展示，数据全部为 mock。
+ * Banner / 第一条新闻（news-steam-sale）已接真实图，其余列表缩略图仍可用渐变占位。
  */
 
 /** 频道 Tab */
@@ -11,12 +12,15 @@ export interface HotChannel {
   type: 'all' | 'rank' | 'game';
 }
 
-/** 轮播 Banner */
+/** 轮播 Banner（顶部动态展示栏） */
 export interface HotBanner {
   id: string;
   title: string;
   cta: string;
+  /** 无真实图时的渐变占位色 */
   gradientColors: [string, string];
+  /** 顶部轮播真实图片（Hot/media：hot_banner_1~4） */
+  coverImg?: ResourceStr;
 }
 
 /** 列表缩略图类型 */
@@ -32,6 +36,8 @@ export interface HotNewsItem {
   thumbType: HotThumbType;
   /** 缩略图渐变占位色 */
   thumbColors: [string, string];
+  /** 缩略图真实图（优先于渐变） */
+  coverImg?: ResourceStr;
   /** 缩略图角标文字，如视频播放、折扣格等 */
   thumbLabel?: string;
   /** 折扣宫格（deal 类型） */
@@ -71,6 +77,10 @@ export interface HotGameCard {
   ownLabel?: string;
   gradientColors: [string, string];
   favoriteLabel?: string;
+  /** 封面真实图 */
+  coverImg?: ResourceStr;
+  /** 封面角标折扣，如 -50% */
+  discountLabel?: string;
 }
 
 /** 正文段落 / 列表 */
@@ -81,6 +91,8 @@ export interface HotContentBlock {
   imageLabel?: string;
   imageIndex?: string;
   imageColors?: [string, string];
+  /** 正文配图真实资源 */
+  imageSrc?: ResourceStr;
   game?: HotGameCard;
 }
 
@@ -94,6 +106,8 @@ export interface HotAuthor {
   isAuthor?: boolean;
   avatarColors: [string, string];
   avatarText: string;
+  /** 头像真实图 */
+  avatarImg?: ResourceStr;
 }
 
 /** 评论回复 */
@@ -142,21 +156,31 @@ export const hotChannels: HotChannel[] = [
 export const hotBanners: HotBanner[] = [
   {
     id: 'b1',
-    title: '首发限时9 折叠加92 折券，点击抢购！',
+    title: '风暴枪弹现已发售，首发限时优惠点击抢购',
     cta: '现已发售点击抢购',
     gradientColors: ['#2A1A3A', '#5C2A1A'],
+    coverImg: $r('app.media.hot_banner_1'),
   },
   {
     id: 'b2',
-    title: 'Steam 夏日特卖进行中，史低好价不错过',
-    cta: '查看全部优惠',
+    title: '战地风云 6 第 4 赛季：海战回归，参与活动赢载具外观',
+    cta: '海战回归',
     gradientColors: ['#0F1B2B', '#1A4A6A'],
+    coverImg: $r('app.media.hot_banner_2'),
   },
   {
     id: 'b3',
-    title: '独立游戏节精选，口碑佳作 5 折起',
-    cta: '立即逛逛',
-    gradientColors: ['#122A22', '#1F5C4A'],
+    title: '碧蓝幻想 Relink：Endless Ragnarok',
+    cta: '立即了解',
+    gradientColors: ['#3A1A5A', '#1A0A2A'],
+    coverImg: $r('app.media.hot_banner_3'),
+  },
+  {
+    id: 'b4',
+    title: 'PUBG：KUN 的夏日空投，蔡徐坤全球代言人',
+    cta: 'K SPECIAL DELIVERY',
+    gradientColors: ['#0A1A2A', '#1A2A4A'],
+    coverImg: $r('app.media.hot_banner_4'),
   },
 ];
 
@@ -166,9 +190,10 @@ export const hotNewsList: HotNewsItem[] = [
     title: '(7.24) Steam发大力！85款精品佳作迎来骨折价，最低仅需3元',
     timeLabel: '42分钟前',
     tag: 'Steam',
-    commentCount: 4,
+    commentCount: 20,
     thumbType: 'deal',
     thumbColors: ['#1A3A1A', '#0A1A0A'],
+    // 列表仍用折扣宫格；详情用 新闻1-图片* 与博主头像
     dealCells: [
       { discount: '-100%', price: '¥ 0.00', highlight: true },
       { discount: '-80%', price: '¥ 14.60' },
@@ -337,23 +362,28 @@ export const hotRankList: HotRankItem[] = [
   },
 ];
 
+/** 第一条新闻作者（塔可松）共用字段 */
+const authorTacosong: HotAuthor = {
+  name: '塔可松',
+  level: 'Lv10',
+  levelColor: '#9B6BFF',
+  timeLocation: '42分钟前·浙江',
+  verified: true,
+  avatarColors: ['#5A2A2A', '#2A1010'],
+  avatarText: '塔',
+  avatarImg: $r('app.media.hot_news1_avatar'),
+};
+
 const detailSteamSale: HotNewsDetailData = {
   id: 'news-steam-sale',
   title: '(7.24) Steam发大力！85款精品佳作迎来骨折价，最低仅需3元',
-  author: {
-    name: '塔可松',
-    level: 'Lv10',
-    levelColor: '#9B6BFF',
-    timeLocation: '42分钟前·浙江',
-    verified: true,
-    avatarColors: ['#5A2A2A', '#2A1010'],
-    avatarText: '塔',
-  },
+  author: authorTacosong,
   platforms: ['Steam'],
-  likeCount: 46,
-  starCount: 9,
-  shareCount: 15,
-  commentCount: 4,
+  // 对照真实 App 详情底栏
+  likeCount: 837,
+  starCount: 187,
+  shareCount: 93,
+  commentCount: 20,
   blocks: [
     {
       type: 'paragraph',
@@ -389,13 +419,64 @@ const detailSteamSale: HotNewsDetailData = {
         badge: '史低',
         favoriteLabel: '79万',
         gradientColors: ['#4A3A2A', '#1A1008'],
+        coverImg: $r('app.media.hot_news1_img1'),
+        discountLabel: '-74%',
       },
     },
     {
       type: 'image',
-      imageLabel: 'MONSTER HUNT',
+      imageLabel: '怪物猎人：世界',
       imageIndex: '1/17',
       imageColors: ['#3A2A1A', '#1A1008'],
+      imageSrc: $r('app.media.hot_news1_img2'),
+    },
+    {
+      type: 'paragraph',
+      text: '2',
+    },
+    {
+      type: 'game',
+      game: {
+        name: '街头霸王6',
+        rating: '9.5',
+        priceLabel: '¥90 券后价',
+        badge: '史低',
+        favoriteLabel: '36.3万',
+        gradientColors: ['#5A2A1A', '#2A1008'],
+        coverImg: $r('app.media.hot_news1_img3'),
+        discountLabel: '-50%',
+      },
+    },
+    {
+      type: 'image',
+      imageLabel: '街头霸王6',
+      imageIndex: '1/28',
+      imageColors: ['#5A2A1A', '#1A0A08'],
+      imageSrc: $r('app.media.hot_news1_img4'),
+    },
+    {
+      type: 'paragraph',
+      text: '3',
+    },
+    {
+      type: 'game',
+      game: {
+        name: '生化危机4 重制版',
+        rating: '9.9',
+        priceLabel: '¥45 券后价',
+        badge: '史低',
+        favoriteLabel: '65.1万',
+        gradientColors: ['#2A1A1A', '#100808'],
+        coverImg: $r('app.media.hot_news1_img5'),
+        discountLabel: '-75%',
+      },
+    },
+    {
+      type: 'image',
+      imageLabel: '生化危机4 重制版',
+      imageIndex: '1/11',
+      imageColors: ['#2A1A1A', '#100808'],
+      imageSrc: $r('app.media.hot_news1_img6'),
     },
   ],
   comments: [
@@ -403,14 +484,15 @@ const detailSteamSale: HotNewsDetailData = {
       id: 'c1',
       isPinned: true,
       author: {
-        name: '塔可松',
-        level: 'Lv10',
-        levelColor: '#9B6BFF',
-        timeLocation: '42分钟前·浙江',
+        name: authorTacosong.name,
+        level: authorTacosong.level,
+        levelColor: authorTacosong.levelColor,
+        timeLocation: authorTacosong.timeLocation,
         verified: true,
         isAuthor: true,
-        avatarColors: ['#5A2A2A', '#2A1010'],
-        avatarText: '塔',
+        avatarColors: authorTacosong.avatarColors,
+        avatarText: authorTacosong.avatarText,
+        avatarImg: authorTacosong.avatarImg,
       },
       content: '可以双击屏幕点点免费的👍吗',
       likeCount: 0,

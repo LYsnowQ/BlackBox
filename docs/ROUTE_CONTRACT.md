@@ -31,6 +31,7 @@
 | `AppRoutes.PROFILE_MESSAGES` / `ProfileRoutes.MESSAGES` | `pages/Profile/Messages` | 消息 |
 | `AppRoutes.PROFILE_SCAN` / `ProfileRoutes.SCAN` | `pages/Profile/Scan` | 扫一扫 |
 | `AppRoutes.PROFILE_EDIT` / `ProfileRoutes.EDIT_PROFILE` | `pages/Profile/EditProfile` | 编辑资料 |
+| `AppRoutes.HOT_NEWS_DETAIL` / `HotRoutes.NEWS_DETAIL` | `pages/Hot/HotNewsDetail` | 热点新闻详情 `params: { id, themeMode? }` |
 
 ## 使用示例
 

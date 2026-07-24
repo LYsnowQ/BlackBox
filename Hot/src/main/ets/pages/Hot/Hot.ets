@@ -17,9 +17,10 @@ import {
   getHotTheme,
   rankBadgeBackground,
 } from './HotTheme';
+import { HotRoutes } from '../../router/HotRoutes';
 
 /**
- * 热点 Tab 主页
+ * 热点 Tab 主页（Hot HAR 业务组件，由 entry Index 挂载）
  * - 默认浅色（对照 Screen/Light 图1 全部 / 图2 热榜）
  * - 深色：HotTheme.HOT_DEFAULT_THEME_MODE = 'dark' 调试；后期由上层主题接管
  * - 全部：Banner + 新闻列表
@@ -48,7 +49,7 @@ export struct Hot {
 
   private openNews(id: string): void {
     router.pushUrl({
-      url: 'pages/Hot/HotNewsDetail',
+      url: HotRoutes.NEWS_DETAIL,
       params: { id, themeMode: this.themeMode },
     });
   }
@@ -124,52 +125,59 @@ export struct Hot {
     .padding({ left: 16, right: 12, bottom: 4 })
   }
 
-  // ---------- Banner ----------
+  // ---------- Banner（顶部动态展示栏：优先真实图，图内已含文案） ----------
   @Builder
   BannerSlideBuilder(slide: HotBanner) {
     Stack({ alignContent: Alignment.BottomStart }) {
-      Column() {
-        Text(slide.cta)
-          .fontSize(18)
-          .fontWeight(FontWeight.Bold)
-          .fontColor(Color.White)
-          .opacity(0.95)
-      }
-      .width('100%')
-      .height('100%')
-      .justifyContent(FlexAlign.Center)
-      .linearGradient({
-        angle: 120,
-        colors: [[slide.gradientColors[0], 0], [slide.gradientColors[1], 1]],
-      })
-
-      Column() {
-        Row() {
+      if (slide.coverImg) {
+        Image(slide.coverImg)
+          .width('100%')
+          .height('100%')
+          .objectFit(ImageFit.Cover)
+      } else {
+        Column() {
           Text(slide.cta)
-            .fontSize(11)
+            .fontSize(18)
+            .fontWeight(FontWeight.Bold)
             .fontColor(Color.White)
-            .padding({ left: 10, right: 10, top: 5, bottom: 5 })
-            .backgroundColor('#1A8CFF')
-            .borderRadius(4)
+            .opacity(0.95)
         }
         .width('100%')
+        .height('100%')
         .justifyContent(FlexAlign.Center)
-        .padding({ bottom: 8 })
+        .linearGradient({
+          angle: 120,
+          colors: [[slide.gradientColors[0], 0], [slide.gradientColors[1], 1]],
+        })
 
-        Text(slide.title)
-          .fontSize(13)
-          .fontColor(Color.White)
-          .maxLines(1)
-          .textOverflow({ overflow: TextOverflow.Ellipsis })
-          .textAlign(TextAlign.Center)
+        Column() {
+          Row() {
+            Text(slide.cta)
+              .fontSize(11)
+              .fontColor(Color.White)
+              .padding({ left: 10, right: 10, top: 5, bottom: 5 })
+              .backgroundColor('#1A8CFF')
+              .borderRadius(4)
+          }
           .width('100%')
-          .padding({ left: 12, right: 12, bottom: 12 })
+          .justifyContent(FlexAlign.Center)
+          .padding({ bottom: 8 })
+
+          Text(slide.title)
+            .fontSize(13)
+            .fontColor(Color.White)
+            .maxLines(1)
+            .textOverflow({ overflow: TextOverflow.Ellipsis })
+            .textAlign(TextAlign.Center)
+            .width('100%')
+            .padding({ left: 12, right: 12, bottom: 12 })
+        }
+        .width('100%')
+        .linearGradient({
+          angle: 180,
+          colors: [['rgba(0,0,0,0)', 0], ['rgba(0,0,0,0.65)', 1]],
+        })
       }
-      .width('100%')
-      .linearGradient({
-        angle: 180,
-        colors: [['rgba(0,0,0,0)', 0], ['rgba(0,0,0,0.65)', 1]],
-      })
     }
     .width('100%')
     .height('100%')
@@ -235,22 +243,29 @@ export struct Hot {
   @Builder
   ImageThumbBuilder(item: HotNewsItem) {
     Stack({ alignContent: Alignment.Center }) {
-      Column() {
-        Text(item.thumbLabel ?? '')
-          .fontSize(11)
-          .fontWeight(FontWeight.Medium)
-          .fontColor('rgba(255,255,255,0.9)')
-          .maxLines(2)
-          .textAlign(TextAlign.Center)
-          .padding({ left: 6, right: 6 })
+      if (item.coverImg) {
+        Image(item.coverImg)
+          .width('100%')
+          .height('100%')
+          .objectFit(ImageFit.Cover)
+      } else {
+        Column() {
+          Text(item.thumbLabel ?? '')
+            .fontSize(11)
+            .fontWeight(FontWeight.Medium)
+            .fontColor('rgba(255,255,255,0.9)')
+            .maxLines(2)
+            .textAlign(TextAlign.Center)
+            .padding({ left: 6, right: 6 })
+        }
+        .width('100%')
+        .height('100%')
+        .justifyContent(FlexAlign.Center)
+        .linearGradient({
+          angle: 120,
+          colors: [[item.thumbColors[0], 0], [item.thumbColors[1], 1]],
+        })
       }
-      .width('100%')
-      .height('100%')
-      .justifyContent(FlexAlign.Center)
-      .linearGradient({
-        angle: 120,
-        colors: [[item.thumbColors[0], 0], [item.thumbColors[1], 1]],
-      })
 
       if (item.thumbType === 'video') {
         Row() {
