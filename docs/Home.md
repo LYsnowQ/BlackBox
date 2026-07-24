@@ -38,7 +38,7 @@ docs/Home.md
 
 > 每完成一小部分功能，在此追加一条（新在上）。
 
-- 2026-07-24 · 详情底栏赞藏充评论交互 + 正文评论连续滚动 · `PostDetail.ets` · commit:待提交
+- 2026-07-24 · 详情底栏赞藏充评论交互 + 正文评论连续滚动 · `PostDetail.ets` · commit:789675b
 - 2026-07-24 · 修复 PostDetail 与基类 tabIndex 命名冲突 · `PostDetail.ets` · commit:9551075
 - 2026-07-24 · 帖子详情正文/评论 + 列表跳转 · `PostDetail.ets` `HomeModel` `PostCard` `main_pages.json` · commit:88fa36e
 - 2026-07-24 · 首页关注/推荐可切换流 · `pages/Home/*` `model/HomeModel.ets` · commit:9e34403
