@@ -217,11 +217,16 @@ static readonly HOME_SEARCH: string = 'pages/Home/Search';
 ```ts
 import { SearchPage } from 'home';
 
+// @Entry 的 build 根节点必须是容器（Column/Row/Stack 等），不能直接放自定义组件
 @Entry
 @Component
 struct Search {
   build() {
-    SearchPage()
+    Column() {
+      SearchPage()
+    }
+    .width('100%')
+    .height('100%')
   }
 }
 ```
