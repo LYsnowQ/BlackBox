@@ -13,6 +13,8 @@ struct GameLibrary {
   @State topTabIndex: number = 0;
   // 底部导航当前选中项，本页面对应"游戏库"
   @State bottomTabIndex: number = 3;
+  @State isForYouPageOpen: boolean = false;
+  @State activeNavPage: string = '';
 
   private bottomNavItems: BottomNavItem[] = [
     { label: '首页', icon: '△' },
@@ -97,11 +99,13 @@ struct GameLibrary {
   build() {
     Stack({ alignContent: Alignment.Bottom }) {
       Column() {
-        this.TopHeaderBuilder()
+        if (!this.isForYouPageOpen && this.activeNavPage === '') {
+          this.TopHeaderBuilder()
+        }
 
         Stack() {
           if (this.topTabIndex === 0) {
-            RecommendTab()
+            RecommendTab({ isForYouPageOpen: $isForYouPageOpen, activeNavPage: $activeNavPage })
           } else {
             RankingTab()
           }
@@ -111,9 +115,11 @@ struct GameLibrary {
       }
       .width('100%')
       .height('100%')
-      .padding({ bottom: 56 })
+      .padding({ bottom: (this.isForYouPageOpen || this.activeNavPage !== '') ? 0 : 56 })
 
-      this.BottomNavBuilder()
+      if (!this.isForYouPageOpen && this.activeNavPage === '') {
+        this.BottomNavBuilder()
+      }
     }
     .width('100%')
     .height('100%')

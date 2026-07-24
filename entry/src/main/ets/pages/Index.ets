@@ -14,6 +14,8 @@ interface BottomNavItem {
 struct Index {
   @State bottomTabIndex: number = 3;
   @State topTabIndex: number = 0;
+  @State isForYouPageOpen: boolean = false;
+  @State activeNavPage: string = '';
 
   private bottomNavItems: BottomNavItem[] = [
     { label: '首页', icon: '△' },
@@ -102,9 +104,11 @@ struct Index {
       Hot()
     } else if (this.bottomTabIndex === 3) {
       Column() {
-        this.GameLibraryHeaderBuilder()
+        if (!this.isForYouPageOpen && this.activeNavPage === '') {
+          this.GameLibraryHeaderBuilder()
+        }
         if (this.topTabIndex === 0) {
-          RecommendTab()
+          RecommendTab({ isForYouPageOpen: $isForYouPageOpen, activeNavPage: $activeNavPage })
         } else {
           RankingTab()
         }
@@ -131,9 +135,11 @@ struct Index {
       }
       .width('100%')
       .height('100%')
-      .padding({ bottom: 56 })
+      .padding({ bottom: (this.isForYouPageOpen || this.activeNavPage !== '') ? 0 : 56 })
 
-      this.BottomNavBuilder()
+      if (!this.isForYouPageOpen && this.activeNavPage === '') {
+        this.BottomNavBuilder()
+      }
     }
     .width('100%')
     .height('100%')
