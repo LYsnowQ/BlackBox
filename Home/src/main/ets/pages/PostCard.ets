@@ -158,6 +158,61 @@ export struct PostCard {
         .width('100%')
         .height('100%')
         .objectFit(ImageFit.Cover)
+    } else if (img.mediaKey === 'scrape_greenhell1') {
+      Image($r('app.media.scrape_greenhell1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (img.mediaKey === 'scrape_jiahao1') {
+      Image($r('app.media.scrape_jiahao1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (img.mediaKey === 'scrape_muse1') {
+      Image($r('app.media.scrape_muse1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (img.mediaKey === 'scrape_doubao1') {
+      Image($r('app.media.scrape_doubao1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (img.mediaKey === 'scrape_messi1') {
+      Image($r('app.media.scrape_messi1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (img.mediaKey === 'scrape_cxmt1') {
+      Image($r('app.media.scrape_cxmt1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (img.mediaKey === 'scrape_wzry1') {
+      Image($r('app.media.scrape_wzry1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (img.mediaKey === 'scrape_cf1') {
+      Image($r('app.media.scrape_cf1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (img.mediaKey === 'scrape_cf2') {
+      Image($r('app.media.scrape_cf2'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (img.mediaKey === 'scrape_cf3') {
+      Image($r('app.media.scrape_cf3'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (img.mediaKey === 'scrape_cf4') {
+      Image($r('app.media.scrape_cf4'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
     } else {
       Column()
         .width('100%')

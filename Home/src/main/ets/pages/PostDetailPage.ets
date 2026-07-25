@@ -326,6 +326,61 @@ export struct PostDetailPage {
         .width('100%')
         .height('100%')
         .objectFit(ImageFit.Cover)
+    } else if (key === 'scrape_greenhell1') {
+      Image($r('app.media.scrape_greenhell1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (key === 'scrape_jiahao1') {
+      Image($r('app.media.scrape_jiahao1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (key === 'scrape_muse1') {
+      Image($r('app.media.scrape_muse1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (key === 'scrape_doubao1') {
+      Image($r('app.media.scrape_doubao1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (key === 'scrape_messi1') {
+      Image($r('app.media.scrape_messi1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (key === 'scrape_cxmt1') {
+      Image($r('app.media.scrape_cxmt1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (key === 'scrape_wzry1') {
+      Image($r('app.media.scrape_wzry1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (key === 'scrape_cf1') {
+      Image($r('app.media.scrape_cf1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (key === 'scrape_cf2') {
+      Image($r('app.media.scrape_cf2'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (key === 'scrape_cf3') {
+      Image($r('app.media.scrape_cf3'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
+    } else if (key === 'scrape_cf4') {
+      Image($r('app.media.scrape_cf4'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Cover)
     } else {
       Column()
         .width('100%')
