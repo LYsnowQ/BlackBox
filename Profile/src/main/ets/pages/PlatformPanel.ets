@@ -7,25 +7,178 @@ import {
 } from '../model/ProfileModel';
 
 /**
+ * 已绑定平台内容（独立组件 + @Prop）
+ * 父级用 ForEach token 销毁重建，保证 steam ↔ ps 等同绑定态切换时数据必刷新。
+ */
+@Component
+struct PlatformBoundBody {
+  @Prop accent: string = '#66C0F4';
+  @Prop textOnBg: string = '#C7D5E0';
+  @Prop textMuted: string = 'rgba(199,213,224,0.55)';
+  @Prop surface: string = 'rgba(255,255,255,0.08)';
+  @Prop nickname: string = '';
+  @Prop avatarChar: string = '';
+  @Prop level: string = '';
+  @Prop accountValue: string = '';
+  @Prop playTime: string = '';
+  @Prop gameCount: string = '';
+  @Prop friends: PlatformFriend[] = [];
+
+  @Builder
+  StatCell(value: string, label: string) {
+    Column({ space: 1 }) {
+      Text(value)
+        .fontSize(12)
+        .fontWeight(FontWeight.Medium)
+        .fontColor(this.textOnBg)
+      Text(label)
+        .fontSize(8)
+        .fontColor(this.textMuted)
+    }
+    .alignItems(HorizontalAlign.Start)
+  }
+
+  @Builder
+  FriendAvatar(friend: PlatformFriend) {
+    Column() {
+      Text(friend.avatarChar)
+        .fontSize(11)
+        .fontWeight(FontWeight.Medium)
+        .fontColor(Color.White)
+    }
+    .width(28)
+    .height(28)
+    .borderRadius(6)
+    .justifyContent(FlexAlign.Center)
+    .backgroundColor(friend.avatarColor)
+  }
+
+  @Builder
+  ArrowBtn() {
+    Text('›')
+      .fontSize(18)
+      .fontColor(this.textMuted)
+      .width(24)
+      .height(28)
+      .textAlign(TextAlign.Center)
+  }
+
+  build() {
+    Column() {
+      Row() {
+        Column() {
+          Text(this.avatarChar)
+            .fontSize(14)
+            .fontWeight(FontWeight.Medium)
+            .fontColor(Color.White)
+        }
+        .width(32)
+        .height(32)
+        .borderRadius(7)
+        .justifyContent(FlexAlign.Center)
+        .backgroundColor(this.surface)
+
+        Text(this.nickname)
+          .fontSize(13)
+          .fontWeight(FontWeight.Medium)
+          .fontColor(this.textOnBg)
+          .maxLines(1)
+          .textOverflow({ overflow: TextOverflow.Ellipsis })
+          .margin({ left: 8 })
+
+        if (this.level.length > 0) {
+          Text(this.level)
+            .fontSize(10)
+            .fontColor(this.accent)
+            .margin({ left: 8 })
+        }
+
+        Blank()
+      }
+      .width('100%')
+      .alignItems(VerticalAlign.Center)
+
+      Column() {
+        Row() {
+          Row({ space: 19 }) {
+            this.StatCell(this.accountValue, '账号价值')
+            this.StatCell(this.playTime, '游戏时长')
+            this.StatCell(this.gameCount, '游戏数量')
+          }
+          .layoutWeight(1)
+          .justifyContent(FlexAlign.Start)
+          .alignItems(VerticalAlign.Top)
+
+          this.ArrowBtn()
+        }
+        .width('100%')
+        .margin({ top: 8 })
+        .padding({ top: 6, bottom: 6 })
+        .alignItems(VerticalAlign.Center)
+
+        if (this.friends.length > 0) {
+          Row() {
+            Scroll() {
+              Row({ space: 6 }) {
+                ForEach(this.friends, (friend: PlatformFriend) => {
+                  this.FriendAvatar(friend)
+                }, (friend: PlatformFriend) => friend.id)
+              }
+              .justifyContent(FlexAlign.Start)
+              .alignItems(VerticalAlign.Center)
+            }
+            .scrollable(ScrollDirection.Horizontal)
+            .scrollBar(BarState.Off)
+            .align(Alignment.Start)
+            .layoutWeight(1)
+
+            this.ArrowBtn()
+          }
+          .width('100%')
+          .margin({ top: 8 })
+          .alignItems(VerticalAlign.Center)
+        }
+      }
+      .width('100%')
+      .alignItems(HorizontalAlign.Start)
+    }
+    .width('100%')
+    .height('100%')
+    .padding({ left: 12, right: 12, top: 6, bottom: 10 })
+    .alignItems(HorizontalAlign.Start)
+    .justifyContent(FlexAlign.Start)
+  }
+}
+
+/**
  * 平台绑定窗口（压缩版 · 约 2:1 宽高比）
- * 顶部导航 top ≈ 5px：steam / switch / ps / xbox / epic
+ * 顶部导航：steam / switch / ps / xbox / epic
  *
- * 注意：切换平台时必须同步 @State 展示字段，并对内容区加 key，
- * 否则 ArkUI 会复用同构子树，导致绑定数据 / placeholder 不刷新。
+ * 刷新策略（针对「同绑定态平台来回切换数据不更新」）：
+ * 1. 展示字段全部 @State
+ * 2. 内容区 ForEach([viewToken])，token 含 platformId，切换必销毁重建
+ * 3. 已绑定区拆成独立 @Component + @Prop（不走易复用的 @Builder 入参）
  */
 @Component
 export struct PlatformPanel {
   @State platformIndex: number = 0;
-  /** 当前平台 id，同时作为内容区重建 key */
-  @State platformId: string = platformList[0].id;
+  /** ForEach 数据源：单元素，token 变化即整树重建 */
+  @State viewTokens: string[] = [`${platformList[0].id}_bound`];
+
   @State inputId: string = '';
-  /** 绑定输入框 placeholder，随平台切换更新 */
-  @State bindPlaceholder: string = platformList[0].inputHint;
   @State newlyBoundIds: string[] = [];
   @State newlyBoundNames: string[] = [];
 
-  // ── 当前平台展示用 @State（避免 @Builder 入参被节点复用吃掉）──
-  @State isCurrentBound: boolean = getBoundAccount(platformList[0].id) !== undefined;
+  @State isCurrentBound: boolean = true;
+  @State platformName: string = platformList[0].name;
+  @State inputHint: string = platformList[0].inputHint;
+  @State accent: string = platformList[0].accent;
+  @State textOnBg: string = platformList[0].textOnBg;
+  @State textMuted: string = platformList[0].textMuted;
+  @State surface: string = platformList[0].surface;
+  @State bgTop: string = platformList[0].bgTop;
+  @State bgBottom: string = platformList[0].bgBottom;
+
   @State accountNickname: string = '';
   @State accountAvatarChar: string = '';
   @State accountLevel: string = '';
@@ -35,11 +188,7 @@ export struct PlatformPanel {
   @State accountFriends: PlatformFriend[] = [];
 
   aboutToAppear(): void {
-    this.syncPlatformView(0);
-  }
-
-  private currentPlatform(): PlatformItem {
-    return platformList[this.platformIndex];
+    this.applyPlatform(0);
   }
 
   private isBound(platformId: string): boolean {
@@ -72,16 +221,24 @@ export struct PlatformPanel {
     };
   }
 
-  /** 切换 / 绑定后：把平台与账号数据写入 @State，驱动 UI 全量刷新 */
-  private syncPlatformView(index: number): void {
+  private applyPlatform(index: number): void {
     const platform = platformList[index];
-    this.platformIndex = index;
-    this.platformId = platform.id;
-    this.bindPlaceholder = platform.inputHint;
-    this.inputId = '';
-
     const bound = this.isBound(platform.id);
+    // token 必须含 platformId；同 bound 态的 steam/ps 也要不同
+    const token = `${platform.id}_${bound ? 'bound' : 'free'}`;
+
+    this.platformIndex = index;
+    this.platformName = platform.name;
+    this.inputHint = platform.inputHint;
+    this.accent = platform.accent;
+    this.textOnBg = platform.textOnBg;
+    this.textMuted = platform.textMuted;
+    this.surface = platform.surface;
+    this.bgTop = platform.bgTop;
+    this.bgBottom = platform.bgBottom;
+    this.inputId = '';
     this.isCurrentBound = bound;
+
     if (bound) {
       const account = this.resolveAccount(platform);
       this.accountNickname = account.nickname;
@@ -90,7 +247,6 @@ export struct PlatformPanel {
       this.accountValue = account.accountValue;
       this.accountPlayTime = account.playTime;
       this.accountGameCount = account.gameCount;
-      // 新数组引用，确保好友 ForEach 识别变化
       const friends: PlatformFriend[] = [];
       for (let i = 0; i < account.friends.length; i++) {
         friends.push(account.friends[i]);
@@ -105,6 +261,8 @@ export struct PlatformPanel {
       this.accountGameCount = '';
       this.accountFriends = [];
     }
+
+    this.viewTokens = [token];
   }
 
   private onBind(): void {
@@ -112,7 +270,7 @@ export struct PlatformPanel {
     if (id.length === 0) {
       return;
     }
-    const key = this.currentPlatform().id;
+    const key = platformList[this.platformIndex].id;
     if (this.newlyBoundIds.indexOf(key) < 0) {
       const ids: string[] = [];
       const names: string[] = [];
@@ -125,33 +283,32 @@ export struct PlatformPanel {
       this.newlyBoundIds = ids;
       this.newlyBoundNames = names;
     }
-    // 绑定后刷新为已绑定卡片
-    this.syncPlatformView(this.platformIndex);
+    this.applyPlatform(this.platformIndex);
   }
 
   private onSelectPlatform(index: number): void {
     if (index === this.platformIndex) {
       return;
     }
-    this.syncPlatformView(index);
+    this.applyPlatform(index);
   }
 
   @Builder
-  PlatformNavBuilder(platform: PlatformItem) {
+  PlatformNavBuilder() {
     Row() {
       ForEach(platformList, (item: PlatformItem, index: number) => {
         Column() {
           Text(item.name)
             .fontSize(11)
             .fontWeight(this.platformIndex === index ? FontWeight.Medium : FontWeight.Normal)
-            .fontColor(this.platformIndex === index ? platform.textOnBg : platform.textMuted)
+            .fontColor(this.platformIndex === index ? this.textOnBg : this.textMuted)
             .letterSpacing(0.2)
 
           Row()
             .width(this.platformIndex === index ? 12 : 0)
             .height(2)
             .borderRadius(1)
-            .backgroundColor(platform.accent)
+            .backgroundColor(this.accent)
             .margin({ top: 3 })
         }
         .layoutWeight(1)
@@ -166,23 +323,22 @@ export struct PlatformPanel {
   }
 
   @Builder
-  UnboundBuilder(platform: PlatformItem) {
+  UnboundBodyBuilder() {
     Column({ space: 8 }) {
-      Text(`绑定 ${platform.name.toUpperCase()} 账号`)
+      Text(`绑定 ${this.platformName.toUpperCase()} 账号`)
         .fontSize(12)
         .fontWeight(FontWeight.Medium)
-        .fontColor(platform.textOnBg)
+        .fontColor(this.textOnBg)
         .width('100%')
         .textAlign(TextAlign.Center)
 
       Row({ space: 8 }) {
-        TextInput({ placeholder: this.bindPlaceholder, text: this.inputId })
-          .key(`platform_bind_input_${this.platformId}`)
+        TextInput({ placeholder: this.inputHint, text: this.inputId })
           .height(32)
           .fontSize(12)
-          .fontColor(platform.textOnBg)
-          .placeholderColor(platform.textMuted)
-          .backgroundColor(platform.surface)
+          .fontColor(this.textOnBg)
+          .placeholderColor(this.textMuted)
+          .backgroundColor(this.surface)
           .borderRadius(8)
           .padding({ left: 10, right: 10 })
           .layoutWeight(1)
@@ -193,165 +349,50 @@ export struct PlatformPanel {
         Text('绑定')
           .fontSize(12)
           .fontWeight(FontWeight.Medium)
-          .fontColor(this.inputId.trim().length > 0 ? '#12141A' : platform.textMuted)
+          .fontColor(this.inputId.trim().length > 0 ? '#12141A' : this.textMuted)
           .textAlign(TextAlign.Center)
           .width(64)
           .height(32)
           .borderRadius(16)
-          .backgroundColor(this.inputId.trim().length > 0 ? platform.accent : platform.surface)
+          .backgroundColor(this.inputId.trim().length > 0 ? this.accent : this.surface)
           .onClick(() => this.onBind())
       }
       .width('100%')
     }
     .width('100%')
-    .layoutWeight(1)
+    .height('100%')
     .padding({ left: 14, right: 14, top: 10, bottom: 12 })
     .justifyContent(FlexAlign.Center)
   }
 
-  @Builder
-  BoundStatCellBuilder(value: string, label: string, platform: PlatformItem) {
-    Column({ space: 1 }) {
-      Text(value)
-        .fontSize(12)
-        .fontWeight(FontWeight.Medium)
-        .fontColor(platform.textOnBg)
-      Text(label)
-        .fontSize(8)
-        .fontColor(platform.textMuted)
-    }
-    .alignItems(HorizontalAlign.Start)
-  }
-
-  @Builder
-  FriendAvatarBuilder(friend: PlatformFriend) {
-    Column() {
-      Text(friend.avatarChar)
-        .fontSize(11)
-        .fontWeight(FontWeight.Medium)
-        .fontColor(Color.White)
-    }
-    .width(28)
-    .height(28)
-    .borderRadius(6)
-    .justifyContent(FlexAlign.Center)
-    .backgroundColor(friend.avatarColor)
-  }
-
-  /** 右侧跳转箭头占位，后续接页面路由 */
-  @Builder
-  ArrowButtonBuilder(platform: PlatformItem) {
-    Text('›')
-      .fontSize(18)
-      .fontColor(platform.textMuted)
-      .width(24)
-      .height(28)
-      .textAlign(TextAlign.Center)
-  }
-
-  @Builder
-  BoundBuilder(platform: PlatformItem) {
-    Column() {
-      // 第一行：个人信息（头像 + 昵称 + 等级）
-      Row() {
-        Column() {
-          Text(this.accountAvatarChar)
-            .fontSize(14)
-            .fontWeight(FontWeight.Medium)
-            .fontColor(Color.White)
-        }
-        .width(32)
-        .height(32)
-        .borderRadius(7)
-        .justifyContent(FlexAlign.Center)
-        .backgroundColor(platform.surface)
-
-        Text(this.accountNickname)
-          .fontSize(13)
-          .fontWeight(FontWeight.Medium)
-          .fontColor(platform.textOnBg)
-          .maxLines(1)
-          .textOverflow({ overflow: TextOverflow.Ellipsis })
-          .margin({ left: 8 })
-
-        if (this.accountLevel.length > 0) {
-          Text(this.accountLevel)
-            .fontSize(10)
-            .fontColor(platform.accent)
-            .margin({ left: 8 })
-        }
-
-        Blank()
-      }
-      .width('100%')
-      .alignItems(VerticalAlign.Center)
-
-      Column() {
-        Row() {
-          Row({ space: 19 }) {
-            this.BoundStatCellBuilder(this.accountValue, '账号价值', platform)
-            this.BoundStatCellBuilder(this.accountPlayTime, '游戏时长', platform)
-            this.BoundStatCellBuilder(this.accountGameCount, '游戏数量', platform)
-          }
-          .layoutWeight(1)
-          .justifyContent(FlexAlign.Start)
-          .alignItems(VerticalAlign.Top)
-
-          this.ArrowButtonBuilder(platform)
-        }
-        .width('100%')
-        .margin({ top: 8 })
-        .padding({ top: 6, bottom: 6 })
-        .alignItems(VerticalAlign.Center)
-
-        if (this.accountFriends.length > 0) {
-          Row() {
-            Scroll() {
-              Row({ space: 6 }) {
-                ForEach(this.accountFriends, (friend: PlatformFriend) => {
-                  this.FriendAvatarBuilder(friend)
-                }, (friend: PlatformFriend) => `${this.platformId}_${friend.id}`)
-              }
-              .justifyContent(FlexAlign.Start)
-              .alignItems(VerticalAlign.Center)
-            }
-            .scrollable(ScrollDirection.Horizontal)
-            .scrollBar(BarState.Off)
-            .align(Alignment.Start)
-            .layoutWeight(1)
-
-            this.ArrowButtonBuilder(platform)
-          }
-          .width('100%')
-          .margin({ top: 8 })
-          .alignItems(VerticalAlign.Center)
-        }
-      }
-      .width('100%')
-      .alignItems(HorizontalAlign.Start)
-    }
-    .width('100%')
-    .layoutWeight(1)
-    .padding({ left: 12, right: 12, top: 6, bottom: 10 })
-    .alignItems(HorizontalAlign.Start)
-    .justifyContent(FlexAlign.Start)
-  }
-
   build() {
     Column() {
-      this.PlatformNavBuilder(this.currentPlatform())
+      this.PlatformNavBuilder()
 
-      // key 强制内容区随平台 / 绑定态重建，杜绝同构子树复用
-      Column() {
-        if (this.isCurrentBound) {
-          this.BoundBuilder(this.currentPlatform())
-        } else {
-          this.UnboundBuilder(this.currentPlatform())
+      // 单元素 ForEach：token 变则销毁旧内容、创建新内容（含同为 bound 的 steam/ps）
+      ForEach(this.viewTokens, (_token: string) => {
+        Column() {
+          if (this.isCurrentBound) {
+            PlatformBoundBody({
+              accent: this.accent,
+              textOnBg: this.textOnBg,
+              textMuted: this.textMuted,
+              surface: this.surface,
+              nickname: this.accountNickname,
+              avatarChar: this.accountAvatarChar,
+              level: this.accountLevel,
+              accountValue: this.accountValue,
+              playTime: this.accountPlayTime,
+              gameCount: this.accountGameCount,
+              friends: this.accountFriends,
+            })
+          } else {
+            this.UnboundBodyBuilder()
+          }
         }
-      }
-      .width('100%')
-      .layoutWeight(1)
-      .key(`platform_body_${this.platformId}_${this.isCurrentBound ? 'bound' : 'free'}`)
+        .width('100%')
+        .layoutWeight(1)
+      }, (token: string) => token)
     }
     .width('100%')
     .aspectRatio(2)
@@ -360,8 +401,8 @@ export struct PlatformPanel {
     .linearGradient({
       angle: 165,
       colors: [
-        [this.currentPlatform().bgTop, 0],
-        [this.currentPlatform().bgBottom, 1],
+        [this.bgTop, 0],
+        [this.bgBottom, 1],
       ],
     })
   }
