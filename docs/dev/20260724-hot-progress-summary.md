@@ -16,6 +16,7 @@
 | 第一条新闻「新闻1」配图与头像 | 已完成 | [20260724-hot-news1-images.md](./20260724-hot-news1-images.md) |
 | 第二条新闻「新闻2」配图/头像/游戏卡/评论 | 已完成 | [20260724-hot-news2-images.md](./20260724-hot-news2-images.md) |
 | 热榜总条目 1–10 + 热榜1 详情 | 已完成 | [20260725-hot-rank-list-and-rank1.md](./20260725-hot-rank-list-and-rank1.md) |
+| 第三条新闻「新闻3」HD2时报 | 已完成 | [20260725-hot-news3-hd2.md](./20260725-hot-news3-hd2.md) |
 
 ## 架构边界（当前）
 
@@ -41,6 +42,7 @@
 | `hot_news1_avatar.png` | 作者「塔可松」头像 |
 | `hot_news2_img1~5` / `avatar` / `game` | 第二条新闻展示图 + 作者头像 + 剑星封面 |
 | `hot_rank1_img1~5` / `avatar` | 热榜第1 配图 + 作者头像 |
+| `hot_news3_img1~4` / `avatar` / `thumb` | 第三条 HD2时报 配图 + 作者头像 + 列表缩略图 |
 
 ## 验证总览
 

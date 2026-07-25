@@ -222,16 +222,17 @@ export const hotNewsList: HotNewsItem[] = [
     channelIds: ['stellar'],
   },
   {
-    id: 'news-shadow-blade',
-    title: '版号已至！《影之刃零》WeGame商店开启预约！',
-    timeLabel: '3小时前',
-    tag: 'Steam',
-    commentCount: 336,
+    id: 'news-hd2-report',
+    title: '【HD2时报】鱿鱼发动100级入侵！',
+    timeLabel: '昨天23:21',
+    tag: '绝地潜兵2',
+    commentCount: 56,
     thumbType: 'image',
-    thumbColors: ['#3A2A1A', '#1A1008'],
-    thumbLabel: '影之刃零',
+    thumbColors: ['#4A1A1A', '#1A0808'],
+    thumbLabel: 'HD2',
+    // 列表缩略图：新闻3-列表缩略图.png
+    coverImg: $r('app.media.hot_news3_thumb'),
     showInAll: true,
-    channelIds: ['steam'],
   },
   {
     id: 'news-gta-titan',
@@ -765,6 +766,234 @@ const detailStellarMod: HotNewsDetailData = {
   ],
 };
 
+/** 新闻3 作者「绝地潜兵宣传部」 */
+const authorHd2Propaganda: HotAuthor = {
+  name: '绝地潜兵宣传部',
+  level: 'Lv.17',
+  levelColor: '#E53935',
+  timeLocation: '昨天23:21·辽宁',
+  verified: true,
+  avatarColors: ['#3A4A5A', '#1A2430'],
+  avatarText: '潜',
+  avatarImg: $r('app.media.hot_news3_avatar'),
+};
+
+/** 新闻3：【HD2时报】鱿鱼发动100级入侵（对照 新闻3 正文及评论截图） */
+const detailHd2Report: HotNewsDetailData = {
+  id: 'news-hd2-report',
+  title: '【HD2时报】鱿鱼发动100级入侵！',
+  author: authorHd2Propaganda,
+  platforms: ['绝地潜兵2'],
+  likeCount: 210,
+  starCount: 48,
+  shareCount: 32,
+  commentCount: 56,
+  blocks: [
+    {
+      type: 'heading',
+      text: '新战略机遇已发布',
+    },
+    {
+      type: 'paragraph',
+      text: '好消息，我们截获了情报并来到了卡戎主星。',
+    },
+    {
+      type: 'paragraph',
+      text: '坏消息，没时间为情报哀悼了，接下来登场的是情报碎片。',
+    },
+    {
+      type: 'paragraph',
+      text: '现在，全体潜兵需要在卡戎主星上击杀1亿只机器人以合成完整的情报🚀',
+    },
+    {
+      type: 'image',
+      imageLabel: '全新战略机遇',
+      imageIndex: '1/4',
+      imageColors: ['#1A1A1A', '#0A0A0A'],
+      imageSrc: $r('app.media.hot_news3_img1'),
+    },
+    {
+      type: 'paragraph',
+      text: '而现在，距离战略机遇失效仅剩41h，完成度仍不足7%。',
+    },
+    {
+      type: 'image',
+      imageLabel: '战略机遇进度',
+      imageIndex: '2/4',
+      imageColors: ['#1A0A1A', '#0A0510'],
+      imageSrc: $r('app.media.hot_news3_img2'),
+    },
+    {
+      type: 'heading',
+      text: '科埃佩萨IV保卫战大获全胜',
+    },
+    {
+      type: 'paragraph',
+      text: '敌人先前出动的入侵等级30的部队已被击溃，科埃佩萨IV已是超级地球的囊中之物。',
+    },
+    {
+      type: 'image',
+      imageLabel: '科埃佩萨IV 防御战',
+      imageIndex: '3/4',
+      imageColors: ['#2A2A3A', '#101018'],
+      imageSrc: $r('app.media.hot_news3_img3'),
+    },
+    {
+      type: 'heading',
+      text: '鱿鱼发动100级入侵！',
+    },
+    {
+      type: 'paragraph',
+      text: '与此同时，一个无人在意的角落里，遭到光能者100级入侵的角宿二湾轻轻的碎了。',
+    },
+    {
+      type: 'paragraph',
+      text: '若潜兵们不及时制止，光能者的寂域将很快笼罩这颗星球。',
+    },
+    {
+      type: 'image',
+      imageLabel: '角宿二湾 解放战役',
+      imageIndex: '4/4',
+      imageColors: ['#4A2A3A', '#201018'],
+      imageSrc: $r('app.media.hot_news3_img4'),
+    },
+  ],
+  // 评论按 新闻3-正文及评论截图 热门区原文，不杜撰
+  comments: [
+    {
+      id: 'h1',
+      author: {
+        name: '特尼昂的',
+        level: 'Lv.16',
+        levelColor: '#E53935',
+        timeLocation: '昨天23:42·广东',
+        avatarColors: ['#3A3A4A', '#1A1A22'],
+        avatarText: '特',
+      },
+      content: '收不到，已回归平民生活🤪😁',
+      likeCount: 39,
+      replies: [
+        {
+          userName: '特尼昂的',
+          content: '现在只喜欢带坦克停机坪铲飞鹅鹅可惜小车铲不飞了现在',
+          timeLocation: '昨天23:43·广东',
+        },
+        {
+          userName: '绝地潜兵宣传部',
+          content: '退伍申请已驳回🚀',
+          timeLocation: '9小时前·辽宁',
+        },
+      ],
+    },
+    {
+      id: 'h2',
+      author: {
+        name: 'ASh14C',
+        level: 'Lv.18',
+        levelColor: '#E53935',
+        timeLocation: '昨天23:52·广东',
+        avatarColors: ['#1A1A1A', '#0A0A0A'],
+        avatarText: 'A',
+      },
+      content: '南线无战事😎',
+      likeCount: 19,
+      replies: [
+        {
+          userName: '绝地潜兵宣传部',
+          content: '好！既然如此 最高指挥部已决定将你送往角宿二湾度假了🫡',
+          timeLocation: '9小时前·辽宁',
+        },
+      ],
+    },
+    {
+      id: 'h3',
+      author: {
+        name: '商卿参宿',
+        level: 'Lv.17',
+        levelColor: '#E53935',
+        timeLocation: '昨天23:32·湖北',
+        avatarColors: ['#E8D0C0', '#8A6A5A'],
+        avatarText: '商',
+      },
+      content: '南线占领者谁爱玩谁玩去吧，再见了，角小弟🐣',
+      likeCount: 28,
+      replies: [
+        {
+          userName: '绝地潜兵宣传部',
+          content: '😭',
+          timeLocation: '昨天23:32·辽宁',
+        },
+        {
+          userName: 'WAIT_A_SEC_',
+          content: '我宁愿去奥密克戎和生化斯坦也不想去打鱿鱼😭',
+          timeLocation: '昨天23:33·广东',
+        },
+      ],
+    },
+    {
+      id: 'h4',
+      author: {
+        name: 'RinYuki',
+        level: 'Lv.9',
+        levelColor: '#6BB8FF',
+        timeLocation: '3小时前·浙江',
+        avatarColors: ['#C0B0C0', '#6A5A6A'],
+        avatarText: 'R',
+      },
+      content:
+        '大家都不爱打南线占领者吗🤪？虽然怎么看都是必输的，但是打腻了跟机器人的超级地球内战，再打打外星乡巴佬正规军换换口味还是挺好玩的，穿上电甲电榴弹，有挑战还不至于太难',
+      likeCount: 3,
+      replies: [
+        {
+          userName: '绝地潜兵宣传部',
+          content:
+            '这个就是箭头设计的问题了😭东线西线各有各的爽点，唯独南线这个集大成者几乎没什么正反馈😭打倒是也能打，就是相当难受😭',
+          timeLocation: '3小时前·辽宁',
+        },
+        {
+          userName: '玩家30184470',
+          content:
+            '如果每把都是电榴弹机炮那确实挺无聊的，而且异界风暴导致沙尘暴常驻，炮台全废了',
+          timeLocation: '1小时前·福建',
+        },
+      ],
+    },
+    {
+      id: 'h5',
+      author: {
+        name: '白银山神秘帽子男',
+        level: 'Lv.12',
+        levelColor: '#9B6BFF',
+        timeLocation: '昨天23:59·新加坡',
+        avatarColors: ['#E0C0A0', '#8A6A40'],
+        avatarText: '白',
+      },
+      content: '100级的南线入侵，那还是直接打到容都去吧',
+      likeCount: 8,
+      replies: [
+        {
+          userName: '绝地潜兵宣传部',
+          content: '只要不动超级on sea就行😊',
+          timeLocation: '9小时前·辽宁',
+        },
+      ],
+    },
+    {
+      id: 'h6',
+      author: {
+        name: '漫步沙场',
+        level: 'Lv.28',
+        levelColor: '#1A1A1A',
+        timeLocation: '5小时前·上海',
+        avatarColors: ['#2A5A6A', '#103040'],
+        avatarText: '漫',
+      },
+      content: '感觉机器人的地盘连一半都不到了，虫子地',
+      likeCount: 5,
+    },
+  ],
+};
+
 /** 热榜1 作者「漂亮的秀色」 */
 const authorPrettyShow: HotAuthor = {
   name: '漂亮的秀色',
@@ -1169,6 +1398,7 @@ function buildPlaceholderDetail(item: HotNewsItem): HotNewsDetailData {
 const detailMap: Record<string, HotNewsDetailData> = {
   'news-steam-sale': detailSteamSale,
   'news-stellar-mod': detailStellarMod,
+  'news-hd2-report': detailHd2Report,
   'news-gpu-price': detailGpuPrice,
 };
 
