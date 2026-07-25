@@ -815,3 +815,57 @@ export class GameDataSource implements IDataSource {
     this.notifyDataReload();
   }
 }
+
+/** 愿望单与本地持久化状态管理 */
+export class WishlistManager {
+  private static readonly KEY_WISHLIST = 'user_wishlist_ids';
+
+  static getWishlist(): string[] {
+    const list: string[] | undefined = AppStorage.get(WishlistManager.KEY_WISHLIST);
+    return list || ['palworld', 'cyberpunk'];
+  }
+
+  static isWishlisted(gameId: string): boolean {
+    const list = WishlistManager.getWishlist();
+    return list.includes(gameId);
+  }
+
+  static toggleWishlist(gameId: string): boolean {
+    const list = [...WishlistManager.getWishlist()];
+    const index = list.indexOf(gameId);
+    let added = false;
+    if (index >= 0) {
+      list.splice(index, 1);
+      added = false;
+    } else {
+      list.push(gameId);
+      added = true;
+    }
+    AppStorage.setOrCreate(WishlistManager.KEY_WISHLIST, list);
+    return added;
+  }
+}
+
+/** 模拟 Steam/Epic 账号绑定的个人数据 */
+export interface SteamAccountInfo {
+  username: string;
+  steamId: string;
+  avatar: ResourceStr;
+  totalGames: number;
+  totalHours: number;
+  recentHours: number;
+  unlockedAchievements: number;
+  totalAchievements: number;
+}
+
+export const mockSteamAccount: SteamAccountInfo = {
+  username: '黑盒探险家',
+  steamId: '76561198829104',
+  avatar: $r('app.media.Palworld'),
+  totalGames: 148,
+  totalHours: 1280.5,
+  recentHours: 32.4,
+  unlockedAchievements: 642,
+  totalAchievements: 1120
+};
+

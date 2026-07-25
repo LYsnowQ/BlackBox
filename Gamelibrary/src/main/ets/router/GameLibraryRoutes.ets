@@ -9,4 +9,7 @@
 export class GameLibraryRoutes {
   /** 游戏详情（params: { id: string }） */
   static readonly GAME_DETAIL: string = 'pages/GameDetail/GameDetail';
+  /** 游戏库搜索页面 */
+  static readonly GAME_SEARCH: string = 'pages/GameLibrary/GameSearchPage';
 }
+

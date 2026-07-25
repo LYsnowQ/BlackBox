@@ -1,5 +1,7 @@
 import { RecommendTab } from './RecommendTab';
 import { RankingTab } from './RankingTab';
+import { GameLibraryRoutes } from '../../router/GameLibraryRoutes';
+import router from '@ohos.router';
 
 interface BottomNavItem {
   label: string;
@@ -47,6 +49,9 @@ export struct GameLibrary {
         Text('🔍')
           .fontSize(18)
           .margin({ right: 18 })
+          .onClick(() => {
+            router.pushUrl({ url: GameLibraryRoutes.GAME_SEARCH });
+          })
         Text('✉️')
           .fontSize(18)
       }

@@ -1,4 +1,4 @@
-import { GameItem, HeaderToolItem, getGameById } from '../../model/GameLibrary/GameLibraryModel';
+import { GameItem, HeaderToolItem, getGameById, WishlistManager } from '../../model/GameLibrary/GameLibraryModel';
 import {
   getGameCommunityPosts,
   getGameDatabaseItems,
@@ -44,6 +44,9 @@ export struct GameDetail {
       this.game = getGameById(id);
     } catch (err) {
       this.game = getGameById('palworld');
+    }
+    if (this.game) {
+      this.isWishlisted = WishlistManager.isWishlisted(this.game.id);
     }
   }
 
