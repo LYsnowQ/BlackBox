@@ -10,9 +10,14 @@
 
 ## 修复（PlatformPanel）
 
-- 切换 / 绑定时 `syncPlatformView`：把平台 id、绑定态、账号字段、好友列表写入 **@State**
-- 内容区 `.key(platformId + bound|free)` 强制重建
-- 绑定输入框 `.key` + `@State bindPlaceholder`
+### 第一轮（不足）
+- 仅 `@State` + `.key`：同为 bound 的 steam↔ps 仍可能复用
+
+### 第二轮（当前）
+- 展示字段全部 `@State`，切换走 `applyPlatform`
+- 内容区 `ForEach([viewToken])`，token = `platformId_bound|free`，**销毁重建**
+- 已绑定区拆成独立组件 `PlatformBoundBody` + `@Prop`（不用易复用的 @Builder 入参对象）
+- 未绑定区读 `@State inputHint / platformName`，随 token 重建
 
 ## 全模块同类风险排查
 
