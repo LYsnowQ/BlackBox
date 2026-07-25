@@ -4,7 +4,7 @@
 
 对照设计：`design/Home/`，见 `design/README.md`。路由契约见 `docs/ROUTE_CONTRACT.md`。
 
-## 当前工程状态（2026-07-24）
+## 当前工程状态（2026-07-25）
 
 - 分支：`home`（已与 `origin/master` 合并，编译运行通过）
 - 模块化：`home` / `profile` / `gamelibrary` 已作为本地 HAR 被 entry 依赖
@@ -68,6 +68,7 @@ docs/Home.md / ROUTE_CONTRACT.md
 
 > 每完成一小部分功能，在此追加一条（新在上）。
 
+- 2026-07-25 · 截图补 8 篇真实帖 mock（rs5–rs12，仅推荐流；评论只文字） · `HomeModel` + media `scrape_greenhell/jiahao/muse/doubao/messi/cxmt/wzry/cf*` · 提取 JSON 在 `Home/mock_raw/extracted/` · 生成脚本 `gen_from_extracted.py`
 - 2026-07-24 · 小黑盒真实帖子 mock 扩充（4 帖正文+评论+配图） · `HomeModel` `PostCard` `PostDetailPage` + media `scrape_*` · 原始 JSON 在 `Home/mock_raw/posts/`
 - 2026-07-24 · 赞/藏/充/关注/评论本地持久化 · `HomeInteractStore` `PostDetailPage` `PostCard` `Home` · commit:5d3a60d
 - 2026-07-24 · 推荐圈子筛选真正过滤 + 扩充各圈子 mock · `HomeRecommend` `HomeModel` `PostCard` · commit:42d4b2e
@@ -87,8 +88,8 @@ docs/Home.md / ROUTE_CONTRACT.md
 - 搜索入口（顶栏 🔍）未做
 - 消息入口（顶栏 ✉️）未做；可评估复用 Profile Messages 路由
 - 评论输入为本地 mock，可继续完善交互（已持久化用户发出的评论）
-- 帖图：部分已用爬取配图 `scrape_*`；其余仍复用游戏库 media / 纯色；图标多用 emoji
-- 真实帖 mock 目前 4 篇（验证码限制批量抓取）；可继续手动过验证后补爬
+- 帖图：真实帖多用 `scrape_*`；其余仍复用游戏库 media / 纯色；图标多用 emoji
+- 真实帖 mock：旧爬取 4 篇（rs1–rs4）+ 截图补 8 篇（rs5–rs12）；评论区为截图可见楼层精简，非全量 497/374 等
 - Hot 业务仍主要在 `entry/.../pages/Hot/`，`Hot/` HAR 尚未承接业务
 - 充电无真实支付；仅本地计数 + toast（状态已持久化）
 
