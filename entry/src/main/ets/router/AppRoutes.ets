@@ -31,4 +31,6 @@ export class AppRoutes {
   static readonly PROFILE_MESSAGES: string = 'pages/Profile/Messages';
   static readonly PROFILE_SCAN: string = 'pages/Profile/Scan';
   static readonly PROFILE_EDIT: string = 'pages/Profile/EditProfile';
+  /** 消息聊天 params: { id: string } */
+  static readonly PROFILE_CHAT: string = 'pages/Profile/Chat';
 }

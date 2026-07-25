@@ -102,7 +102,7 @@ BlackBox/
 | 模块目录 | ohpm 包名 | 状态 | 职责 |
 |----------|-----------|------|------|
 | `entry` | — | 运行中 | 主框架、路由注册、Ability |
-| `Profile` | `profile` | **已接入** | 个人中心 Tab、设置/消息/扫一扫/编辑资料 |
+| `Profile` | `profile` | **已接入** | 个人中心 Tab、设置/消息/聊天/扫一扫/编辑资料 |
 | `Home` | `home` | 脚手架 | 首页 Tab 内容（待迁入） |
 | `Hot` | `hot` | 脚手架 | 热点 Tab 内容（待迁入） |
 | `Gamelibrary` | `gamelibrary` | 脚手架 | 游戏库推荐/榜单、详情跳转契约 |
@@ -112,7 +112,7 @@ BlackBox/
 | 导出 | 用途 |
 |------|------|
 | `Me` | 底部 Tab「我」内容，由 `Index` 挂载 |
-| `SettingsPage` / `MessagesPage` / `ScanPage` / `EditProfilePage` | 子页业务，由 entry 壳挂载 |
+| `SettingsPage` / `MessagesPage` / `ChatPage` / `ScanPage` / `EditProfilePage` | 子页业务，由 entry 壳挂载 |
 | `ProfileRoutes` | 模块路由契约 |
 
 entry 壳示例（`entry/src/main/ets/pages/Profile/Settings.ets`）：
@@ -305,6 +305,7 @@ Profile/src/main/ets/
 │   ├── DataTab / DynamicTab / PlatformPanel
 │   ├── SettingsPage.ets    # 子页内容（非 @Entry）
 │   ├── MessagesPage.ets
+│   ├── ChatPage.ets
 │   ├── ScanPage.ets
 │   └── EditProfilePage.ets
 └── router/ProfileRoutes.ets
@@ -312,7 +313,7 @@ Profile/src/main/ets/
 
 - 开发：直接改 `Profile/` 下文件。  
 - 联调：运行 entry，底部切到「我」。  
-- 子页：设置 / 消息 / 扫一扫 / 编辑资料，路径见 [路由契约](#7-路由契约)。
+- 子页：设置 / 消息 / 聊天 / 扫一扫 / 编辑资料，路径见 [路由契约](#7-路由契约)。
 
 #### Home / Hot
 
@@ -422,6 +423,7 @@ hvigorw -p module=entry@default -p product=default assembleHap
 | `AppRoutes.GAME_DETAIL` | `pages/GameDetail/GameDetail` |
 | `ProfileRoutes.SETTINGS` | `pages/Profile/Settings` |
 | `ProfileRoutes.MESSAGES` | `pages/Profile/Messages` |
+| `ProfileRoutes.CHAT` | `pages/Profile/Chat` |
 | `ProfileRoutes.SCAN` | `pages/Profile/Scan` |
 | `ProfileRoutes.EDIT_PROFILE` | `pages/Profile/EditProfile` |
 
