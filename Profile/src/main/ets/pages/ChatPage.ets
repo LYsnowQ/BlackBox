@@ -17,6 +17,7 @@ export struct ChatPage {
   @State messages: ChatMessage[] = [];
   @State draft: string = '';
   private listScroller: Scroller = new Scroller();
+  private inputController: TextInputController = new TextInputController();
 
   aboutToAppear(): void {
     const params = router.getParams() as Record<string, Object>;
@@ -27,6 +28,11 @@ export struct ChatPage {
 
   private isChatSession(): boolean {
     return this.session !== undefined && this.session.type === 'chat';
+  }
+
+  /** 点击消息区 / 空白处收起输入法 */
+  private dismissKeyboard(): void {
+    this.inputController.stopEditing();
   }
 
   private sendDraft(): void {
@@ -47,6 +53,7 @@ export struct ChatPage {
     list.push(next);
     this.messages = list;
     this.draft = '';
+    this.dismissKeyboard();
     // 滚到最新一条
     if (list.length > 0) {
       this.listScroller.scrollToIndex(list.length - 1);
@@ -165,7 +172,7 @@ export struct ChatPage {
   @Builder
   ComposerBuilder() {
     Row() {
-      TextInput({ text: this.draft, placeholder: '说点什么…' })
+      TextInput({ text: this.draft, placeholder: '说点什么…', controller: this.inputController })
         .layoutWeight(1)
         .height(40)
         .fontSize(14)
@@ -208,6 +215,7 @@ export struct ChatPage {
     .layoutWeight(1)
     .justifyContent(FlexAlign.Center)
     .alignItems(HorizontalAlign.Center)
+    .onClick(() => this.dismissKeyboard())
   }
 
   build() {
@@ -241,6 +249,9 @@ export struct ChatPage {
         .layoutWeight(1)
         .scrollBar(BarState.Off)
         .edgeEffect(EdgeEffect.Spring)
+        // 点击消息区空白 / 气泡收起输入法；滚动时同样收起
+        .onClick(() => this.dismissKeyboard())
+        .onScrollStart(() => this.dismissKeyboard())
       }
 
       if (this.isChatSession()) {
