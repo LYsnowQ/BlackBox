@@ -69,6 +69,29 @@ export struct PostCard {
     return '#888888';
   }
 
+  /** 资源宽/高；列表单图用，竖图给更矮的宽高比 */
+  private mediaAspectRatio(key: string): number {
+    if (key === 'scrape_messi1' || key === 'scrape_jiahao1' || key === 'scrape_wzry1' ||
+      key === 'scrape_gf1') {
+      return 0.46;
+    }
+    if (key === 'scrape_cf4') {
+      return 0.51;
+    }
+    if (key === 'scrape_doubao1' || key === 'scrape_cf2' || key === 'scrape_cf3') {
+      return 0.77;
+    }
+    if (key === 'scrape_cf1' || key === 'scrape_honor1') {
+      return 0.95;
+    }
+    if (key === 'scrape_cxmt1' || key === 'scrape_greenhell1' || key === 'scrape_muse1' ||
+      key === 'scrape_tom1' || key === 'scrape_fields1' || key === 'scrape_fields2' ||
+      key === 'scrape_honor2') {
+      return 1.78;
+    }
+    return 1.33;
+  }
+
   @Builder
   AvatarBuilder(size: number, color: string, text: string) {
     Stack() {
@@ -92,127 +115,127 @@ export struct PostCard {
       Image($r('app.media.chain'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'mita') {
       Image($r('app.media.mita'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'nba') {
       Image($r('app.media.nba'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'fighter') {
       Image($r('app.media.fighter'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'Palworld') {
       Image($r('app.media.Palworld'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'party') {
       Image($r('app.media.party'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'monster') {
       Image($r('app.media.monster'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'OverCooked') {
       Image($r('app.media.OverCooked'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'scrape_fields1') {
       Image($r('app.media.scrape_fields1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'scrape_fields2') {
       Image($r('app.media.scrape_fields2'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'scrape_honor1') {
       Image($r('app.media.scrape_honor1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'scrape_honor2') {
       Image($r('app.media.scrape_honor2'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'scrape_tom1') {
       Image($r('app.media.scrape_tom1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'scrape_gf1') {
       Image($r('app.media.scrape_gf1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'scrape_greenhell1') {
       Image($r('app.media.scrape_greenhell1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'scrape_jiahao1') {
       Image($r('app.media.scrape_jiahao1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'scrape_muse1') {
       Image($r('app.media.scrape_muse1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'scrape_doubao1') {
       Image($r('app.media.scrape_doubao1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'scrape_messi1') {
       Image($r('app.media.scrape_messi1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'scrape_cxmt1') {
       Image($r('app.media.scrape_cxmt1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'scrape_wzry1') {
       Image($r('app.media.scrape_wzry1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'scrape_cf1') {
       Image($r('app.media.scrape_cf1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'scrape_cf2') {
       Image($r('app.media.scrape_cf2'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'scrape_cf3') {
       Image($r('app.media.scrape_cf3'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (img.mediaKey === 'scrape_cf4') {
       Image($r('app.media.scrape_cf4'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else {
       Column()
         .width('100%')
@@ -276,7 +299,23 @@ export struct PostCard {
   @Builder
   GridImagesBuilder() {
     if (this.post.images.length === 1) {
-      this.ImageTileBuilder(this.post.images[0], '100%', 180, this.post.imageCount > 1)
+      Stack({ alignContent: Alignment.BottomEnd }) {
+        this.MediaImageBuilder(this.post.images[0])
+        if (this.post.imageCount > 1) {
+          Text(`共${this.post.imageCount}张`)
+            .fontSize(10)
+            .fontColor(Color.White)
+            .backgroundColor('rgba(0,0,0,0.55)')
+            .padding({ left: 6, right: 6, top: 2, bottom: 2 })
+            .borderRadius(4)
+            .margin({ right: 6, bottom: 6 })
+        }
+      }
+      .width('100%')
+      .aspectRatio(this.mediaAspectRatio(this.post.images[0].mediaKey))
+      .clip(true)
+      .borderRadius(8)
+      .backgroundColor(this.post.images[0].placeholderColor)
     } else if (this.post.images.length === 2) {
       Row({ space: 6 }) {
         Stack({ alignContent: Alignment.BottomEnd }) {

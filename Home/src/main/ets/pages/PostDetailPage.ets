@@ -4,7 +4,10 @@ import {
   CommentReply,
   PostComment,
   PostDetail as PostDetailModel,
+  PostImage,
+  followPosts,
   getPostDetailById,
+  recommendPosts,
 } from '../model/HomeModel';
 
 /**
@@ -30,6 +33,60 @@ export struct PostDetailPage {
   private listScroller: Scroller = new Scroller();
   private jumpToComment: boolean = false;
   private postId: string = '';
+
+  /** 资源宽/高；未知时用较中性的 4:3 */
+  private mediaAspectRatio(key: string): number {
+    if (key === 'scrape_messi1' || key === 'scrape_jiahao1' || key === 'scrape_wzry1' ||
+      key === 'scrape_gf1') {
+      return 0.46;
+    }
+    if (key === 'scrape_cf4') {
+      return 0.51;
+    }
+    if (key === 'scrape_doubao1' || key === 'scrape_cf2' || key === 'scrape_cf3') {
+      return 0.77;
+    }
+    if (key === 'scrape_cf1' || key === 'scrape_honor1') {
+      return 0.95;
+    }
+    if (key === 'scrape_cxmt1' || key === 'scrape_greenhell1' || key === 'scrape_muse1' ||
+      key === 'scrape_tom1' || key === 'scrape_fields1' || key === 'scrape_fields2' ||
+      key === 'scrape_honor2') {
+      return 1.78;
+    }
+    return 1.33;
+  }
+
+  private feedImages(id: string): PostImage[] {
+    for (let i = 0; i < recommendPosts.length; i++) {
+      if (recommendPosts[i].id === id) {
+        return recommendPosts[i].images;
+      }
+    }
+    for (let i = 0; i < followPosts.length; i++) {
+      if (followPosts[i].id === id) {
+        return followPosts[i].images;
+      }
+    }
+    return [];
+  }
+
+  private detailMediaKeys(d: PostDetailModel): string[] {
+    const imgs = this.feedImages(d.id);
+    const keys: string[] = [];
+    for (let i = 0; i < imgs.length; i++) {
+      if (imgs[i].mediaKey.length > 0) {
+        keys.push(imgs[i].mediaKey);
+      }
+    }
+    if (keys.length > 0) {
+      return keys;
+    }
+    if (d.heroMediaKey.length > 0) {
+      return [d.heroMediaKey];
+    }
+    return [];
+  }
 
   aboutToAppear(): void {
     const params = router.getParams() as Record<string, Object>;
@@ -260,127 +317,127 @@ export struct PostDetailPage {
       Image($r('app.media.chain'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'mita') {
       Image($r('app.media.mita'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'nba') {
       Image($r('app.media.nba'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'fighter') {
       Image($r('app.media.fighter'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'Palworld') {
       Image($r('app.media.Palworld'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'party') {
       Image($r('app.media.party'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'monster') {
       Image($r('app.media.monster'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'OverCooked') {
       Image($r('app.media.OverCooked'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'scrape_fields1') {
       Image($r('app.media.scrape_fields1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'scrape_fields2') {
       Image($r('app.media.scrape_fields2'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'scrape_honor1') {
       Image($r('app.media.scrape_honor1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'scrape_honor2') {
       Image($r('app.media.scrape_honor2'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'scrape_tom1') {
       Image($r('app.media.scrape_tom1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'scrape_gf1') {
       Image($r('app.media.scrape_gf1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'scrape_greenhell1') {
       Image($r('app.media.scrape_greenhell1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'scrape_jiahao1') {
       Image($r('app.media.scrape_jiahao1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'scrape_muse1') {
       Image($r('app.media.scrape_muse1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'scrape_doubao1') {
       Image($r('app.media.scrape_doubao1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'scrape_messi1') {
       Image($r('app.media.scrape_messi1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'scrape_cxmt1') {
       Image($r('app.media.scrape_cxmt1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'scrape_wzry1') {
       Image($r('app.media.scrape_wzry1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'scrape_cf1') {
       Image($r('app.media.scrape_cf1'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'scrape_cf2') {
       Image($r('app.media.scrape_cf2'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'scrape_cf3') {
       Image($r('app.media.scrape_cf3'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'scrape_cf4') {
       Image($r('app.media.scrape_cf4'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else {
       Column()
         .width('100%')
@@ -556,17 +613,23 @@ export struct PostDetailPage {
       }
       .width('100%')
 
-      Stack({ alignContent: Alignment.BottomEnd }) {
-        this.MediaByKey(d.heroMediaKey, d.heroColor)
-        Text('小黑盒')
-          .fontSize(11)
-          .fontColor('rgba(255,255,255,0.85)')
-          .margin({ right: 10, bottom: 10 })
+      Column({ space: 8 }) {
+        ForEach(this.detailMediaKeys(d), (key: string) => {
+          Stack({ alignContent: Alignment.BottomEnd }) {
+            this.MediaByKey(key, d.heroColor)
+            Text('小黑盒')
+              .fontSize(11)
+              .fontColor('rgba(255,255,255,0.85)')
+              .margin({ right: 10, bottom: 10 })
+          }
+          .width('100%')
+          .aspectRatio(this.mediaAspectRatio(key))
+          .borderRadius(10)
+          .clip(true)
+          .backgroundColor(d.heroColor.length > 0 ? d.heroColor : '#F3F4F6')
+        }, (key: string) => key)
       }
       .width('100%')
-      .height(200)
-      .borderRadius(10)
-      .clip(true)
       .margin({ top: 14 })
 
       if (d.caption !== '') {
