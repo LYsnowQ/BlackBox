@@ -397,6 +397,7 @@ export struct PostDetailPage {
 
     // 回复某条评论 → 挂到该楼层 replies
     if (this.replyToCommentId.length > 0) {
+      const parentId = this.replyToCommentId;
       const reply: CommentReply = {
         id: `local-r-${Date.now()}`,
         authorName: '我',
@@ -409,35 +410,27 @@ export struct PostDetailPage {
       const next: PostComment[] = [];
       for (let i = 0; i < this.comments.length; i++) {
         const c = this.comments[i];
-        if (c.id === this.replyToCommentId) {
+        if (c.id === parentId) {
           const replies: CommentReply[] = [reply];
           for (let j = 0; j < c.replies.length; j++) {
             replies.push(c.replies[j]);
           }
-          next.push({
-            id: c.id,
-            authorName: c.authorName,
-            authorAvatarColor: c.authorAvatarColor,
-            authorAvatarText: c.authorAvatarText,
-            levelLabel: c.levelLabel,
-            isAuthor: c.isAuthor,
-            isOfficial: c.isOfficial,
-            isPinned: c.isPinned,
-            timeText: c.timeText,
-            region: c.region,
-            content: c.content,
-            imageKey: c.imageKey,
-            imageColor: c.imageColor,
-            likeCount: c.likeCount,
-            replyTotal: c.replyTotal + 1,
-            replies: replies,
-          });
+          next.push(this.cloneComment(c, c.likeCount, replies, c.replyTotal + 1));
         } else {
           next.push(c);
         }
       }
       this.comments = next;
       this.commentCount = this.commentCount + 1;
+      // 展开该楼，避免只预览前 2 条时看不到新回复；并依赖 ForEach key 含 replies.length 强制重绘
+      if (this.expandedCommentIds.indexOf(parentId) < 0) {
+        const exp: string[] = [];
+        for (let i = 0; i < this.expandedCommentIds.length; i++) {
+          exp.push(this.expandedCommentIds[i]);
+        }
+        exp.push(parentId);
+        this.expandedCommentIds = exp;
+      }
       this.closeComposer();
       this.scrollToComments();
       this.persist();
@@ -1142,7 +1135,7 @@ export struct PostDetailPage {
       Column() {
         ForEach(this.comments, (c: PostComment) => {
           this.CommentItemBuilder(c)
-        }, (c: PostComment) => c.id)
+        }, (c: PostComment) => `${c.id}|r${c.replies.length}|t${c.replyTotal}`)
       }
       .width('100%')
       .padding({ left: 16, right: 16 })
