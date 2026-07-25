@@ -1,4 +1,6 @@
+import promptAction from '@ohos.promptAction';
 import { GameItem, HeaderToolItem, getGameById, WishlistManager } from '../../model/GameLibrary/GameLibraryModel';
+import { UserProfilePage } from '../GameLibrary/subpages/UserProfilePage';
 import {
   getGameCommunityPosts,
   getGameDatabaseItems,
@@ -31,6 +33,8 @@ export struct GameDetail {
   @State isWishlisted: boolean = false;
   @State isBuyModalOpen: boolean = false;
   @State selectedPost: CommunityPost | undefined = undefined;
+  @State showUserProfile: boolean = false;
+  @State targetUsername: string = '小鼠鱼';
   @State postDetailTab: number = 0; // 0: 正文, 1: 评论
   @State communityFilterIndex: number = 0; // 0: 综合, 1: 热点, 2: 开发者
   @State newCommentInput: string = '';
@@ -48,8 +52,8 @@ export struct GameDetail {
   aboutToAppear(): void {
     try {
       const params = this.getUIContext().getRouter().getParams() as Record<string, Object>;
-      const id = params ? (params['id'] as string) : '';
-      this.game = getGameById(id);
+      const id = params ? ((params['id'] as string) || (params['gameId'] as string)) : '';
+      this.game = getGameById(id) || getGameById('palworld');
     } catch (err) {
       this.game = getGameById('palworld');
     }
@@ -855,23 +859,29 @@ export struct GameDetail {
             .layoutWeight(1)
             .justifyContent(FlexAlign.Center)
           } else {
-            // 截图 3 Header: 帖子作者紧凑导航栏 [头像 xin.  +关注]
+            // 帖子作者紧凑导航栏 [头像 + 名字 + 关注]
             Row() {
-              Text(post.authorName.charAt(0))
-                .fontSize(12)
-                .fontWeight(FontWeight.Bold)
-                .fontColor(Color.White)
-                .width(28)
-                .height(28)
-                .borderRadius(14)
-                .backgroundColor(post.authorAvatarBg)
-                .textAlign(TextAlign.Center)
+              Row() {
+                Text(post.authorName.charAt(0))
+                  .fontSize(12)
+                  .fontWeight(FontWeight.Bold)
+                  .fontColor(Color.White)
+                  .width(28)
+                  .height(28)
+                  .borderRadius(14)
+                  .backgroundColor(post.authorAvatarBg)
+                  .textAlign(TextAlign.Center)
 
-              Text(post.authorName)
-                .fontSize(14)
-                .fontWeight(FontWeight.Bold)
-                .fontColor('#1A1A1A')
-                .margin({ left: 8 })
+                Text(post.authorName)
+                  .fontSize(14)
+                  .fontWeight(FontWeight.Bold)
+                  .fontColor('#1A1A1A')
+                  .margin({ left: 8 })
+              }
+              .onClick(() => {
+                this.targetUsername = post.authorName;
+                this.showUserProfile = true;
+              })
 
               Text(this.isFollowingAuthor ? '已关注' : '+ 关注')
                 .fontSize(11)
@@ -950,36 +960,42 @@ export struct GameDetail {
 
               // 作者栏 (头像 xin. + 关注 按钮)
               Row() {
-                Text(post.authorName.charAt(0))
-                  .fontSize(14)
-                  .fontWeight(FontWeight.Bold)
-                  .fontColor(Color.White)
-                  .width(36)
-                  .height(36)
-                  .borderRadius(18)
-                  .backgroundColor(post.authorAvatarBg)
-                  .textAlign(TextAlign.Center)
+                Row() {
+                  Text(post.authorName.charAt(0))
+                    .fontSize(14)
+                    .fontWeight(FontWeight.Bold)
+                    .fontColor(Color.White)
+                    .width(36)
+                    .height(36)
+                    .borderRadius(18)
+                    .backgroundColor(post.authorAvatarBg)
+                    .textAlign(TextAlign.Center)
 
-                Column() {
-                  Row() {
-                    Text(post.authorName)
-                      .fontSize(14)
-                      .fontWeight(FontWeight.Bold)
-                      .fontColor('#1A1A1A')
-                    if (post.authorLevel) {
-                      Text(post.authorLevel)
-                        .fontSize(9)
-                        .fontColor(Color.White)
-                        .backgroundColor('#E91E63')
-                        .padding({ left: 4, right: 4, top: 1, bottom: 1 })
-                        .borderRadius(3)
-                        .margin({ left: 6 })
+                  Column() {
+                    Row() {
+                      Text(post.authorName)
+                        .fontSize(14)
+                        .fontWeight(FontWeight.Bold)
+                        .fontColor('#1A1A1A')
+                      if (post.authorLevel) {
+                        Text(post.authorLevel)
+                          .fontSize(9)
+                          .fontColor(Color.White)
+                          .backgroundColor('#E91E63')
+                          .padding({ left: 4, right: 4, top: 1, bottom: 1 })
+                          .borderRadius(3)
+                          .margin({ left: 6 })
+                      }
                     }
                   }
+                  .alignItems(HorizontalAlign.Start)
+                  .margin({ left: 10 })
                 }
-                .alignItems(HorizontalAlign.Start)
-                .margin({ left: 10 })
                 .layoutWeight(1)
+                .onClick(() => {
+                  this.targetUsername = post.authorName;
+                  this.showUserProfile = true;
+                })
 
                 Text(this.isFollowingAuthor ? '已关注' : '+ 关注')
                   .fontSize(12)
@@ -2172,6 +2188,8 @@ export struct GameDetail {
         .justifyContent(FlexAlign.Center)
         .onClick(() => {
           this.isBuyModalOpen = false;
+          const cdk = 'HBKEY-' + Math.floor(1000 + Math.random() * 9000) + '-CDK-' + Math.floor(1000 + Math.random() * 9000);
+          promptAction.showToast({ message: `支付成功！激活码【${cdk}】已发放` });
         })
       }
       .width('100%')
@@ -3021,7 +3039,12 @@ export struct GameDetail {
               .alignItems(HorizontalAlign.Center)
               .margin({ right: 14 })
               .onClick(() => {
-                this.isWishlisted = !this.isWishlisted;
+                if (this.game) {
+                  this.isWishlisted = WishlistManager.toggleWishlist(this.game.id);
+                  promptAction.showToast({
+                    message: this.isWishlisted ? `已将《${this.game.title}》加入愿望单` : `已从愿望单移除《${this.game.title}》`
+                  });
+                }
               })
 
               Column() {
@@ -3100,6 +3123,10 @@ export struct GameDetail {
 
       if (this.selectedPost) {
         this.PostDetailOverlayBuilder(this.selectedPost)
+      }
+
+      if (this.showUserProfile) {
+        UserProfilePage({ username: this.targetUsername, onBackClick: () => (this.showUserProfile = false) })
       }
     }
     .width('100%')

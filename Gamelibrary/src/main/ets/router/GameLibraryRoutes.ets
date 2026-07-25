@@ -11,5 +11,7 @@ export class GameLibraryRoutes {
   static readonly GAME_DETAIL: string = 'pages/GameDetail/GameDetail';
   /** 游戏库搜索页面 */
   static readonly GAME_SEARCH: string = 'pages/GameLibrary/GameSearchPage';
+  /** 用户个人主页（动态/数据展示页） */
+  static readonly USER_PROFILE: string = 'pages/Profile/UserProfile';
 }
 

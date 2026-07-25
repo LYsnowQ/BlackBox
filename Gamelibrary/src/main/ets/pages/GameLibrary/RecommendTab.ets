@@ -3022,6 +3022,9 @@ export struct RecommendTab {
               .backgroundColor('#F0F0F2')
               .borderRadius(14)
               .height(30)
+              .onClick(() => {
+                this.showToast('🎉 已成功参与《死亡与税赋》Key抽奖，结果将在今晚公布！');
+              })
           }
           .width('100%')
           .padding(12)
@@ -3135,6 +3138,9 @@ export struct RecommendTab {
             Text('竞猜押注 >')
               .fontSize(12)
               .fontColor('#FF7A00')
+              .onClick(() => {
+                this.showToast('🎲 竞猜开启！已为您押注 100 黑豆支持【小黑盒 Gaming】');
+              })
           }
           .width('100%')
           .padding(14)
@@ -3232,6 +3238,9 @@ export struct RecommendTab {
               .backgroundColor('#2BC48A')
               .borderRadius(14)
               .height(30)
+              .onClick(() => {
+                this.showToast('🎙️ 已成功加入【幻兽帕鲁】组队语音房，AI降噪已开启！');
+              })
           }
           .width('100%')
           .padding(12)
@@ -3261,6 +3270,9 @@ export struct RecommendTab {
               .backgroundColor('#F0F0F2')
               .borderRadius(14)
               .height(30)
+              .onClick(() => {
+                this.showToast('🎙️ 已成功加入【链在一起】组队语音房，AI降噪已开启！');
+              })
           }
           .width('100%')
           .padding(12)

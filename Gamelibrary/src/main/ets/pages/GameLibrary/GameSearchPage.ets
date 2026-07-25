@@ -30,6 +30,16 @@ export struct GameSearchPage {
         }
       }
 
+      // 1.5 平台过滤
+      if (this.selectedPlatform !== '全部') {
+        const plat = this.selectedPlatform.toLowerCase();
+        const gamePlat = (game.platformIcon || '').toLowerCase();
+        const matchTag = game.tags.some(t => t.toLowerCase().includes(plat));
+        if (gamePlat !== plat && !matchTag) {
+          return false;
+        }
+      }
+
       // 2. 价格过滤
       if (this.selectedPriceFilter === '折扣中' && !game.discountPercent) {
         return false;
@@ -246,7 +256,7 @@ export struct GameSearchPage {
                 onCardClick: () => {
                   router.pushUrl({
                     url: GameLibraryRoutes.GAME_DETAIL,
-                    params: { gameId: game.id }
+                    params: { id: game.id, gameId: game.id }
                   });
                 }
               })

@@ -629,7 +629,7 @@ export struct RankingTab {
                 Divider().color('#EDEDED').strokeWidth(1)
               }
             }
-          }, (item: GameItem) => item.id)
+          }, (item: GameItem, index: number) => `${item.id}_${index + 1}_${this.platformIndex}_${this.categoryIndex}_${this.selectedPayFilter}_${this.selectedTypeFilter}_${this.selectedDiscountFilter}_${this.selectedScoreFilter}`)
         }
         .width('100%')
         .layoutWeight(1)

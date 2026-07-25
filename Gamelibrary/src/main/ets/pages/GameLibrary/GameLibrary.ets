@@ -1,7 +1,9 @@
 import { RecommendTab } from './RecommendTab';
 import { RankingTab } from './RankingTab';
+import { MyLibrarySubPage } from './subpages/MyLibrarySubPage';
 import { GameLibraryRoutes } from '../../router/GameLibraryRoutes';
 import router from '@ohos.router';
+import promptAction from '@ohos.promptAction';
 
 interface BottomNavItem {
   label: string;
@@ -12,7 +14,7 @@ interface BottomNavItem {
 export struct GameLibrary {
   // 0 = 推荐, 1 = 榜单
   @State topTabIndex: number = 0;
-  // 底部导航当前选中项，本页面对应"游戏库"
+  // 底部导航当前选中项，本页面对应"游戏库" (3 = 游戏库, 4 = 我)
   @State bottomTabIndex: number = 3;
   @State isForYouPageOpen: boolean = false;
   @State activeNavPage: string = '';
@@ -54,6 +56,9 @@ export struct GameLibrary {
           })
         Text('✉️')
           .fontSize(18)
+          .onClick(() => {
+            promptAction.showToast({ message: '📫 暂无新的未读消息通知' });
+          })
       }
     }
     .width('100%')
@@ -77,6 +82,9 @@ export struct GameLibrary {
           .backgroundColor('#1A1A1A')
           .justifyContent(FlexAlign.Center)
           .layoutWeight(1)
+          .onClick(() => {
+            promptAction.showToast({ message: '📝 快捷发布工具：发布游戏评测与社区动态' });
+          })
         } else {
           Column() {
             Text(item.icon)
@@ -89,7 +97,14 @@ export struct GameLibrary {
           }
           .layoutWeight(1)
           .justifyContent(FlexAlign.Center)
-          .onClick(() => (this.bottomTabIndex = index))
+          .onClick(() => {
+            this.bottomTabIndex = index;
+            if (index === 0) {
+              promptAction.showToast({ message: '已切换至 首页' });
+            } else if (index === 1) {
+              promptAction.showToast({ message: '已切换至 热点' });
+            }
+          })
         }
       })
     }
@@ -103,15 +118,21 @@ export struct GameLibrary {
   build() {
     Stack({ alignContent: Alignment.Bottom }) {
       Column() {
-        if (!this.isForYouPageOpen && this.activeNavPage === '') {
+        if (this.bottomTabIndex !== 4 && !this.isForYouPageOpen && this.activeNavPage === '') {
           this.TopHeaderBuilder()
         }
 
         Stack() {
-          if (this.topTabIndex === 0) {
-            RecommendTab({ isForYouPageOpen: $isForYouPageOpen, activeNavPage: $activeNavPage })
+          if (this.bottomTabIndex === 4) {
+            // "我" -> 我的库藏与个人名片
+            MyLibrarySubPage()
           } else {
-            RankingTab()
+            // "游戏库" 及其他 Tab
+            if (this.topTabIndex === 0) {
+              RecommendTab({ isForYouPageOpen: $isForYouPageOpen, activeNavPage: $activeNavPage })
+            } else {
+              RankingTab()
+            }
           }
         }
         .width('100%')
