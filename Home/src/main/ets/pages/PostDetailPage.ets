@@ -151,13 +151,8 @@ export struct PostDetailPage {
           break;
         }
       }
-      const likedDelta = this.isCommentLiked(c.id) ? 1 : 0;
       if (extraRs.length === 0) {
-        if (likedDelta === 0) {
-          base.push(c);
-        } else {
-          base.push(this.cloneComment(c, c.likeCount + likedDelta, c.replies, c.replyTotal));
-        }
+        base.push(c);
       } else {
         const replies: CommentReply[] = [];
         for (let r = 0; r < extraRs.length; r++) {
@@ -166,7 +161,7 @@ export struct PostDetailPage {
         for (let r = 0; r < c.replies.length; r++) {
           replies.push(c.replies[r]);
         }
-        base.push(this.cloneComment(c, c.likeCount + likedDelta, replies, c.replyTotal + extraRs.length));
+        base.push(this.cloneComment(c, c.likeCount, replies, c.replyTotal + extraRs.length));
       }
     }
     const merged: PostComment[] = [];
@@ -209,6 +204,12 @@ export struct PostDetailPage {
     return this.likedCommentIds.indexOf(id) >= 0;
   }
 
+  /** 展示赞数 = mock/本地基数 + 当前用户是否点过；依赖 likedCommentIds 触发重绘 */
+  private displayCommentLikeCount(comment: PostComment): number {
+    const base = comment.likeCount;
+    return this.isCommentLiked(comment.id) ? base + 1 : base;
+  }
+
   private openUserProfile(
     name: string,
     avatarColor: string,
@@ -239,19 +240,8 @@ export struct PostDetailPage {
     if (!liked) {
       nextLiked.push(commentId);
     }
+    // 只改 @State 点赞集合；赞数由 displayCommentLikeCount 推导，避免 ForEach 同 key 不刷新数字
     this.likedCommentIds = nextLiked;
-
-    const next: PostComment[] = [];
-    for (let i = 0; i < this.comments.length; i++) {
-      const c = this.comments[i];
-      if (c.id === commentId) {
-        const count = liked ? Math.max(0, c.likeCount - 1) : c.likeCount + 1;
-        next.push(this.cloneComment(c, count, c.replies, c.replyTotal));
-      } else {
-        next.push(c);
-      }
-    }
-    this.comments = next;
     this.persist();
   }
 
@@ -1037,7 +1027,7 @@ export struct PostDetailPage {
                 .margin({ left: 6 })
             }
             Blank()
-            Text(`👍 ${comment.likeCount}`)
+            Text(`👍 ${this.displayCommentLikeCount(comment)}`)
               .fontSize(12)
               .fontColor(this.isCommentLiked(comment.id) ? '#FF5A5A' : '#B0B0B0')
               .fontWeight(this.isCommentLiked(comment.id) ? FontWeight.Medium : FontWeight.Normal)

@@ -77,6 +77,7 @@ docs/Home.md / ROUTE_CONTRACT.md
 
 > 每完成一小部分功能，在此追加一条（新在上）。
 
+- 2026-07-25 · 修评论赞数同步 + 进首页随机排序 · `PostDetailPage` 展示层用 likedCommentIds 叠加；`HomeRecommend`/`FollowFeed` 进入打乱
 - 2026-07-25 · 评论点赞 + 用户主页 · `PostDetailPage` `PostCard` `FollowFeed` `UserProfilePage` `HomeInteractStore` · 路由 `HomeRoutes.USER_PROFILE`
 - 2026-07-25 · 首页搜索 + 消息入口 + 评论回复 · `HomeSearchPage` `Home` `PostDetailPage` `HomeInteractStore` + entry 壳 `Search` · 路由 `HomeRoutes.SEARCH/MESSAGES`
 - 2026-07-25 · 截图补 8 篇真实帖 mock（rs5–rs12，仅推荐流；评论只文字） · `HomeModel` + media `scrape_greenhell/jiahao/muse/doubao/messi/cxmt/wzry/cf*` · 提取 JSON 在 `Home/mock_raw/extracted/` · 生成脚本 `gen_from_extracted.py`
@@ -96,11 +97,23 @@ docs/Home.md / ROUTE_CONTRACT.md
 
 ## 已知问题 / 待办
 
+### 待办（按序）
+
+1. 配图全屏预览（列表/详情 Swiper）
+2. 列表层帖子点赞（PostCard 接 InteractStore）
+3. 下拉刷新 + 触底加载更多（mock）
+4. 评论热门/最新排序
+5. 搜索/消息/赞藏充评等图标优化（更接近真实 App）
+6. ~~每次进入主页帖子随机排序~~（已完成）
+
+### 其它
+
 - 搜索为本地 mock 过滤（标题/摘要/作者/标签），无网络；可后续补热搜/历史
-- 帖图：真实帖多用 `scrape_*`；其余仍复用游戏库 media / 纯色；图标多用 emoji
-- 真实帖 mock：旧爬取 4 篇（rs1–rs4）+ 截图补 8 篇（rs5–rs12）；评论区为截图可见楼层精简，非全量 497/374 等
+- 帖图：真实帖多用 `scrape_*`；其余仍复用游戏库 media / 纯色
+- 真实帖 mock：旧爬取 4 篇（rs1–rs4）+ 截图补 8 篇（rs5–rs12）；评论区为截图可见楼层精简
 - Hot 业务仍主要在 `entry/.../pages/Hot/`，`Hot/` HAR 尚未承接业务
 - 充电无真实支付；仅本地计数 + toast（状态已持久化）
+- mediaKey → `$r` 硬编码 if/else 双份，后续可抽公共映射
 
 ## 编译注意
 

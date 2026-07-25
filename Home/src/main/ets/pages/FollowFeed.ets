@@ -6,12 +6,32 @@ import { PostCard } from './PostCard';
 @Component
 export struct FollowFeed {
   @State selectedUserId: string = '';
+  /** 进入页时打乱后的关注流动态顺序 */
+  @State shuffledPosts: FeedPost[] = [];
+
+  aboutToAppear(): void {
+    this.shuffledPosts = this.shufflePosts(followPosts);
+  }
+
+  private shufflePosts(src: FeedPost[]): FeedPost[] {
+    const arr: FeedPost[] = [];
+    for (let i = 0; i < src.length; i++) {
+      arr.push(src[i]);
+    }
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const tmp = arr[i];
+      arr[i] = arr[j];
+      arr[j] = tmp;
+    }
+    return arr;
+  }
 
   private filteredPosts(): FeedPost[] {
     if (this.selectedUserId === '') {
-      return followPosts;
+      return this.shuffledPosts;
     }
-    return followPosts.filter((post: FeedPost) => post.authorId === this.selectedUserId);
+    return this.shuffledPosts.filter((post: FeedPost) => post.authorId === this.selectedUserId);
   }
 
   private openUserProfile(user: FollowUser): void {

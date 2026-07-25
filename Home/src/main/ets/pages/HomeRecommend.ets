@@ -4,12 +4,32 @@ import { PostCard } from './PostCard';
 @Component
 export struct HomeRecommend {
   @State selectedCircleId: string = 'all';
+  /** 进入页时打乱后的推荐流顺序 */
+  @State shuffledPosts: FeedPost[] = [];
+
+  aboutToAppear(): void {
+    this.shuffledPosts = this.shufflePosts(recommendPosts);
+  }
+
+  private shufflePosts(src: FeedPost[]): FeedPost[] {
+    const arr: FeedPost[] = [];
+    for (let i = 0; i < src.length; i++) {
+      arr.push(src[i]);
+    }
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const tmp = arr[i];
+      arr[i] = arr[j];
+      arr[j] = tmp;
+    }
+    return arr;
+  }
 
   private filteredPosts(): FeedPost[] {
     if (this.selectedCircleId === 'all') {
-      return recommendPosts;
+      return this.shuffledPosts;
     }
-    return recommendPosts.filter((post: FeedPost) => post.circleId === this.selectedCircleId);
+    return this.shuffledPosts.filter((post: FeedPost) => post.circleId === this.selectedCircleId);
   }
 
   @Builder
