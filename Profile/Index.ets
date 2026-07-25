@@ -4,6 +4,7 @@
 export { Me } from './src/main/ets/pages/Me';
 export { SettingsPage } from './src/main/ets/pages/SettingsPage';
 export { MessagesPage } from './src/main/ets/pages/MessagesPage';
+export { ChatPage } from './src/main/ets/pages/ChatPage';
 export { ScanPage } from './src/main/ets/pages/ScanPage';
 export { EditProfilePage } from './src/main/ets/pages/EditProfilePage';
 

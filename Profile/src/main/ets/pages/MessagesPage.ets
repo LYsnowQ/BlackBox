@@ -1,46 +1,21 @@
 import { router } from '@kit.ArkUI';
-
-interface MessageItem {
-  id: string;
-  title: string;
-  preview: string;
-  time: string;
-  unread?: boolean;
-}
+import { MessageSession, messageSessions } from '../model/ProfileModel';
+import { ProfileRoutes } from '../router/ProfileRoutes';
 
 /**
  * 消息 / 邮件页内容（由 entry 路由壳挂载）
+ * 点击会话进入 ChatPage
  */
 @Component
 export struct MessagesPage {
-  private messages: MessageItem[] = [
-    {
-      id: '1',
-      title: '系统通知',
-      preview: '你关注的游戏《黑神话：悟空》史低优惠已开启',
-      time: '10:24',
-      unread: true,
-    },
-    {
-      id: '2',
-      title: '互动消息',
-      preview: '有 3 人赞了你的评价',
-      time: '昨天',
-      unread: true,
-    },
-    {
-      id: '3',
-      title: '官方活动',
-      preview: '独立游戏节现已开启，精选作品 5 折起',
-      time: '周一',
-    },
-    {
-      id: '4',
-      title: '订单提醒',
-      preview: '你的订单已发货，请注意查收',
-      time: '3/12',
-    },
-  ];
+  private messages: MessageSession[] = messageSessions;
+
+  private openChat(item: MessageSession): void {
+    router.pushUrl({
+      url: ProfileRoutes.CHAT,
+      params: { id: item.id },
+    });
+  }
 
   @Builder
   NavBarBuilder() {
@@ -70,11 +45,11 @@ export struct MessagesPage {
   }
 
   @Builder
-  MessageRowBuilder(item: MessageItem) {
+  MessageRowBuilder(item: MessageSession) {
     Row() {
-      // 图标占位
+      // 头像
       Column() {
-        Text(item.title.substring(0, 1))
+        Text(item.avatarChar)
           .fontSize(16)
           .fontWeight(FontWeight.Medium)
           .fontColor(Color.White)
@@ -83,7 +58,7 @@ export struct MessagesPage {
       .height(44)
       .borderRadius(22)
       .justifyContent(FlexAlign.Center)
-      .backgroundColor(item.unread ? '#2BC48A' : '#C8C8CC')
+      .backgroundColor(item.avatarColor)
 
       Column() {
         Row() {
@@ -129,6 +104,7 @@ export struct MessagesPage {
     .width('100%')
     .padding({ left: 16, right: 16, top: 14, bottom: 14 })
     .backgroundColor(Color.White)
+    .onClick(() => this.openChat(item))
   }
 
   build() {
@@ -137,7 +113,7 @@ export struct MessagesPage {
       this.NavBarBuilder()
 
       List() {
-        ForEach(this.messages, (item: MessageItem, index: number) => {
+        ForEach(this.messages, (item: MessageSession, index: number) => {
           ListItem() {
             Column() {
               this.MessageRowBuilder(item)
@@ -149,7 +125,7 @@ export struct MessagesPage {
               }
             }
           }
-        }, (item: MessageItem) => item.id)
+        }, (item: MessageSession) => item.id)
 
         ListItem() {
           Text('已经到底了')

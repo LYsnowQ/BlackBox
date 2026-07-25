@@ -8,6 +8,7 @@
     "pages/Profile/Settings",
     "pages/Profile/Messages",
     "pages/Profile/Scan",
-    "pages/Profile/EditProfile"
+    "pages/Profile/EditProfile",
+    "pages/Profile/Chat"
   ]
 }
