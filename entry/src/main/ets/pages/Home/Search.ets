@@ -8,7 +8,7 @@ import { HomeSearchPage } from 'home';
  */
 @Entry
 @Component
-struct Search {
+struct HomeSearch {
   build() {
     Column() {
       HomeSearchPage()
