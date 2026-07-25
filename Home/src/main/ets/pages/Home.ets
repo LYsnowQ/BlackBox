@@ -46,22 +46,16 @@ export struct Home {
       Blank()
 
       Row() {
-        // 搜索：线性放大镜
-        Text('⌕')
-          .fontSize(20)
-          .fontColor('#1A1A1A')
-          .width(28)
-          .height(28)
-          .textAlign(TextAlign.Center)
-          .margin({ right: 10 })
+        Image($r('app.media.ic_search'))
+          .width(22)
+          .height(22)
+          .objectFit(ImageFit.Contain)
+          .margin({ right: 16 })
           .onClick(() => this.goSearch())
-        // 消息：信封线框风格
-        Text('✉')
-          .fontSize(18)
-          .fontColor('#1A1A1A')
-          .width(28)
-          .height(28)
-          .textAlign(TextAlign.Center)
+        Image($r('app.media.ic_mail'))
+          .width(22)
+          .height(22)
+          .objectFit(ImageFit.Contain)
           .onClick(() => this.goMessages())
       }
     }

@@ -58,20 +58,26 @@ export struct HomeRecommend {
     return this.visibleCount < this.filteredAll().length;
   }
 
+  @State isLoadingMore: boolean = false;
+
   private loadMore(): void {
-    if (!this.hasMore()) {
+    if (!this.hasMore() || this.isLoadingMore) {
       return;
     }
-    this.visibleCount = Math.min(this.visibleCount + PAGE_SIZE, this.filteredAll().length);
+    this.isLoadingMore = true;
+    // 触底故意停顿，体感像真实分页
+    setTimeout(() => {
+      this.visibleCount = Math.min(this.visibleCount + PAGE_SIZE, this.filteredAll().length);
+      this.isLoadingMore = false;
+    }, 650);
   }
 
   private doRefresh(): void {
     this.isRefreshing = true;
-    // mock 短延迟，模拟网络
     setTimeout(() => {
       this.resetPool();
       this.isRefreshing = false;
-    }, 500);
+    }, 700);
   }
 
   @Builder
@@ -139,7 +145,8 @@ export struct HomeRecommend {
 
         ListItem() {
           Text(this.filteredAll().length === 0 ? '暂无内容' :
-            (this.hasMore() ? '上拉加载更多' : '已经到底了'))
+            (this.isLoadingMore ? '加载中…' :
+              (this.hasMore() ? '上拉加载更多' : '已经到底了')))
             .fontSize(12)
             .fontColor('#C0C0C0')
             .width('100%')

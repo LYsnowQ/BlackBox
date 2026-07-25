@@ -1065,11 +1065,18 @@ export struct PostDetailPage {
                 .margin({ left: 6 })
             }
             Blank()
-            Text(`${this.isCommentLiked(comment.id) ? '♥' : '♡'} ${this.displayCommentLikeCount(comment)}`)
-              .fontSize(12)
-              .fontColor(this.isCommentLiked(comment.id) ? '#FF5A5A' : '#B0B0B0')
-              .fontWeight(this.isCommentLiked(comment.id) ? FontWeight.Medium : FontWeight.Normal)
-              .onClick(() => this.toggleCommentLike(comment.id))
+            Row() {
+              Image(this.isCommentLiked(comment.id) ? $r('app.media.ic_like_on') : $r('app.media.ic_like_muted'))
+                .width(14)
+                .height(14)
+                .objectFit(ImageFit.Contain)
+              Text(`${this.displayCommentLikeCount(comment)}`)
+                .fontSize(12)
+                .fontColor(this.isCommentLiked(comment.id) ? '#1A1A1A' : '#B0B0B0')
+                .fontWeight(this.isCommentLiked(comment.id) ? FontWeight.Medium : FontWeight.Normal)
+                .margin({ left: 3 })
+            }
+            .onClick(() => this.toggleCommentLike(comment.id))
           }
           .width('100%')
 
@@ -1277,12 +1284,13 @@ export struct PostDetailPage {
           })
 
         Column() {
-          Text(this.liked ? '♥' : '♡')
-            .fontSize(18)
-            .fontColor(this.liked ? '#FF5A5A' : '#1A1A1A')
+          Image(this.liked ? $r('app.media.ic_like_on') : $r('app.media.ic_like'))
+            .width(22)
+            .height(22)
+            .objectFit(ImageFit.Contain)
           Text(`${this.likeCount}`)
             .fontSize(10)
-            .fontColor(this.liked ? '#FF5A5A' : '#666666')
+            .fontColor(this.liked ? '#1A1A1A' : '#666666')
             .fontWeight(this.liked ? FontWeight.Medium : FontWeight.Normal)
             .margin({ top: 2 })
         }
@@ -1291,9 +1299,10 @@ export struct PostDetailPage {
         .onClick(() => this.toggleLike())
 
         Column() {
-          Text(this.starred ? '★' : '☆')
-            .fontSize(18)
-            .fontColor(this.starred ? '#F5A623' : '#1A1A1A')
+          Image(this.starred ? $r('app.media.ic_star_on') : $r('app.media.ic_star'))
+            .width(22)
+            .height(22)
+            .objectFit(ImageFit.Contain)
           Text(`${this.starCount}`)
             .fontSize(10)
             .fontColor(this.starred ? '#F5A623' : '#666666')
@@ -1303,9 +1312,10 @@ export struct PostDetailPage {
         .onClick(() => this.toggleStar())
 
         Column() {
-          Text('⚡')
-            .fontSize(16)
-            .fontColor(this.awarded ? '#FF7A00' : '#1A1A1A')
+          Image(this.awarded ? $r('app.media.ic_charge_on') : $r('app.media.ic_charge'))
+            .width(22)
+            .height(22)
+            .objectFit(ImageFit.Contain)
           Text(`${this.awardCount}`)
             .fontSize(10)
             .fontColor(this.awarded ? '#FF7A00' : '#666666')
@@ -1315,9 +1325,10 @@ export struct PostDetailPage {
         .onClick(() => this.toggleAward())
 
         Column() {
-          Text('◡')
-            .fontSize(16)
-            .fontColor('#1A1A1A')
+          Image($r('app.media.ic_comment'))
+            .width(22)
+            .height(22)
+            .objectFit(ImageFit.Contain)
           Text(`${this.commentCount}`)
             .fontSize(10)
             .fontColor('#666666')

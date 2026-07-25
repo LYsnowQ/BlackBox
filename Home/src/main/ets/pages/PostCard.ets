@@ -474,9 +474,11 @@ export struct PostCard {
 
       Row() {
         Row() {
-          Text('◡')
-            .fontSize(14)
-            .fontColor('#B0B0B0')
+          Image($r('app.media.ic_comment'))
+            .width(16)
+            .height(16)
+            .objectFit(ImageFit.Contain)
+            .opacity(0.55)
           Text(`${this.displayCommentCount()}`)
             .fontSize(12)
             .fontColor('#B0B0B0')
@@ -486,12 +488,13 @@ export struct PostCard {
         .onClick(() => this.openPostDetail())
 
         Row() {
-          Text(this.isLiked() ? '♥' : '♡')
-            .fontSize(14)
-            .fontColor(this.isLiked() ? '#FF5A5A' : '#B0B0B0')
+          Image(this.isLiked() ? $r('app.media.ic_like_on') : $r('app.media.ic_like_muted'))
+            .width(16)
+            .height(16)
+            .objectFit(ImageFit.Contain)
           Text(`${this.displayLikeCount()}`)
             .fontSize(12)
-            .fontColor(this.isLiked() ? '#FF5A5A' : '#B0B0B0')
+            .fontColor(this.isLiked() ? '#1A1A1A' : '#B0B0B0')
             .fontWeight(this.isLiked() ? FontWeight.Medium : FontWeight.Normal)
             .margin({ left: 4 })
         }

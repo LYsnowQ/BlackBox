@@ -58,11 +58,17 @@ export struct FollowFeed {
     return this.visibleCount < this.filteredAll().length;
   }
 
+  @State isLoadingMore: boolean = false;
+
   private loadMore(): void {
-    if (!this.hasMore()) {
+    if (!this.hasMore() || this.isLoadingMore) {
       return;
     }
-    this.visibleCount = Math.min(this.visibleCount + PAGE_SIZE, this.filteredAll().length);
+    this.isLoadingMore = true;
+    setTimeout(() => {
+      this.visibleCount = Math.min(this.visibleCount + PAGE_SIZE, this.filteredAll().length);
+      this.isLoadingMore = false;
+    }, 650);
   }
 
   private doRefresh(): void {
@@ -70,7 +76,7 @@ export struct FollowFeed {
     setTimeout(() => {
       this.resetPool();
       this.isRefreshing = false;
-    }, 500);
+    }, 700);
   }
 
   private openUserProfile(user: FollowUser): void {
@@ -178,7 +184,8 @@ export struct FollowFeed {
 
         ListItem() {
           Text(this.filteredAll().length === 0 ? '暂无动态' :
-            (this.hasMore() ? '上拉加载更多' : '已经到底了'))
+            (this.isLoadingMore ? '加载中…' :
+              (this.hasMore() ? '上拉加载更多' : '已经到底了')))
             .fontSize(12)
             .fontColor('#C0C0C0')
             .width('100%')

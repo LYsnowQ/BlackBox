@@ -77,7 +77,7 @@ docs/Home.md / ROUTE_CONTRACT.md
 
 > 每完成一小部分功能，在此追加一条（新在上）。
 
-- 2026-07-25 · 图标优化 · 顶栏搜索/消息与赞藏充评改用线框 Unicode，减少 emoji 幼稚感
+- 2026-07-25 · 图标贴近小黑盒 · media `ic_like/star/charge/comment/search/mail` 实心剪影；触底加载延迟 650ms
 - 2026-07-25 · 评论热门/最新排序 · `PostDetailPage` 本地 sort
 - 2026-07-25 · 下拉刷新 + 触底加载 · `HomeRecommend` `FollowFeed` Refresh + 分页 mock
 - 2026-07-25 · 列表层帖子点赞 · `PostCard` `HomeInteractStore.toggleLike` · 与详情计数/状态同步
