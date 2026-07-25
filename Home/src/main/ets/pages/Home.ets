@@ -1,4 +1,6 @@
+import { router } from '@kit.ArkUI';
 import { HomeInteractStore } from '../model/HomeInteractStore';
+import { HomeRoutes } from '../router/HomeRoutes';
 import { FollowFeed } from './FollowFeed';
 import { HomeRecommend } from './HomeRecommend';
 
@@ -9,6 +11,14 @@ export struct Home {
 
   aboutToAppear(): void {
     HomeInteractStore.ensureLoaded(getContext(this) as Context);
+  }
+
+  private goSearch(): void {
+    router.pushUrl({ url: HomeRoutes.SEARCH });
+  }
+
+  private goMessages(): void {
+    router.pushUrl({ url: HomeRoutes.MESSAGES });
   }
 
   @Builder
@@ -40,9 +50,11 @@ export struct Home {
           .fontSize(18)
           .fontColor('#1A1A1A')
           .margin({ right: 18 })
+          .onClick(() => this.goSearch())
         Text('✉️')
           .fontSize(18)
           .fontColor('#1A1A1A')
+          .onClick(() => this.goMessages())
       }
     }
     .width('100%')

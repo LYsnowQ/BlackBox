@@ -1,9 +1,15 @@
 import { preferences } from '@kit.ArkData';
-import { PostComment, followPosts, recommendPosts } from './HomeModel';
+import { CommentReply, PostComment, followPosts, recommendPosts } from './HomeModel';
 
 const PREF_NAME = 'home_interact';
 const PREF_KEY = 'post_states';
 const VERSION_KEY = 'homeInteractVersion';
+
+/** 挂到既有楼层上的本地回复 */
+export interface LocalReplyBundle {
+  parentId: string;
+  replies: CommentReply[];
+}
 
 /** 单帖互动的可持久化快照（相对 mock 基线的用户操作结果） */
 export interface PostInteractState {
@@ -16,6 +22,8 @@ export interface PostInteractState {
   awardCount: number;
   commentCount: number;
   extraComments: PostComment[];
+  /** 对 mock 楼层追加的回复（parent 非 local-） */
+  extraReplies: LocalReplyBundle[];
 }
 
 function ensureVersionKey(): void {
@@ -69,6 +77,7 @@ class HomeInteractStoreImpl {
               awardCount: st.awardCount ?? 0,
               commentCount: st.commentCount ?? 0,
               extraComments: st.extraComments ?? [],
+              extraReplies: st.extraReplies ?? [],
             });
           }
         }

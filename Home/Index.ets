@@ -3,6 +3,7 @@
 
 export { Home } from './src/main/ets/pages/Home';
 export { PostDetailPage } from './src/main/ets/pages/PostDetailPage';
+export { HomeSearchPage } from './src/main/ets/pages/HomeSearchPage';
 export { HomeRecommend } from './src/main/ets/pages/HomeRecommend';
 export { FollowFeed } from './src/main/ets/pages/FollowFeed';
 export { PostCard } from './src/main/ets/pages/PostCard';

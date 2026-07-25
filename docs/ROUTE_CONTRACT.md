@@ -32,6 +32,7 @@
 | `pages/Profile/Messages` | 消息 |
 | `pages/Profile/Scan` | 扫一扫 |
 | `pages/Profile/EditProfile` | 编辑资料 |
+| `pages/Home/Search` | 首页搜索壳 |
 
 冲突合并时：**只追加、不重排、不删**；两边新增 path **都保留**。
 
@@ -43,8 +44,9 @@
 | `AppRoutes.GAME_LIBRARY` | `pages/GameLibrary/GameLibrary` | 游戏库页 |
 | `AppRoutes.GAME_DETAIL` / `GameLibraryRoutes.GAME_DETAIL` | `pages/GameDetail/GameDetail` | 详情 `params: { id }` |
 | `AppRoutes.HOME_POST_DETAIL` / `HomeRoutes.POST_DETAIL` | `pages/Home/PostDetail` | 帖子 `params: { id, tab? }` |
+| `AppRoutes.HOME_SEARCH` / `HomeRoutes.SEARCH` | `pages/Home/Search` | 首页搜索 |
 | `AppRoutes.PROFILE_SETTINGS` / `ProfileRoutes.SETTINGS` | `pages/Profile/Settings` | 设置 |
-| `AppRoutes.PROFILE_MESSAGES` / `ProfileRoutes.MESSAGES` | `pages/Profile/Messages` | 消息 |
+| `AppRoutes.PROFILE_MESSAGES` / `ProfileRoutes.MESSAGES` / `HomeRoutes.MESSAGES` | `pages/Profile/Messages` | 消息（首页顶栏复用） |
 | `AppRoutes.PROFILE_SCAN` / `ProfileRoutes.SCAN` | `pages/Profile/Scan` | 扫一扫 |
 | `AppRoutes.PROFILE_EDIT` / `ProfileRoutes.EDIT_PROFILE` | `pages/Profile/EditProfile` | 编辑资料 |
 

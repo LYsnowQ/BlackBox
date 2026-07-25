@@ -1,5 +1,5 @@
 import { promptAction, router } from '@kit.ArkUI';
-import { HomeInteractStore, PostInteractState } from '../model/HomeInteractStore';
+import { HomeInteractStore, LocalReplyBundle, PostInteractState } from '../model/HomeInteractStore';
 import {
   CommentReply,
   PostComment,
@@ -30,6 +30,9 @@ export struct PostDetailPage {
   @State comments: PostComment[] = [];
   @State draft: string = '';
   @State showComposer: boolean = false;
+  /** 回复目标：空串表示发一级评论 */
+  @State replyToCommentId: string = '';
+  @State replyToName: string = '';
   private listScroller: Scroller = new Scroller();
   private jumpToComment: boolean = false;
   private postId: string = '';
@@ -134,12 +137,52 @@ export struct PostDetailPage {
     this.starCount = saved.starCount;
     this.awardCount = saved.awardCount;
     this.commentCount = saved.commentCount;
+    const base: PostComment[] = [];
+    for (let i = 0; i < this.detail.comments.length; i++) {
+      const c = this.detail.comments[i];
+      let extraRs: CommentReply[] = [];
+      for (let b = 0; b < saved.extraReplies.length; b++) {
+        if (saved.extraReplies[b].parentId === c.id) {
+          extraRs = saved.extraReplies[b].replies;
+          break;
+        }
+      }
+      if (extraRs.length === 0) {
+        base.push(c);
+      } else {
+        const replies: CommentReply[] = [];
+        for (let r = 0; r < extraRs.length; r++) {
+          replies.push(extraRs[r]);
+        }
+        for (let r = 0; r < c.replies.length; r++) {
+          replies.push(c.replies[r]);
+        }
+        base.push({
+          id: c.id,
+          authorName: c.authorName,
+          authorAvatarColor: c.authorAvatarColor,
+          authorAvatarText: c.authorAvatarText,
+          levelLabel: c.levelLabel,
+          isAuthor: c.isAuthor,
+          isOfficial: c.isOfficial,
+          isPinned: c.isPinned,
+          timeText: c.timeText,
+          region: c.region,
+          content: c.content,
+          imageKey: c.imageKey,
+          imageColor: c.imageColor,
+          likeCount: c.likeCount,
+          replyTotal: c.replyTotal + extraRs.length,
+          replies: replies,
+        });
+      }
+    }
     const merged: PostComment[] = [];
     for (let i = 0; i < saved.extraComments.length; i++) {
       merged.push(saved.extraComments[i]);
     }
-    for (let i = 0; i < this.detail.comments.length; i++) {
-      merged.push(this.detail.comments[i]);
+    for (let i = 0; i < base.length; i++) {
+      merged.push(base[i]);
     }
     this.comments = merged;
   }
@@ -149,9 +192,21 @@ export struct PostDetailPage {
       return;
     }
     const extra: PostComment[] = [];
+    const replyBundles: LocalReplyBundle[] = [];
     for (let i = 0; i < this.comments.length; i++) {
-      if (this.comments[i].id.indexOf('local-') === 0) {
-        extra.push(this.comments[i]);
+      const c = this.comments[i];
+      if (c.id.indexOf('local-') === 0) {
+        extra.push(c);
+      } else {
+        const localRs: CommentReply[] = [];
+        for (let r = 0; r < c.replies.length; r++) {
+          if (c.replies[r].id.indexOf('local-') === 0) {
+            localRs.push(c.replies[r]);
+          }
+        }
+        if (localRs.length > 0) {
+          replyBundles.push({ parentId: c.id, replies: localRs });
+        }
       }
     }
     const state: PostInteractState = {
@@ -164,6 +219,7 @@ export struct PostDetailPage {
       awardCount: this.awardCount,
       commentCount: this.commentCount,
       extraComments: extra,
+      extraReplies: replyBundles,
     };
     HomeInteractStore.save(getContext(this) as Context, this.postId, state);
   }
@@ -254,6 +310,22 @@ export struct PostDetailPage {
     this.persist();
   }
 
+  private openComposer(commentId: string = '', name: string = ''): void {
+    this.replyToCommentId = commentId;
+    this.replyToName = name;
+    this.showComposer = true;
+    if (commentId.length > 0) {
+      this.scrollToComments();
+    }
+  }
+
+  private closeComposer(): void {
+    this.showComposer = false;
+    this.replyToCommentId = '';
+    this.replyToName = '';
+    this.draft = '';
+  }
+
   private submitComment(): void {
     const text = this.draft.trim();
     if (text.length === 0) {
@@ -263,6 +335,57 @@ export struct PostDetailPage {
     if (!this.detail) {
       return;
     }
+
+    // 回复某条评论 → 挂到该楼层 replies
+    if (this.replyToCommentId.length > 0) {
+      const reply: CommentReply = {
+        id: `local-r-${Date.now()}`,
+        authorName: '我',
+        isAuthor: false,
+        content: text,
+        timeText: '刚刚',
+        region: '本地',
+        replyToName: this.replyToName,
+      };
+      const next: PostComment[] = [];
+      for (let i = 0; i < this.comments.length; i++) {
+        const c = this.comments[i];
+        if (c.id === this.replyToCommentId) {
+          const replies: CommentReply[] = [reply];
+          for (let j = 0; j < c.replies.length; j++) {
+            replies.push(c.replies[j]);
+          }
+          next.push({
+            id: c.id,
+            authorName: c.authorName,
+            authorAvatarColor: c.authorAvatarColor,
+            authorAvatarText: c.authorAvatarText,
+            levelLabel: c.levelLabel,
+            isAuthor: c.isAuthor,
+            isOfficial: c.isOfficial,
+            isPinned: c.isPinned,
+            timeText: c.timeText,
+            region: c.region,
+            content: c.content,
+            imageKey: c.imageKey,
+            imageColor: c.imageColor,
+            likeCount: c.likeCount,
+            replyTotal: c.replyTotal + 1,
+            replies: replies,
+          });
+        } else {
+          next.push(c);
+        }
+      }
+      this.comments = next;
+      this.commentCount = this.commentCount + 1;
+      this.closeComposer();
+      this.scrollToComments();
+      this.persist();
+      promptAction.showToast({ message: '回复已发布（mock）', duration: 1200 });
+      return;
+    }
+
     const item: PostComment = {
       id: `local-${Date.now()}`,
       authorName: '我',
@@ -287,8 +410,7 @@ export struct PostDetailPage {
     }
     this.comments = next;
     this.commentCount = this.commentCount + 1;
-    this.draft = '';
-    this.showComposer = false;
+    this.closeComposer();
     this.scrollToComments();
     this.persist();
     promptAction.showToast({ message: '评论已发布（mock）', duration: 1200 });
@@ -853,6 +975,12 @@ export struct PostDetailPage {
             .margin({ top: 8 })
             .width('100%')
 
+          Text('回复')
+            .fontSize(12)
+            .fontColor('#888888')
+            .margin({ top: 8 })
+            .onClick(() => this.openComposer(comment.id, comment.authorName))
+
           if (comment.imageKey !== '') {
             Stack() {
               this.MediaByKey(comment.imageKey, comment.imageColor)
@@ -962,8 +1090,28 @@ export struct PostDetailPage {
   BottomBarBuilder() {
     Column() {
       if (this.showComposer) {
+        if (this.replyToName.length > 0) {
+          Row() {
+            Text(`回复 @${this.replyToName}`)
+              .fontSize(12)
+              .fontColor('#888888')
+              .layoutWeight(1)
+            Text('取消')
+              .fontSize(12)
+              .fontColor('#3B6FE0')
+              .onClick(() => {
+                this.replyToCommentId = '';
+                this.replyToName = '';
+              })
+          }
+          .width('100%')
+          .padding({ left: 16, right: 16, top: 8, bottom: 0 })
+        }
         Row() {
-          TextInput({ text: this.draft, placeholder: '来说点什么吧!' })
+          TextInput({
+            text: this.draft,
+            placeholder: this.replyToName.length > 0 ? `回复 ${this.replyToName}` : '来说点什么吧!',
+          })
             .layoutWeight(1)
             .height(36)
             .fontSize(14)
@@ -995,7 +1143,11 @@ export struct PostDetailPage {
           .backgroundColor('#F3F4F6')
           .borderRadius(20)
           .onClick(() => {
-            this.showComposer = !this.showComposer;
+            if (this.showComposer) {
+              this.closeComposer();
+            } else {
+              this.openComposer();
+            }
           })
 
         Column() {
@@ -1046,7 +1198,7 @@ export struct PostDetailPage {
         }
         .width(44)
         .onClick(() => {
-          this.showComposer = true;
+          this.openComposer();
           this.scrollToComments();
         })
       }

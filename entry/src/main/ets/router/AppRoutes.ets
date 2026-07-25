@@ -21,6 +21,8 @@ export class AppRoutes {
   // ── Home ──
   /** 帖子详情 params: { id: string, tab?: 'comment' } */
   static readonly HOME_POST_DETAIL: string = 'pages/Home/PostDetail';
+  /** 首页搜索 */
+  static readonly HOME_SEARCH: string = 'pages/Home/Search';
 
   // ── Profile ──
   static readonly PROFILE_SETTINGS: string = 'pages/Profile/Settings';

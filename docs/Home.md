@@ -22,7 +22,10 @@
 | 关注用户筛选 | 已完成 | 点头像过滤该用户帖子，再点取消；无帖显示「暂无动态」 |
 | 帖子详情 + 评论连续滚动 | 已完成 | `PostDetailPage` + entry 壳 `pages/Home/PostDetail` |
 | 底栏赞/藏/充/评 | 已完成 | mock 本地状态 |
-| 互动数据持久化 | 已完成 | Preferences 存赞/藏/充/关注/评论；列表计数同步 |
+| 互动数据持久化 | 已完成 | Preferences 存赞/藏/充/关注/评论/回复；列表计数同步 |
+| 顶栏搜索 | 已完成 | `HomeSearchPage` + entry 壳 `pages/Home/Search`；本地过滤推荐/关注 |
+| 顶栏消息 | 已完成 | 复用 `pages/Profile/Messages`（`HomeRoutes.MESSAGES`） |
+| 评论回复 | 已完成 | 点「回复」挂到该楼层；本地回复可持久化 |
 | Home 模块化 | 已完成 | 业务在 `Home/` HAR，entry 仅壳 |
 | 与主分支模块化对齐 | 已完成 | 已 merge master；游戏库/Profile 同为 HAR |
 
@@ -38,6 +41,7 @@ Home/                                   # HAR 包名 home · 本分支主战场
     ├── pages/
     │   ├── Home.ets
     │   ├── HomeRecommend.ets
+    │   ├── HomeSearchPage.ets
     │   ├── FollowFeed.ets
     │   ├── PostCard.ets
     │   └── PostDetailPage.ets
@@ -46,6 +50,7 @@ Home/                                   # HAR 包名 home · 本分支主战场
 entry/src/main/ets/
 ├── pages/Index.ets                     # 底栏壳；import home / gamelibrary / profile
 ├── pages/Home/PostDetail.ets           # @Entry 壳 → PostDetailPage
+├── pages/Home/Search.ets               # @Entry 壳 → HomeSearchPage
 ├── pages/GameLibrary|GameDetail/       # 游戏库 @Entry 壳（业务在 gamelibrary）
 ├── pages/Profile/*                     # 我的二级页壳（业务在 profile）
 ├── pages/Hot/*                         # 热点仍部分在 entry（Hot HAR 多为骨架）
@@ -68,6 +73,7 @@ docs/Home.md / ROUTE_CONTRACT.md
 
 > 每完成一小部分功能，在此追加一条（新在上）。
 
+- 2026-07-25 · 首页搜索 + 消息入口 + 评论回复 · `HomeSearchPage` `Home` `PostDetailPage` `HomeInteractStore` + entry 壳 `Search` · 路由 `HomeRoutes.SEARCH/MESSAGES`
 - 2026-07-25 · 截图补 8 篇真实帖 mock（rs5–rs12，仅推荐流；评论只文字） · `HomeModel` + media `scrape_greenhell/jiahao/muse/doubao/messi/cxmt/wzry/cf*` · 提取 JSON 在 `Home/mock_raw/extracted/` · 生成脚本 `gen_from_extracted.py`
 - 2026-07-24 · 小黑盒真实帖子 mock 扩充（4 帖正文+评论+配图） · `HomeModel` `PostCard` `PostDetailPage` + media `scrape_*` · 原始 JSON 在 `Home/mock_raw/posts/`
 - 2026-07-24 · 赞/藏/充/关注/评论本地持久化 · `HomeInteractStore` `PostDetailPage` `PostCard` `Home` · commit:5d3a60d
@@ -85,9 +91,7 @@ docs/Home.md / ROUTE_CONTRACT.md
 
 ## 已知问题 / 待办
 
-- 搜索入口（顶栏 🔍）未做
-- 消息入口（顶栏 ✉️）未做；可评估复用 Profile Messages 路由
-- 评论输入为本地 mock，可继续完善交互（已持久化用户发出的评论）
+- 搜索为本地 mock 过滤（标题/摘要/作者/标签），无网络；可后续补热搜/历史
 - 帖图：真实帖多用 `scrape_*`；其余仍复用游戏库 media / 纯色；图标多用 emoji
 - 真实帖 mock：旧爬取 4 篇（rs1–rs4）+ 截图补 8 篇（rs5–rs12）；评论区为截图可见楼层精简，非全量 497/374 等
 - Hot 业务仍主要在 `entry/.../pages/Hot/`，`Hot/` HAR 尚未承接业务
