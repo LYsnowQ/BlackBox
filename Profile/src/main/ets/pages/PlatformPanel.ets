@@ -9,15 +9,34 @@ import {
 /**
  * 平台绑定窗口（压缩版 · 约 2:1 宽高比）
  * 顶部导航 top ≈ 5px：steam / switch / ps / xbox / epic
+ *
+ * 注意：切换平台时必须同步 @State 展示字段，并对内容区加 key，
+ * 否则 ArkUI 会复用同构子树，导致绑定数据 / placeholder 不刷新。
  */
 @Component
 export struct PlatformPanel {
   @State platformIndex: number = 0;
+  /** 当前平台 id，同时作为内容区重建 key */
+  @State platformId: string = platformList[0].id;
   @State inputId: string = '';
-  /** 绑定输入框 placeholder，随平台切换更新（避免 TextInput 复用残留） */
+  /** 绑定输入框 placeholder，随平台切换更新 */
   @State bindPlaceholder: string = platformList[0].inputHint;
   @State newlyBoundIds: string[] = [];
   @State newlyBoundNames: string[] = [];
+
+  // ── 当前平台展示用 @State（避免 @Builder 入参被节点复用吃掉）──
+  @State isCurrentBound: boolean = getBoundAccount(platformList[0].id) !== undefined;
+  @State accountNickname: string = '';
+  @State accountAvatarChar: string = '';
+  @State accountLevel: string = '';
+  @State accountValue: string = '';
+  @State accountPlayTime: string = '';
+  @State accountGameCount: string = '';
+  @State accountFriends: PlatformFriend[] = [];
+
+  aboutToAppear(): void {
+    this.syncPlatformView(0);
+  }
 
   private currentPlatform(): PlatformItem {
     return platformList[this.platformIndex];
@@ -53,6 +72,41 @@ export struct PlatformPanel {
     };
   }
 
+  /** 切换 / 绑定后：把平台与账号数据写入 @State，驱动 UI 全量刷新 */
+  private syncPlatformView(index: number): void {
+    const platform = platformList[index];
+    this.platformIndex = index;
+    this.platformId = platform.id;
+    this.bindPlaceholder = platform.inputHint;
+    this.inputId = '';
+
+    const bound = this.isBound(platform.id);
+    this.isCurrentBound = bound;
+    if (bound) {
+      const account = this.resolveAccount(platform);
+      this.accountNickname = account.nickname;
+      this.accountAvatarChar = account.avatarChar;
+      this.accountLevel = account.level;
+      this.accountValue = account.accountValue;
+      this.accountPlayTime = account.playTime;
+      this.accountGameCount = account.gameCount;
+      // 新数组引用，确保好友 ForEach 识别变化
+      const friends: PlatformFriend[] = [];
+      for (let i = 0; i < account.friends.length; i++) {
+        friends.push(account.friends[i]);
+      }
+      this.accountFriends = friends;
+    } else {
+      this.accountNickname = '';
+      this.accountAvatarChar = '';
+      this.accountLevel = '';
+      this.accountValue = '';
+      this.accountPlayTime = '';
+      this.accountGameCount = '';
+      this.accountFriends = [];
+    }
+  }
+
   private onBind(): void {
     const id = this.inputId.trim();
     if (id.length === 0) {
@@ -71,13 +125,15 @@ export struct PlatformPanel {
       this.newlyBoundIds = ids;
       this.newlyBoundNames = names;
     }
-    this.inputId = '';
+    // 绑定后刷新为已绑定卡片
+    this.syncPlatformView(this.platformIndex);
   }
 
   private onSelectPlatform(index: number): void {
-    this.platformIndex = index;
-    this.inputId = '';
-    this.bindPlaceholder = platformList[index].inputHint;
+    if (index === this.platformIndex) {
+      return;
+    }
+    this.syncPlatformView(index);
   }
 
   @Builder
@@ -120,9 +176,8 @@ export struct PlatformPanel {
         .textAlign(TextAlign.Center)
 
       Row({ space: 8 }) {
-        // key + @State placeholder：避免 TextInput 复用导致一直显示上一平台提示
         TextInput({ placeholder: this.bindPlaceholder, text: this.inputId })
-          .key(`platform_bind_${platform.id}`)
+          .key(`platform_bind_input_${this.platformId}`)
           .height(32)
           .fontSize(12)
           .fontColor(platform.textOnBg)
@@ -195,13 +250,12 @@ export struct PlatformPanel {
   }
 
   @Builder
-  BoundBuilder(platform: PlatformItem, account: PlatformAccount) {
-    // 内容区统一左内边距；账号数据 / 好友列表共用同一视觉左缘（contentLeft）
+  BoundBuilder(platform: PlatformItem) {
     Column() {
-      // 第一行：个人信息（头像 + 昵称 + 等级）— 保持不变
+      // 第一行：个人信息（头像 + 昵称 + 等级）
       Row() {
         Column() {
-          Text(account.avatarChar)
+          Text(this.accountAvatarChar)
             .fontSize(14)
             .fontWeight(FontWeight.Medium)
             .fontColor(Color.White)
@@ -212,7 +266,7 @@ export struct PlatformPanel {
         .justifyContent(FlexAlign.Center)
         .backgroundColor(platform.surface)
 
-        Text(account.nickname)
+        Text(this.accountNickname)
           .fontSize(13)
           .fontWeight(FontWeight.Medium)
           .fontColor(platform.textOnBg)
@@ -220,8 +274,8 @@ export struct PlatformPanel {
           .textOverflow({ overflow: TextOverflow.Ellipsis })
           .margin({ left: 8 })
 
-        if (account.level.length > 0) {
-          Text(account.level)
+        if (this.accountLevel.length > 0) {
+          Text(this.accountLevel)
             .fontSize(10)
             .fontColor(platform.accent)
             .margin({ left: 8 })
@@ -232,14 +286,12 @@ export struct PlatformPanel {
       .width('100%')
       .alignItems(VerticalAlign.Center)
 
-      // 第二、三行共用同一左缘：账号价值… 与 好友头像 视觉左对齐
       Column() {
-        // 账号数据行：数据区左顶格 + 右侧箭头
         Row() {
           Row({ space: 19 }) {
-            this.BoundStatCellBuilder(account.accountValue, '账号价值', platform)
-            this.BoundStatCellBuilder(account.playTime, '游戏时长', platform)
-            this.BoundStatCellBuilder(account.gameCount, '游戏数量', platform)
+            this.BoundStatCellBuilder(this.accountValue, '账号价值', platform)
+            this.BoundStatCellBuilder(this.accountPlayTime, '游戏时长', platform)
+            this.BoundStatCellBuilder(this.accountGameCount, '游戏数量', platform)
           }
           .layoutWeight(1)
           .justifyContent(FlexAlign.Start)
@@ -252,14 +304,13 @@ export struct PlatformPanel {
         .padding({ top: 6, bottom: 6 })
         .alignItems(VerticalAlign.Center)
 
-        // 好友列表：头像流左顶格，与上方「账号价值」数字同左缘
-        if (account.friends.length > 0) {
+        if (this.accountFriends.length > 0) {
           Row() {
             Scroll() {
               Row({ space: 6 }) {
-                ForEach(account.friends, (friend: PlatformFriend) => {
+                ForEach(this.accountFriends, (friend: PlatformFriend) => {
                   this.FriendAvatarBuilder(friend)
-                }, (friend: PlatformFriend) => friend.id)
+                }, (friend: PlatformFriend) => `${this.platformId}_${friend.id}`)
               }
               .justifyContent(FlexAlign.Start)
               .alignItems(VerticalAlign.Center)
@@ -290,14 +341,20 @@ export struct PlatformPanel {
     Column() {
       this.PlatformNavBuilder(this.currentPlatform())
 
-      if (this.isBound(this.currentPlatform().id)) {
-        this.BoundBuilder(this.currentPlatform(), this.resolveAccount(this.currentPlatform()))
-      } else {
-        this.UnboundBuilder(this.currentPlatform())
+      // key 强制内容区随平台 / 绑定态重建，杜绝同构子树复用
+      Column() {
+        if (this.isCurrentBound) {
+          this.BoundBuilder(this.currentPlatform())
+        } else {
+          this.UnboundBuilder(this.currentPlatform())
+        }
       }
+      .width('100%')
+      .layoutWeight(1)
+      .key(`platform_body_${this.platformId}_${this.isCurrentBound ? 'bound' : 'free'}`)
     }
     .width('100%')
-    .aspectRatio(2) // 约 2:1 宽高比
+    .aspectRatio(2)
     .borderRadius(12)
     .clip(true)
     .linearGradient({
