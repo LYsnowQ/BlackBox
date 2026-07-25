@@ -1,5 +1,6 @@
 import {
   LibraryGame,
+  LibraryListQuery,
   LibraryNavKey,
   OwnedSortKey,
   WishlistFilterKey,
@@ -87,12 +88,13 @@ export struct GameLibrarySection {
   // ── 列表：统一走 LibraryApi ──
 
   private filteredList(): LibraryGame[] {
-    return getLibraryGamesSync({
+    const query: LibraryListQuery = {
       nav: this.navKey,
       wishlistFilter: this.wishlistFilter,
       ownedSort: this.ownedSort,
       keyword: this.searchText,
-    });
+    };
+    return getLibraryGamesSync(query);
   }
 
   private onNav(key: LibraryNavKey): void {

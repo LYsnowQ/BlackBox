@@ -1,5 +1,5 @@
 import { router } from '@kit.ArkUI';
-import { UserProfile } from '../model/types/UserModel';
+import { UpdateProfileRequest, UserProfile } from '../model/types/UserModel';
 import { getCurrentUserSync, updateCurrentUser } from '../api/UserApi';
 
 /**
@@ -23,10 +23,11 @@ export struct EditProfilePage {
   }
 
   private onSave(): void {
-    const res = updateCurrentUser({
+    const req: UpdateProfileRequest = {
       nickname: this.nickname,
       signature: this.signature,
-    });
+    };
+    const res = updateCurrentUser(req);
     if (res.code === 0) {
       router.back();
     }

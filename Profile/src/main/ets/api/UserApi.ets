@@ -15,9 +15,13 @@ let sessionUser: UserProfile = cloneUser(MOCK_CURRENT_USER);
 function cloneUser(src: UserProfile): UserProfile {
   const stats: ProfileStat[] = [];
   for (let i = 0; i < src.stats.length; i++) {
-    stats.push({ label: src.stats[i].label, value: src.stats[i].value });
+    const item: ProfileStat = {
+      label: src.stats[i].label,
+      value: src.stats[i].value,
+    };
+    stats.push(item);
   }
-  return {
+  const out: UserProfile = {
     nickname: src.nickname,
     avatarChar: src.avatarChar,
     level: src.level,
@@ -25,6 +29,7 @@ function cloneUser(src: UserProfile): UserProfile {
     signature: src.signature,
     stats: stats,
   };
+  return out;
 }
 
 /**

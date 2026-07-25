@@ -1,4 +1,5 @@
 import {
+  BindPlatformRequest,
   PlatformItem,
   PlatformAccount,
   PlatformFriend,
@@ -246,7 +247,11 @@ export struct PlatformPanel {
       return;
     }
     const platformId = this.platforms[this.platformIndex].id;
-    const res = bindPlatform({ platformId: platformId, accountId: id });
+    const req: BindPlatformRequest = {
+      platformId: platformId,
+      accountId: id,
+    };
+    const res = bindPlatform(req);
     if (res.code !== 0) {
       return;
     }

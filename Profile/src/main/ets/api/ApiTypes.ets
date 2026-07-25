@@ -14,20 +14,25 @@ export interface ApiResult<T> {
   data: T;
 }
 
+/** 非泛型基类结果，避免 arkts-no-untyped-obj-literals 在泛型返回处踩坑 */
+export class ApiResultHolder<T> {
+  code: number;
+  message: string;
+  data: T;
+
+  constructor(code: number, message: string, data: T) {
+    this.code = code;
+    this.message = message;
+    this.data = data;
+  }
+}
+
 export function apiOk<T>(data: T, message: string = 'ok'): ApiResult<T> {
-  return {
-    code: 0,
-    message: message,
-    data: data,
-  };
+  return new ApiResultHolder<T>(0, message, data);
 }
 
 export function apiFail<T>(code: number, message: string, data: T): ApiResult<T> {
-  return {
-    code: code,
-    message: message,
-    data: data,
-  };
+  return new ApiResultHolder<T>(code, message, data);
 }
 
 /** 模拟网络延迟（ms），正式环境可置 0 */

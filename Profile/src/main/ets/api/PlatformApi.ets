@@ -35,7 +35,7 @@ function cloneAccount(src: PlatformAccount): PlatformAccount {
   for (let i = 0; i < src.friends.length; i++) {
     friends.push(src.friends[i]);
   }
-  return {
+  const out: PlatformAccount = {
     platformId: src.platformId,
     nickname: src.nickname,
     avatarChar: src.avatarChar,
@@ -45,10 +45,11 @@ function cloneAccount(src: PlatformAccount): PlatformAccount {
     gameCount: src.gameCount,
     friends: friends,
   };
+  return out;
 }
 
 function emptyAccount(platformId: string): PlatformAccount {
-  return {
+  const out: PlatformAccount = {
     platformId: platformId,
     nickname: '',
     avatarChar: '?',
@@ -58,6 +59,7 @@ function emptyAccount(platformId: string): PlatformAccount {
     gameCount: '—',
     friends: [],
   };
+  return out;
 }
 
 /**
@@ -85,7 +87,7 @@ export function fetchBoundAccount(platformId: string): ApiResult<PlatformAccount
   if (mock !== undefined) {
     return apiOk(cloneAccount(mock));
   }
-  return apiOk(null);
+  return apiOk(null as PlatformAccount | null);
 }
 
 /**

@@ -8,7 +8,7 @@ import { FeedItem, FeedListQuery } from '../model/types/FeedModel';
 import { MOCK_FEED_LIST } from '../model/mock/FeedMock';
 
 function copyFeed(item: FeedItem): FeedItem {
-  return {
+  const out: FeedItem = {
     id: item.id,
     title: item.title,
     content: item.content,
@@ -18,6 +18,7 @@ function copyFeed(item: FeedItem): FeedItem {
     tag: item.tag,
     hasCover: item.hasCover,
   };
+  return out;
 }
 
 /**

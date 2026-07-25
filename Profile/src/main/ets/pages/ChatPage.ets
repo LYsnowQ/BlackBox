@@ -1,5 +1,9 @@
 import { router } from '@kit.ArkUI';
-import { ChatMessage, MessageSession } from '../model/types/MessageModel';
+import {
+  ChatMessage,
+  MessageSession,
+  SendChatMessageRequest,
+} from '../model/types/MessageModel';
 import {
   getChatMessagesSync,
   getMessageSessionByIdSync,
@@ -40,7 +44,11 @@ export struct ChatPage {
     if (text.length === 0 || this.session === undefined) {
       return;
     }
-    const res = sendChatMessage({ sessionId: this.session.id, content: text });
+    const req: SendChatMessageRequest = {
+      sessionId: this.session.id,
+      content: text,
+    };
+    const res = sendChatMessage(req);
     if (res.code !== 0) {
       return;
     }

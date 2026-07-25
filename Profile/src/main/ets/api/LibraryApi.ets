@@ -19,7 +19,7 @@ function copyGame(g: LibraryGame): LibraryGame {
   for (let i = 0; i < g.coverColors.length; i++) {
     colors.push(g.coverColors[i]);
   }
-  return {
+  const out: LibraryGame = {
     id: g.id,
     title: g.title,
     coverColors: colors,
@@ -41,6 +41,7 @@ function copyGame(g: LibraryGame): LibraryGame {
     releaseLabel: g.releaseLabel,
     followCount: g.followCount,
   };
+  return out;
 }
 
 function filterByNav(

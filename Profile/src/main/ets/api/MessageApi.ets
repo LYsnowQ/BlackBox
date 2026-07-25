@@ -36,7 +36,7 @@ function findLocalBucket(sessionId: string): LocalChatBucket | undefined {
 }
 
 function copySession(s: MessageSession): MessageSession {
-  return {
+  const out: MessageSession = {
     id: s.id,
     title: s.title,
     preview: s.preview,
@@ -46,16 +46,28 @@ function copySession(s: MessageSession): MessageSession {
     avatarColor: s.avatarColor,
     type: s.type,
   };
+  return out;
 }
 
 function copyMessage(m: ChatMessage): ChatMessage {
-  return {
+  const out: ChatMessage = {
     id: m.id,
     isSelf: m.isSelf,
     content: m.content,
     time: m.time,
     showTime: m.showTime,
   };
+  return out;
+}
+
+function emptyChatMessage(): ChatMessage {
+  const out: ChatMessage = {
+    id: '',
+    isSelf: true,
+    content: '',
+    time: '',
+  };
+  return out;
 }
 
 /**
@@ -77,7 +89,7 @@ export function fetchMessageSessions(): ApiResult<MessageSession[]> {
 export function fetchMessageSessionById(sessionId: string): ApiResult<MessageSession | null> {
   const s = getMockMessageSessionById(sessionId);
   if (s === undefined) {
-    return apiOk(null);
+    return apiOk(null as MessageSession | null);
   }
   return apiOk(copySession(s));
 }
@@ -108,29 +120,14 @@ export function fetchChatMessages(sessionId: string): ApiResult<ChatMessage[]> {
 export function sendChatMessage(req: SendChatMessageRequest): ApiResult<ChatMessage> {
   const session = getMockMessageSessionById(req.sessionId);
   if (session === undefined) {
-    return apiFail(4041, '会话不存在', {
-      id: '',
-      isSelf: true,
-      content: '',
-      time: '',
-    });
+    return apiFail(4041, '会话不存在', emptyChatMessage());
   }
   if (session.type !== 'chat') {
-    return apiFail(4031, '系统消息不可回复', {
-      id: '',
-      isSelf: true,
-      content: '',
-      time: '',
-    });
+    return apiFail(4031, '系统消息不可回复', emptyChatMessage());
   }
   const text = req.content.trim();
   if (text.length === 0) {
-    return apiFail(4001, '内容不能为空', {
-      id: '',
-      isSelf: true,
-      content: '',
-      time: '',
-    });
+    return apiFail(4001, '内容不能为空', emptyChatMessage());
   }
 
   const msg: ChatMessage = {
@@ -142,8 +139,12 @@ export function sendChatMessage(req: SendChatMessageRequest): ApiResult<ChatMess
 
   let bucket = findLocalBucket(req.sessionId);
   if (bucket === undefined) {
-    bucket = { sessionId: req.sessionId, messages: [] };
-    localChatBuckets.push(bucket);
+    const created: LocalChatBucket = {
+      sessionId: req.sessionId,
+      messages: [],
+    };
+    bucket = created;
+    localChatBuckets.push(created);
   }
   bucket.messages.push(msg);
   return apiOk(copyMessage(msg));
