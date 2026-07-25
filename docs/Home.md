@@ -26,6 +26,8 @@
 | 顶栏搜索 | 已完成 | `HomeSearchPage` + entry 壳 `pages/Home/Search`；本地过滤推荐/关注 |
 | 顶栏消息 | 已完成 | 复用 `pages/Profile/Messages`（`HomeRoutes.MESSAGES`） |
 | 评论回复 | 已完成 | 点「回复」挂到该楼层；本地回复可持久化 |
+| 评论点赞 | 已完成 | 楼层 👍 可切换；`likedCommentIds` 持久化 |
+| 用户主页 | 已完成 | 头像/昵称跳转 `UserProfilePage`；列表+简介 mock |
 | Home 模块化 | 已完成 | 业务在 `Home/` HAR，entry 仅壳 |
 | 与主分支模块化对齐 | 已完成 | 已 merge master；游戏库/Profile 同为 HAR |
 
@@ -42,6 +44,7 @@ Home/                                   # HAR 包名 home · 本分支主战场
     │   ├── Home.ets
     │   ├── HomeRecommend.ets
     │   ├── HomeSearchPage.ets
+    │   ├── UserProfilePage.ets
     │   ├── FollowFeed.ets
     │   ├── PostCard.ets
     │   └── PostDetailPage.ets
@@ -51,6 +54,7 @@ entry/src/main/ets/
 ├── pages/Index.ets                     # 底栏壳；import home / gamelibrary / profile
 ├── pages/Home/PostDetail.ets           # @Entry 壳 → PostDetailPage
 ├── pages/Home/Search.ets               # @Entry 壳 → HomeSearchPage
+├── pages/Home/UserProfile.ets          # @Entry 壳 → UserProfilePage
 ├── pages/GameLibrary|GameDetail/       # 游戏库 @Entry 壳（业务在 gamelibrary）
 ├── pages/Profile/*                     # 我的二级页壳（业务在 profile）
 ├── pages/Hot/*                         # 热点仍部分在 entry（Hot HAR 多为骨架）
@@ -73,6 +77,7 @@ docs/Home.md / ROUTE_CONTRACT.md
 
 > 每完成一小部分功能，在此追加一条（新在上）。
 
+- 2026-07-25 · 评论点赞 + 用户主页 · `PostDetailPage` `PostCard` `FollowFeed` `UserProfilePage` `HomeInteractStore` · 路由 `HomeRoutes.USER_PROFILE`
 - 2026-07-25 · 首页搜索 + 消息入口 + 评论回复 · `HomeSearchPage` `Home` `PostDetailPage` `HomeInteractStore` + entry 壳 `Search` · 路由 `HomeRoutes.SEARCH/MESSAGES`
 - 2026-07-25 · 截图补 8 篇真实帖 mock（rs5–rs12，仅推荐流；评论只文字） · `HomeModel` + media `scrape_greenhell/jiahao/muse/doubao/messi/cxmt/wzry/cf*` · 提取 JSON 在 `Home/mock_raw/extracted/` · 生成脚本 `gen_from_extracted.py`
 - 2026-07-24 · 小黑盒真实帖子 mock 扩充（4 帖正文+评论+配图） · `HomeModel` `PostCard` `PostDetailPage` + media `scrape_*` · 原始 JSON 在 `Home/mock_raw/posts/`

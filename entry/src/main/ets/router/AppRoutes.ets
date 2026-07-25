@@ -23,6 +23,8 @@ export class AppRoutes {
   static readonly HOME_POST_DETAIL: string = 'pages/Home/PostDetail';
   /** 首页搜索 */
   static readonly HOME_SEARCH: string = 'pages/Home/Search';
+  /** 用户主页 params: { name, avatarColor, avatarText, levelLabel?, authorId? } */
+  static readonly HOME_USER_PROFILE: string = 'pages/Home/UserProfile';
 
   // ── Profile ──
   static readonly PROFILE_SETTINGS: string = 'pages/Profile/Settings';

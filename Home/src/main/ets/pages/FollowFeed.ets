@@ -1,4 +1,6 @@
+import { router } from '@kit.ArkUI';
 import { FeedPost, FollowUser, followPosts, followUsers } from '../model/HomeModel';
+import { HomeRoutes } from '../router/HomeRoutes';
 import { PostCard } from './PostCard';
 
 @Component
@@ -10,6 +12,19 @@ export struct FollowFeed {
       return followPosts;
     }
     return followPosts.filter((post: FeedPost) => post.authorId === this.selectedUserId);
+  }
+
+  private openUserProfile(user: FollowUser): void {
+    router.pushUrl({
+      url: HomeRoutes.USER_PROFILE,
+      params: {
+        name: user.name,
+        avatarColor: user.avatarColor,
+        avatarText: user.avatarText,
+        levelLabel: '',
+        authorId: user.id,
+      },
+    });
   }
 
   @Builder
@@ -42,6 +57,7 @@ export struct FollowFeed {
       }
       .width(52)
       .height(52)
+      .onClick(() => this.openUserProfile(user))
 
       Text(user.name)
         .fontSize(11)
@@ -51,13 +67,13 @@ export struct FollowFeed {
         .maxLines(1)
         .textOverflow({ overflow: TextOverflow.Ellipsis })
         .constraintSize({ maxWidth: 64 })
+        .onClick(() => {
+          this.selectedUserId = this.selectedUserId === user.id ? '' : user.id;
+        })
     }
     .width(68)
     .alignItems(HorizontalAlign.Center)
     .opacity(this.selectedUserId === '' || this.selectedUserId === user.id ? 1 : 0.55)
-    .onClick(() => {
-      this.selectedUserId = this.selectedUserId === user.id ? '' : user.id;
-    })
   }
 
   build() {

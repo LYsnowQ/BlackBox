@@ -17,4 +17,8 @@ export class HomeRoutes {
    * 与 ProfileRoutes.MESSAGES / AppRoutes.PROFILE_MESSAGES 同路径
    */
   static readonly MESSAGES: string = 'pages/Profile/Messages';
+  /**
+   * 用户主页 params: { name, avatarColor, avatarText, levelLabel?, authorId? }
+   */
+  static readonly USER_PROFILE: string = 'pages/Home/UserProfile';
 }

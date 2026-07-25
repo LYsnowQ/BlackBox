@@ -24,6 +24,8 @@ export interface PostInteractState {
   extraComments: PostComment[];
   /** 对 mock 楼层追加的回复（parent 非 local-） */
   extraReplies: LocalReplyBundle[];
+  /** 用户点过赞的评论 id */
+  likedCommentIds: string[];
 }
 
 function ensureVersionKey(): void {
@@ -78,6 +80,7 @@ class HomeInteractStoreImpl {
               commentCount: st.commentCount ?? 0,
               extraComments: st.extraComments ?? [],
               extraReplies: st.extraReplies ?? [],
+              likedCommentIds: st.likedCommentIds ?? [],
             });
           }
         }

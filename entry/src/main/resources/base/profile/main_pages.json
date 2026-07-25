@@ -8,6 +8,7 @@
     "pages/Profile/Messages",
     "pages/Profile/Scan",
     "pages/Profile/EditProfile",
-    "pages/Home/Search"
+    "pages/Home/Search",
+    "pages/Home/UserProfile"
   ]
 }

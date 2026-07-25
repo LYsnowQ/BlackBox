@@ -70,6 +70,19 @@ export struct PostCard {
   }
 
   /** 资源宽/高；列表单图用，竖图给更矮的宽高比 */
+  private openUserProfile(): void {
+    router.pushUrl({
+      url: HomeRoutes.USER_PROFILE,
+      params: {
+        name: this.post.authorName,
+        avatarColor: this.post.authorAvatarColor,
+        avatarText: this.post.authorAvatarText,
+        levelLabel: this.post.levelLabel,
+        authorId: this.post.authorId,
+      },
+    });
+  }
+
   private mediaAspectRatio(key: string): number {
     if (key === 'scrape_messi1' || key === 'scrape_jiahao1' || key === 'scrape_wzry1' ||
       key === 'scrape_gf1') {
@@ -454,49 +467,56 @@ export struct PostCard {
   build() {
     Column() {
       Row() {
-        this.AvatarBuilder(34, this.post.authorAvatarColor, this.post.authorAvatarText)
-
         Row() {
-          Text(this.post.authorName)
-            .fontSize(14)
-            .fontWeight(FontWeight.Medium)
-            .fontColor('#1A1A1A')
-            .margin({ left: 8 })
+          this.AvatarBuilder(34, this.post.authorAvatarColor, this.post.authorAvatarText)
 
-          if (this.post.isOfficial) {
-            Text('✔')
-              .fontSize(10)
-              .fontColor(Color.White)
-              .backgroundColor('#3B82F6')
-              .width(14)
-              .height(14)
-              .textAlign(TextAlign.Center)
-              .borderRadius(7)
-              .margin({ left: 4 })
-          }
+          Row() {
+            Text(this.post.authorName)
+              .fontSize(14)
+              .fontWeight(FontWeight.Medium)
+              .fontColor('#1A1A1A')
+              .margin({ left: 8 })
 
-          if (this.post.levelLabel !== '') {
-            Text(this.post.levelLabel)
-              .fontSize(10)
-              .fontColor('#C47B00')
-              .backgroundColor('#FFF3D6')
-              .padding({ left: 5, right: 5, top: 1, bottom: 1 })
-              .borderRadius(4)
-              .margin({ left: 6 })
-          }
+            if (this.post.isOfficial) {
+              Text('✔')
+                .fontSize(10)
+                .fontColor(Color.White)
+                .backgroundColor('#3B82F6')
+                .width(14)
+                .height(14)
+                .textAlign(TextAlign.Center)
+                .borderRadius(7)
+                .margin({ left: 4 })
+            }
 
-          if (this.post.isFollowing && this.variant === 'recommend') {
-            Text('你的关注')
-              .fontSize(10)
-              .fontColor('#888888')
-              .backgroundColor('#F0F0F0')
-              .padding({ left: 6, right: 6, top: 1, bottom: 1 })
-              .borderRadius(4)
-              .margin({ left: 6 })
+            if (this.post.levelLabel !== '') {
+              Text(this.post.levelLabel)
+                .fontSize(10)
+                .fontColor('#C47B00')
+                .backgroundColor('#FFF3D6')
+                .padding({ left: 5, right: 5, top: 1, bottom: 1 })
+                .borderRadius(4)
+                .margin({ left: 6 })
+            }
+
+            if (this.post.isFollowing && this.variant === 'recommend') {
+              Text('你的关注')
+                .fontSize(10)
+                .fontColor('#888888')
+                .backgroundColor('#F0F0F0')
+                .padding({ left: 6, right: 6, top: 1, bottom: 1 })
+                .borderRadius(4)
+                .margin({ left: 6 })
+            }
           }
+          .layoutWeight(1)
+          .alignItems(VerticalAlign.Center)
         }
         .layoutWeight(1)
-        .alignItems(VerticalAlign.Center)
+        .onClick((event: ClickEvent) => {
+          event.stopPropagation();
+          this.openUserProfile();
+        })
 
         Text('···')
           .fontSize(16)
