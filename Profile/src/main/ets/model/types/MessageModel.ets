@@ -11,7 +11,10 @@ export interface MessageSession {
   title: string;
   preview: string;
   time: string;
+  /** 是否有未读（可由 unreadCount > 0 推导，保留兼容） */
   unread: boolean;
+  /** 未读条数；0 表示无角标 */
+  unreadCount: number;
   /** 头像占位字 */
   avatarChar: string;
   /** 头像底色 */

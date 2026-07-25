@@ -7,6 +7,8 @@ import {
 import {
   getChatMessagesSync,
   getMessageSessionByIdSync,
+  markSessionReadSync,
+  receiveIncomingMessage,
   sendChatMessage,
 } from '../api/MessageApi';
 
@@ -26,8 +28,33 @@ export struct ChatPage {
   aboutToAppear(): void {
     const params = router.getParams() as Record<string, Object>;
     const id = params ? (params['id'] as string) : '';
+    // 进入聊天即标记已读，角标消失
+    if (id.length > 0) {
+      markSessionReadSync(id);
+    }
     this.session = getMessageSessionByIdSync(id);
     this.messages = getChatMessagesSync(id);
+  }
+
+  /**
+   * 调试：长按导航标题模拟对方发来一条新消息
+   * 正式环境由推送 / 轮询驱动 receiveIncomingMessage
+   */
+  private mockIncoming(): void {
+    if (this.session === undefined) {
+      return;
+    }
+    // 若在会话内，新消息立刻已读；先写入再 mark 保持预览
+    const res = receiveIncomingMessage(this.session.id, '（模拟）新消息已送达');
+    if (res.code !== 0) {
+      return;
+    }
+    // 当前会话打开中：立即已读
+    markSessionReadSync(this.session.id);
+    this.messages = getChatMessagesSync(this.session.id);
+    if (this.messages.length > 0) {
+      this.listScroller.scrollToIndex(this.messages.length - 1);
+    }
   }
 
   private isChatSession(): boolean {
@@ -81,6 +108,11 @@ export struct ChatPage {
         .textAlign(TextAlign.Center)
         .maxLines(1)
         .textOverflow({ overflow: TextOverflow.Ellipsis })
+        // 长按标题：模拟对方新消息（会话内立即已读）
+        .gesture(
+          LongPressGesture({ repeat: false })
+            .onAction(() => this.mockIncoming())
+        )
 
       // 右侧占位，保持标题居中
       Row().width(40).height(40)

@@ -35,7 +35,13 @@ export {
   fetchMessageSessionById,
   fetchChatMessages,
   sendChatMessage,
+  markSessionRead,
+  receiveIncomingMessage,
+  fetchUnreadTotal,
   getMessageSessionsSync,
   getMessageSessionByIdSync,
   getChatMessagesSync,
+  markSessionReadSync,
+  getUnreadTotalSync,
+  formatUnreadBadge,
 } from './MessageApi';
