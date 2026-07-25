@@ -36,6 +36,8 @@ export struct GameDetail {
   @State isCurrentPostFavorited: boolean = false;
   @State isFollowingAuthor: boolean = false;
   @State pokedexFilter: string = '全部';
+  @State userRatingStars: number = 0;
+  @State reviewFilterTab: number = 0;
 
   aboutToAppear(): void {
     try {
@@ -2175,6 +2177,601 @@ export struct GameDetail {
     .height('100%')
   }
 
+  @Builder
+  GameMetaInfoBuilder(game: GameItem) {
+    Column() {
+      Row() {
+        Text('发布时间：')
+          .fontSize(12)
+          .fontColor('#888888')
+        Text('2023年09月20日')
+          .fontSize(12)
+          .fontColor('#333333')
+          .margin({ right: 16 })
+
+        Text('开发商：')
+          .fontSize(12)
+          .fontColor('#888888')
+        Text('Recreate Games ▶')
+          .fontSize(12)
+          .fontColor('#2B6CB0')
+      }
+      .width('100%')
+      .margin({ top: 8 })
+
+      Row() {
+        Text('发行商：')
+          .fontSize(12)
+          .fontColor('#888888')
+        Text('Source Technology ▶')
+          .fontSize(12)
+          .fontColor('#2B6CB0')
+          .margin({ right: 16 })
+
+        Text('DLCs：')
+          .fontSize(12)
+          .fontColor('#888888')
+        Text('查看1款 ▶')
+          .fontSize(12)
+          .fontColor('#2B6CB0')
+      }
+      .width('100%')
+      .margin({ top: 6 })
+
+      Row() {
+        Text('媒体评分：')
+          .fontSize(12)
+          .fontColor('#888888')
+
+        Row() {
+          Text('76')
+            .fontSize(11)
+            .fontWeight(FontWeight.Bold)
+            .fontColor(Color.White)
+            .backgroundColor('#D97706')
+            .padding({ left: 5, right: 5, top: 1, bottom: 1 })
+            .borderRadius(3)
+            .margin({ right: 4 })
+
+          Text('22家综评 ▶')
+            .fontSize(12)
+            .fontColor('#2B6CB0')
+        }
+      }
+      .width('100%')
+      .margin({ top: 6 })
+    }
+    .width('100%')
+    .alignItems(HorizontalAlign.Start)
+  }
+
+  @Builder
+  GameQuickActionsBuilder() {
+    Column() {
+      Row() {
+        Text('🐶 官方动态')
+          .fontSize(13)
+          .fontWeight(FontWeight.Medium)
+          .fontColor('#333333')
+        Blank()
+        Text('🕶️ 黑衣归来 ▶')
+          .fontSize(12)
+          .fontWeight(FontWeight.Bold)
+          .fontColor('#1A1A1A')
+      }
+      .width('100%')
+      .padding({ top: 12, bottom: 12 })
+
+      Divider().color('#F0F0F0')
+
+      Row() {
+        Text('💻 硬件配置')
+          .fontSize(13)
+          .fontWeight(FontWeight.Medium)
+          .fontColor('#333333')
+        Blank()
+        Text('与我的配置比较 ▶')
+          .fontSize(12)
+          .fontColor('#999999')
+      }
+      .width('100%')
+      .padding({ top: 12, bottom: 12 })
+
+      Divider().color('#F0F0F0')
+
+      Row() {
+        Text('📶 网络延迟预估')
+          .fontSize(13)
+          .fontWeight(FontWeight.Medium)
+          .fontColor('#333333')
+        Blank()
+        Text('韩国 37ms ▶')
+          .fontSize(12)
+          .fontColor('#4CAF50')
+      }
+      .width('100%')
+      .padding({ top: 12, bottom: 12 })
+    }
+    .width('100%')
+    .margin({ top: 14 })
+    .backgroundColor('#FAFBFD')
+    .borderRadius(8)
+    .padding({ left: 12, right: 12 })
+  }
+
+  @Builder
+  SimilarGamesBuilder() {
+    Column() {
+      Row() {
+        Text('相似游戏')
+          .fontSize(16)
+          .fontWeight(FontWeight.Bold)
+          .fontColor('#1A1A1A')
+        Blank()
+        Text('全部 ▶')
+          .fontSize(12)
+          .fontColor('#999999')
+      }
+      .width('100%')
+      .margin({ top: 18, bottom: 12 })
+
+      Scroll() {
+        Row({ space: 10 }) {
+          Column() {
+            Stack({ alignContent: Alignment.TopStart }) {
+              Image($r('app.media.storm'))
+                .width(110)
+                .height(70)
+                .borderRadius(6)
+                .objectFit(ImageFit.Cover)
+              Text('-80%')
+                .fontSize(9)
+                .fontWeight(FontWeight.Bold)
+                .fontColor(Color.White)
+                .backgroundColor('#E53935')
+                .padding({ left: 4, right: 4, top: 1, bottom: 1 })
+                .borderRadius({ topLeft: 6, bottomRight: 6 })
+            }
+            .width(110)
+
+            Text('胡闹厨房')
+              .fontSize(13)
+              .fontWeight(FontWeight.Bold)
+              .fontColor('#1A1A1A')
+              .margin({ top: 6 })
+
+            Row() {
+              Text('领券95折')
+                .fontSize(9)
+                .fontColor('#FF6B00')
+                .border({ width: 1, color: '#FF6B00' })
+                .padding({ left: 3, right: 3 })
+                .borderRadius(2)
+            }
+            .margin({ top: 3 })
+
+            Row() {
+              Text('¥13')
+                .fontSize(13)
+                .fontWeight(FontWeight.Bold)
+                .fontColor('#1A1A1A')
+              Text('¥68')
+                .fontSize(10)
+                .fontColor('#B0B0B0')
+                .decoration({ type: TextDecorationType.LineThrough })
+                .margin({ left: 4 })
+            }
+            .margin({ top: 4 })
+          }
+          .alignItems(HorizontalAlign.Start)
+          .width(110)
+
+          Column() {
+            Stack({ alignContent: Alignment.TopStart }) {
+              Image($r('app.media.granblue_relink'))
+                .width(110)
+                .height(70)
+                .borderRadius(6)
+                .objectFit(ImageFit.Cover)
+              Text('-75%')
+                .fontSize(9)
+                .fontWeight(FontWeight.Bold)
+                .fontColor(Color.White)
+                .backgroundColor('#E53935')
+                .padding({ left: 4, right: 4, top: 1, bottom: 1 })
+                .borderRadius({ topLeft: 6, bottomRight: 6 })
+            }
+            .width(110)
+
+            Text('胡闹厨房2')
+              .fontSize(13)
+              .fontWeight(FontWeight.Bold)
+              .fontColor('#1A1A1A')
+              .margin({ top: 6 })
+
+            Row() {
+              Text('领券95折')
+                .fontSize(9)
+                .fontColor('#FF6B00')
+                .border({ width: 1, color: '#FF6B00' })
+                .padding({ left: 3, right: 3 })
+                .borderRadius(2)
+            }
+            .margin({ top: 3 })
+
+            Row() {
+              Text('¥24')
+                .fontSize(13)
+                .fontWeight(FontWeight.Bold)
+                .fontColor('#1A1A1A')
+              Text('¥98')
+                .fontSize(10)
+                .fontColor('#B0B0B0')
+                .decoration({ type: TextDecorationType.LineThrough })
+                .margin({ left: 4 })
+            }
+            .margin({ top: 4 })
+          }
+          .alignItems(HorizontalAlign.Start)
+          .width(110)
+
+          Column() {
+            Stack({ alignContent: Alignment.TopStart }) {
+              Image($r('app.media.resident'))
+                .width(110)
+                .height(70)
+                .borderRadius(6)
+                .objectFit(ImageFit.Cover)
+            }
+            .width(110)
+
+            Text('超级兔子人')
+              .fontSize(13)
+              .fontWeight(FontWeight.Bold)
+              .fontColor('#1A1A1A')
+              .margin({ top: 6 })
+
+            Row() {
+              Text('领券9折')
+                .fontSize(9)
+                .fontColor('#FF6B00')
+                .border({ width: 1, color: '#FF6B00' })
+                .padding({ left: 3, right: 3 })
+                .borderRadius(2)
+            }
+            .margin({ top: 3 })
+
+            Row() {
+              Text('¥53')
+                .fontSize(13)
+                .fontWeight(FontWeight.Bold)
+                .fontColor('#1A1A1A')
+            }
+            .margin({ top: 4 })
+          }
+          .alignItems(HorizontalAlign.Start)
+          .width(110)
+        }
+      }
+      .scrollable(ScrollDirection.Horizontal)
+      .scrollBar(BarState.Off)
+      .width('100%')
+    }
+    .width('100%')
+  }
+
+  @Builder
+  GameReviewsBuilder() {
+    Column() {
+      Row() {
+        Row() {
+          Text('游戏评价')
+            .fontSize(16)
+            .fontWeight(FontWeight.Bold)
+            .fontColor('#1A1A1A')
+          Text('拥有 ▾')
+            .fontSize(11)
+            .fontColor('#888888')
+            .backgroundColor('#F5F5F7')
+            .padding({ left: 6, right: 6, top: 2, bottom: 2 })
+            .borderRadius(4)
+            .margin({ left: 6 })
+        }
+
+        Blank()
+
+        Row({ space: 10 }) {
+          Text('评分统计')
+            .fontSize(11)
+            .fontWeight(FontWeight.Bold)
+            .fontColor('#1A1A1A')
+          Text('印象评分')
+            .fontSize(11)
+            .fontColor('#999999')
+          Text('评分趋势')
+            .fontSize(11)
+            .fontColor('#999999')
+        }
+      }
+      .width('100%')
+      .margin({ top: 20, bottom: 12 })
+
+      Row() {
+        Column() {
+          Text('7.6')
+            .fontSize(32)
+            .fontWeight(FontWeight.Bold)
+            .fontColor(Color.White)
+          Text('6709人评分 ❓')
+            .fontSize(9)
+            .fontColor('rgba(255,255,255,0.8)')
+            .margin({ top: 4 })
+        }
+        .width(100)
+        .height(76)
+        .backgroundColor('#AB47BC')
+        .borderRadius(8)
+        .justifyContent(FlexAlign.Center)
+
+        Column({ space: 4 }) {
+          ForEach([
+            { stars: '★★★★★', percent: 0.65 },
+            { stars: '★★★★', percent: 0.18 },
+            { stars: '★★★', percent: 0.08 },
+            { stars: '★★', percent: 0.04 },
+            { stars: '★', percent: 0.05 }
+          ], (item: { stars: string, percent: number }) => {
+            Row() {
+              Text(item.stars)
+                .fontSize(8)
+                .fontColor('#B0B0B0')
+                .width(42)
+                .textAlign(TextAlign.End)
+              Row() {
+                Row()
+                  .width(`${Math.round(item.percent * 100)}%`)
+                  .height(6)
+                  .backgroundColor('#B0B0B0')
+                  .borderRadius(3)
+              }
+              .layoutWeight(1)
+              .height(6)
+              .backgroundColor('#EFEFEF')
+              .borderRadius(3)
+              .margin({ left: 6 })
+            }
+            .width('100%')
+          })
+        }
+        .layoutWeight(1)
+        .margin({ left: 16 })
+      }
+      .width('100%')
+      .padding(12)
+      .backgroundColor('#FAFBFD')
+      .borderRadius(8)
+
+      Column() {
+        Text('点击发布评价')
+          .fontSize(13)
+          .fontColor('#666666')
+          .margin({ top: 12, bottom: 8 })
+
+        Row({ space: 10 }) {
+          ForEach([1, 2, 3, 4, 5], (starIndex: number) => {
+            Text(starIndex <= this.userRatingStars ? '★' : '☆')
+              .fontSize(28)
+              .fontColor(starIndex <= this.userRatingStars ? '#FFC107' : '#D0D0D0')
+              .onClick(() => {
+                this.userRatingStars = starIndex;
+              })
+          })
+        }
+        .margin({ bottom: 16 })
+      }
+      .width('100%')
+      .alignItems(HorizontalAlign.Center)
+
+      Divider().color('#F0F0F2')
+
+      Row() {
+        ForEach(['推荐', '最新', '有用', '欢乐'], (t: string, idx: number) => {
+          Text(t)
+            .fontSize(14)
+            .fontWeight(this.reviewFilterTab === idx ? FontWeight.Bold : FontWeight.Normal)
+            .fontColor(this.reviewFilterTab === idx ? '#1A1A1A' : '#888888')
+            .border({ width: { bottom: this.reviewFilterTab === idx ? 2 : 0 }, color: '#1A1A1A' })
+            .padding({ bottom: 6 })
+            .margin({ right: 20 })
+            .onClick(() => {
+              this.reviewFilterTab = idx;
+            })
+        })
+      }
+      .width('100%')
+      .margin({ top: 12, bottom: 8 })
+
+      Scroll() {
+        Row({ space: 6 }) {
+          ForEach(['评分 ▾', '游玩时长 ▾', '发布时间 ▾', '评价长度 ▾', '是否拥有游戏 ▾'], (chip: string) => {
+            Text(chip)
+              .fontSize(11)
+              .fontColor('#666666')
+              .backgroundColor('#F5F5F7')
+              .padding({ left: 8, right: 8, top: 4, bottom: 4 })
+              .borderRadius(4)
+          })
+        }
+      }
+      .scrollable(ScrollDirection.Horizontal)
+      .scrollBar(BarState.Off)
+      .width('100%')
+      .margin({ bottom: 12 })
+
+      Column() {
+        Row() {
+          Text('🐭')
+            .fontSize(16)
+            .width(32)
+            .height(32)
+            .borderRadius(16)
+            .backgroundColor('#FFE0B2')
+            .textAlign(TextAlign.Center)
+
+          Column() {
+            Row() {
+              Text('小鼠鱼')
+                .fontSize(13)
+                .fontWeight(FontWeight.Bold)
+                .fontColor('#333333')
+
+              Text('★★★☆☆')
+                .fontSize(10)
+                .fontColor('#FFB300')
+                .margin({ left: 6 })
+            }
+
+            Text('总时长 3.1h · 修改于 2025-04-24')
+              .fontSize(10)
+              .fontColor('#B0B0B0')
+              .margin({ top: 2 })
+          }
+          .margin({ left: 8 })
+          .alignItems(HorizontalAlign.Start)
+
+          Blank()
+
+          Text('···')
+            .fontSize(16)
+            .fontColor('#B0B0B0')
+        }
+        .width('100%')
+
+        Text('为什么不能家庭共享？家庭里面买了两个这游戏昨天试了试，但是那俩人都不在我和另一个家庭成员进去都是通行证版全都玩不了，还以为是双人成行那种两个不同版本的游戏，结果卸载了之后安装仍然没有别的选项...')
+          .fontSize(13)
+          .fontColor('#333333')
+          .lineHeight(19)
+          .margin({ top: 8 })
+
+        Text('查看全文')
+          .fontSize(12)
+          .fontWeight(FontWeight.Bold)
+          .fontColor('#2B6CB0')
+          .margin({ top: 4 })
+
+        Row({ space: 8 }) {
+          Text('🤧 有用 650')
+            .fontSize(11)
+            .fontColor('#666666')
+            .backgroundColor('#F5F5F7')
+            .padding({ left: 8, right: 8, top: 4, bottom: 4 })
+            .borderRadius(12)
+
+          Text('😳 没用 223')
+            .fontSize(11)
+            .fontColor('#666666')
+            .backgroundColor('#F5F5F7')
+            .padding({ left: 8, right: 8, top: 4, bottom: 4 })
+            .borderRadius(12)
+
+          Text('😆 欢乐 175')
+            .fontSize(11)
+            .fontColor('#666666')
+            .backgroundColor('#F5F5F7')
+            .padding({ left: 8, right: 8, top: 4, bottom: 4 })
+            .borderRadius(12)
+
+          Blank()
+
+          Text('💬 讨论 477')
+            .fontSize(11)
+            .fontColor('#999999')
+        }
+        .width('100%')
+        .margin({ top: 10 })
+
+        Row() {
+          Text('🐶 猛兽派对 ')
+            .fontSize(11)
+            .fontWeight(FontWeight.Bold)
+            .fontColor('#1A1A1A')
+          Text('官方')
+            .fontSize(9)
+            .fontColor(Color.White)
+            .backgroundColor('#00BCD4')
+            .padding({ left: 4, right: 4, top: 1, bottom: 1 })
+            .borderRadius(3)
+            .margin({ right: 6 })
+          Text('回复了这条评价 ▶')
+            .fontSize(11)
+            .fontColor('#666666')
+        }
+        .width('100%')
+        .padding(8)
+        .backgroundColor('#F7F8FA')
+        .borderRadius(6)
+        .margin({ top: 8 })
+      }
+      .width('100%')
+      .padding(12)
+      .backgroundColor(Color.White)
+      .borderRadius(8)
+      .margin({ bottom: 10 })
+
+      Column() {
+        Row() {
+          Text('🐶')
+            .fontSize(16)
+            .width(32)
+            .height(32)
+            .borderRadius(16)
+            .backgroundColor('#E1F5FE')
+            .textAlign(TextAlign.Center)
+
+          Column() {
+            Row() {
+              Text('猛兽派对')
+                .fontSize(13)
+                .fontWeight(FontWeight.Bold)
+                .fontColor('#333333')
+
+              Text('★★★★☆')
+                .fontSize(10)
+                .fontColor('#FFB300')
+                .margin({ left: 6 })
+            }
+
+            Text('总时长 363.3h(评价时 129.6h) · 2024-12-05')
+              .fontSize(10)
+              .fontColor('#B0B0B0')
+              .margin({ top: 2 })
+          }
+          .margin({ left: 8 })
+          .alignItems(HorizontalAlign.Start)
+
+          Blank()
+
+          Text('···')
+            .fontSize(16)
+            .fontColor('#B0B0B0')
+        }
+        .width('100%')
+
+        Text('它给我带来了很多快乐，但是可能因为我的电脑配置等问题，现在无法正常游玩，等有钱了，肯定会重新上线，或者等待官方解决完我提交的工单问题。')
+          .fontSize(13)
+          .fontColor('#333333')
+          .lineHeight(19)
+          .margin({ top: 8 })
+      }
+      .width('100%')
+      .padding(12)
+      .backgroundColor(Color.White)
+      .borderRadius(8)
+      .margin({ bottom: 20 })
+    }
+    .width('100%')
+  }
+
   build() {
     Stack({ alignContent: Alignment.Bottom }) {
       Column() {
@@ -2345,6 +2942,12 @@ export struct GameDetail {
                         .margin({ top: 10 })
                         .width('100%')
                     }
+
+                    // 补充截图 1 & 截图 2 所示内容
+                    this.GameMetaInfoBuilder(this.game)
+                    this.GameQuickActionsBuilder()
+                    this.SimilarGamesBuilder()
+                    this.GameReviewsBuilder()
                   }
                   .width('100%')
                   .padding({ left: 16, right: 16, top: 16, bottom: 20 })
