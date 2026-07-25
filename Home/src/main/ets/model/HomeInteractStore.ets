@@ -107,6 +107,50 @@ class HomeInteractStoreImpl {
     return st ? st.commentCount : base;
   }
 
+  isLiked(postId: string): boolean {
+    const st = this.map.get(postId);
+    return st ? st.liked : false;
+  }
+
+  /** 列表点赞：无快照时按 base 计数建档 */
+  async toggleLike(context: Context, postId: string, baseLike: number, baseComment: number): Promise<void> {
+    const existing = this.map.get(postId);
+    if (existing) {
+      const liked = !existing.liked;
+      const likeCount = liked ? existing.likeCount + 1 : Math.max(0, existing.likeCount - 1);
+      const next: PostInteractState = {
+        liked: liked,
+        starred: existing.starred,
+        awarded: existing.awarded,
+        following: existing.following,
+        likeCount: likeCount,
+        starCount: existing.starCount,
+        awardCount: existing.awardCount,
+        commentCount: existing.commentCount,
+        extraComments: existing.extraComments,
+        extraReplies: existing.extraReplies,
+        likedCommentIds: existing.likedCommentIds,
+      };
+      await this.save(context, postId, next);
+      return;
+    }
+    const liked = true;
+    const next: PostInteractState = {
+      liked: liked,
+      starred: false,
+      awarded: false,
+      following: false,
+      likeCount: baseLike + 1,
+      starCount: 0,
+      awardCount: 0,
+      commentCount: baseComment,
+      extraComments: [],
+      extraReplies: [],
+      likedCommentIds: [],
+    };
+    await this.save(context, postId, next);
+  }
+
   async save(context: Context, postId: string, state: PostInteractState): Promise<void> {
     this.map.set(postId, state);
     this.patchFeedPosts();

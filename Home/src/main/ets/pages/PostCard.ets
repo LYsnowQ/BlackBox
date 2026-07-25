@@ -43,6 +43,18 @@ export struct PostCard {
     return HomeInteractStore.getLikeCount(this.post.id, this.post.likeCount) + _v * 0;
   }
 
+  private isLiked(): boolean {
+    const _v = this.interactVersion;
+    return HomeInteractStore.isLiked(this.post.id) && _v >= 0;
+  }
+
+  private toggleLike(): void {
+    const ctx = getContext(this) as Context;
+    HomeInteractStore.ensureLoaded(ctx).then(() => {
+      HomeInteractStore.toggleLike(ctx, this.post.id, this.post.likeCount, this.post.commentCount);
+    });
+  }
+
   private tagBg(): string {
     if (this.post.tagTone === 'hot') {
       return '#FFF0F0';
@@ -461,20 +473,29 @@ export struct PostCard {
       }
 
       Row() {
-        Text('💬')
-          .fontSize(13)
-          .fontColor('#B0B0B0')
-        Text(`${this.displayCommentCount()}`)
-          .fontSize(12)
-          .fontColor('#B0B0B0')
-          .margin({ left: 3, right: 14 })
-        Text('👍')
-          .fontSize(13)
-          .fontColor('#B0B0B0')
-        Text(`${this.displayLikeCount()}`)
-          .fontSize(12)
-          .fontColor('#B0B0B0')
-          .margin({ left: 3 })
+        Row() {
+          Text('💬')
+            .fontSize(13)
+            .fontColor('#B0B0B0')
+          Text(`${this.displayCommentCount()}`)
+            .fontSize(12)
+            .fontColor('#B0B0B0')
+            .margin({ left: 3 })
+        }
+        .padding({ right: 14 })
+        .onClick(() => this.openPostDetail())
+
+        Row() {
+          Text('👍')
+            .fontSize(13)
+            .fontColor(this.isLiked() ? '#FF5A5A' : '#B0B0B0')
+          Text(`${this.displayLikeCount()}`)
+            .fontSize(12)
+            .fontColor(this.isLiked() ? '#FF5A5A' : '#B0B0B0')
+            .fontWeight(this.isLiked() ? FontWeight.Medium : FontWeight.Normal)
+            .margin({ left: 3 })
+        }
+        .onClick(() => this.toggleLike())
       }
     }
     .width('100%')
@@ -582,7 +603,6 @@ export struct PostCard {
           this.FooterBuilder()
         }
         .width('100%')
-        .onClick(() => this.openPostDetail())
       } else {
         Column() {
           Text(this.post.title)
@@ -621,7 +641,6 @@ export struct PostCard {
           this.FooterBuilder()
         }
         .width('100%')
-        .onClick(() => this.openPostDetail())
       }
     }
     .width('100%')
