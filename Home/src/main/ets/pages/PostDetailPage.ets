@@ -36,6 +36,8 @@ export struct PostDetailPage {
   @State replyToName: string = '';
   /** 本帖内已点赞的评论 id */
   @State likedCommentIds: string[] = [];
+  /** 0=热门 1=最新 */
+  @State commentSort: number = 0;
   private listScroller: Scroller = new Scroller();
   private jumpToComment: boolean = false;
   private postId: string = '';
@@ -208,6 +210,41 @@ export struct PostDetailPage {
   private displayCommentLikeCount(comment: PostComment): number {
     const base = comment.likeCount;
     return this.isCommentLiked(comment.id) ? base + 1 : base;
+  }
+
+  private sortedComments(): PostComment[] {
+    const src = this.comments;
+    const arr: PostComment[] = [];
+    for (let i = 0; i < src.length; i++) {
+      arr.push(src[i]);
+    }
+    if (this.commentSort === 0) {
+      // 热门：置顶优先，再按展示赞数降序
+      arr.sort((a: PostComment, b: PostComment) => {
+        if (a.isPinned && !b.isPinned) {
+          return -1;
+        }
+        if (!a.isPinned && b.isPinned) {
+          return 1;
+        }
+        return this.displayCommentLikeCount(b) - this.displayCommentLikeCount(a);
+      });
+    } else {
+      // 最新：本地新评优先，其余保持 mock 倒序（后出现的在前）
+      arr.sort((a: PostComment, b: PostComment) => {
+        const aLocal = a.id.indexOf('local-') === 0 ? 1 : 0;
+        const bLocal = b.id.indexOf('local-') === 0 ? 1 : 0;
+        if (aLocal !== bLocal) {
+          return bLocal - aLocal;
+        }
+        if (aLocal === 1 && bLocal === 1) {
+          return b.id.localeCompare(a.id);
+        }
+        // 非本地：按数组原下标倒序 —— 用 id 字符串弱近似
+        return b.id.localeCompare(a.id);
+      });
+    }
+    return arr;
   }
 
   private openUserProfile(
@@ -1132,18 +1169,34 @@ export struct PostDetailPage {
           .fontWeight(FontWeight.Bold)
           .fontColor('#1A1A1A')
         Blank()
-        Text('热门')
-          .fontSize(13)
-          .fontColor('#888888')
+        Row() {
+          Text('热门')
+            .fontSize(13)
+            .fontColor(this.commentSort === 0 ? '#1A1A1A' : '#888888')
+            .fontWeight(this.commentSort === 0 ? FontWeight.Medium : FontWeight.Normal)
+            .onClick(() => {
+              this.commentSort = 0;
+            })
+          Text(' | ')
+            .fontSize(13)
+            .fontColor('#CCCCCC')
+          Text('最新')
+            .fontSize(13)
+            .fontColor(this.commentSort === 1 ? '#1A1A1A' : '#888888')
+            .fontWeight(this.commentSort === 1 ? FontWeight.Medium : FontWeight.Normal)
+            .onClick(() => {
+              this.commentSort = 1;
+            })
+        }
       }
       .width('100%')
       .padding({ left: 16, right: 16 })
       .margin({ bottom: 12 })
 
       Column() {
-        ForEach(this.comments, (c: PostComment) => {
+        ForEach(this.sortedComments(), (c: PostComment) => {
           this.CommentItemBuilder(c)
-        }, (c: PostComment) => `${c.id}|r${c.replies.length}|t${c.replyTotal}`)
+        }, (c: PostComment) => `${this.commentSort}|${c.id}|r${c.replies.length}|t${c.replyTotal}|l${this.displayCommentLikeCount(c)}`)
       }
       .width('100%')
       .padding({ left: 16, right: 16 })
