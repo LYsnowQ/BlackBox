@@ -214,6 +214,9 @@ export type OwnedSortKey = 'total' | 'twoWeek' | 'achievement';
 /** 心愿单筛选 */
 export type WishlistFilterKey = 'discount' | 'lowest' | 'steam';
 
+/** 史低标签类型：无 / 史低 / 新史低 */
+export type LowestTagType = 'none' | 'lowest' | 'newLowest';
+
 /** 个人库游戏条目 */
 export interface LibraryGame {
   id: string;
@@ -236,10 +239,83 @@ export interface LibraryGame {
   inSteamWishlist: boolean;
   /** 是否正在折扣 */
   onDiscount: boolean;
-  /** 是否史低 */
+  /** 是否史低（含兼容旧逻辑） */
   isLowest: boolean;
+  /** 史低标签：优先于 isLowest 展示 */
+  lowestTag?: LowestTagType;
   /** 我的评分（有值表示点评过） */
   myRating?: number;
+  /** 现价（元），心愿单价格区 */
+  price?: number;
+  /** 原价（元），划线价 */
+  originalPrice?: number;
+  /** 小黑盒评分 */
+  appScore?: number;
+  /** 未发售 */
+  unreleased?: boolean;
+  /** 未发售文案：即将宣布 / 2026 等 */
+  releaseLabel?: string;
+  /** 关注人数（Steam 愿望单未发售） */
+  followCount?: number;
+}
+
+/** 解析史低标签 */
+export function resolveLowestTag(game: LibraryGame): LowestTagType {
+  if (game.lowestTag !== undefined) {
+    return game.lowestTag;
+  }
+  if (game.isLowest) {
+    return 'lowest';
+  }
+  return 'none';
+}
+
+/** 是否属于史低筛选（史低或新史低） */
+export function isLowestOrNew(game: LibraryGame): boolean {
+  const tag = resolveLowestTag(game);
+  return tag === 'lowest' || tag === 'newLowest';
+}
+
+/** 关注人数缩写：>4 位换单位，最高显示三位量级 */
+export function formatFollowCount(n: number): string {
+  if (n < 10000) {
+    return `${n}`;
+  }
+  if (n < 100000000) {
+    // 万：最多三位整数或一位小数
+    const w = n / 10000;
+    if (w >= 100) {
+      return `${Math.floor(w)}万`;
+    }
+    if (w >= 10) {
+      return `${Math.floor(w)}万`;
+    }
+    const one = Math.round(w * 10) / 10;
+    if (one === Math.floor(one)) {
+      return `${Math.floor(one)}万`;
+    }
+    return `${one}万`;
+  }
+  const y = n / 100000000;
+  if (y >= 100) {
+    return `${Math.floor(y)}亿`;
+  }
+  if (y >= 10) {
+    return `${Math.floor(y)}亿`;
+  }
+  const oneY = Math.round(y * 10) / 10;
+  if (oneY === Math.floor(oneY)) {
+    return `${Math.floor(oneY)}亿`;
+  }
+  return `${oneY}亿`;
+}
+
+/** 价格展示 ¥xx */
+export function formatPriceYuan(price: number): string {
+  if (price === Math.floor(price)) {
+    return `¥${Math.floor(price)}`;
+  }
+  return `¥${price.toFixed(1)}`;
 }
 
 /** 个人库 mock */
@@ -258,6 +334,9 @@ export const libraryGames: LibraryGame[] = [
     onDiscount: false,
     isLowest: false,
     myRating: 9.6,
+    appScore: 9.6,
+    price: 268,
+    originalPrice: 268,
   },
   {
     id: 'lg2',
@@ -273,6 +352,9 @@ export const libraryGames: LibraryGame[] = [
     onDiscount: true,
     isLowest: false,
     myRating: 9.2,
+    appScore: 9.4,
+    price: 68,
+    originalPrice: 98,
   },
   {
     id: 'lg3',
@@ -287,6 +369,10 @@ export const libraryGames: LibraryGame[] = [
     inSteamWishlist: false,
     onDiscount: true,
     isLowest: true,
+    lowestTag: 'lowest',
+    appScore: 8.7,
+    price: 48,
+    originalPrice: 88,
   },
   {
     id: 'lg4',
@@ -302,6 +388,9 @@ export const libraryGames: LibraryGame[] = [
     onDiscount: false,
     isLowest: false,
     myRating: 9.8,
+    appScore: 9.7,
+    price: 298,
+    originalPrice: 298,
   },
   {
     id: 'lg5',
@@ -316,8 +405,13 @@ export const libraryGames: LibraryGame[] = [
     inSteamWishlist: false,
     onDiscount: true,
     isLowest: true,
+    lowestTag: 'newLowest',
     myRating: 8.4,
+    appScore: 8.9,
+    price: 99,
+    originalPrice: 298,
   },
+  // ── 心愿单 · 折扣 / 史低 / Steam ──
   {
     id: 'lg6',
     title: '空洞骑士：丝之歌',
@@ -331,6 +425,11 @@ export const libraryGames: LibraryGame[] = [
     inSteamWishlist: true,
     onDiscount: true,
     isLowest: false,
+    lowestTag: 'none',
+    appScore: 9.5,
+    price: 58,
+    originalPrice: 88,
+    unreleased: false,
   },
   {
     id: 'lg7',
@@ -345,6 +444,11 @@ export const libraryGames: LibraryGame[] = [
     inSteamWishlist: true,
     onDiscount: false,
     isLowest: false,
+    lowestTag: 'none',
+    appScore: 9.1,
+    price: 198,
+    originalPrice: 198,
+    unreleased: false,
   },
   {
     id: 'lg8',
@@ -359,6 +463,10 @@ export const libraryGames: LibraryGame[] = [
     inSteamWishlist: false,
     onDiscount: true,
     isLowest: true,
+    lowestTag: 'lowest',
+    appScore: 9.0,
+    price: 248,
+    originalPrice: 348,
   },
   {
     id: 'lg9',
@@ -374,6 +482,9 @@ export const libraryGames: LibraryGame[] = [
     onDiscount: false,
     isLowest: false,
     myRating: 9.5,
+    appScore: 9.5,
+    price: 198,
+    originalPrice: 268,
   },
   {
     id: 'lg10',
@@ -388,6 +499,9 @@ export const libraryGames: LibraryGame[] = [
     inSteamWishlist: false,
     onDiscount: true,
     isLowest: false,
+    appScore: 7.8,
+    price: 149,
+    originalPrice: 298,
   },
   {
     id: 'lg11',
@@ -403,6 +517,9 @@ export const libraryGames: LibraryGame[] = [
     onDiscount: false,
     isLowest: false,
     myRating: 9.7,
+    appScore: 9.8,
+    price: 298,
+    originalPrice: 298,
   },
   {
     id: 'lg12',
@@ -417,6 +534,83 @@ export const libraryGames: LibraryGame[] = [
     inSteamWishlist: true,
     onDiscount: false,
     isLowest: false,
+    lowestTag: 'none',
+    unreleased: true,
+    releaseLabel: '2025',
+    followCount: 128600,
+  },
+  {
+    id: 'lg13',
+    title: '鬼泣：巅峰之战',
+    coverColors: ['#3D0C11', '#8B1E3F'],
+    totalHours: 0,
+    twoWeekHours: 0,
+    achievementUnlocked: 0,
+    achievementTotal: 0,
+    inWishlist: true,
+    owned: false,
+    inSteamWishlist: false,
+    onDiscount: true,
+    isLowest: true,
+    lowestTag: 'newLowest',
+    appScore: 8.2,
+    price: 29,
+    originalPrice: 98,
+  },
+  {
+    id: 'lg14',
+    title: '永久销毁 2',
+    coverColors: ['#1B1B2F', '#4A4E69'],
+    totalHours: 0,
+    twoWeekHours: 0,
+    achievementUnlocked: 0,
+    achievementTotal: 0,
+    inWishlist: true,
+    owned: false,
+    inSteamWishlist: true,
+    onDiscount: false,
+    isLowest: false,
+    lowestTag: 'none',
+    unreleased: true,
+    releaseLabel: '即将宣布',
+    followCount: 9860,
+  },
+  {
+    id: 'lg15',
+    title: '战神：诸神黄昏',
+    coverColors: ['#1A1A1A', '#4A3728'],
+    totalHours: 0,
+    twoWeekHours: 0,
+    achievementUnlocked: 0,
+    achievementTotal: 0,
+    inWishlist: true,
+    owned: false,
+    inSteamWishlist: true,
+    onDiscount: true,
+    isLowest: true,
+    lowestTag: 'lowest',
+    appScore: 9.3,
+    price: 278,
+    originalPrice: 408,
+    unreleased: false,
+  },
+  {
+    id: 'lg16',
+    title: '生化危机 4 重制版',
+    coverColors: ['#0F2027', '#2C5364'],
+    totalHours: 0,
+    twoWeekHours: 0,
+    achievementUnlocked: 0,
+    achievementTotal: 0,
+    inWishlist: true,
+    owned: false,
+    inSteamWishlist: false,
+    onDiscount: true,
+    isLowest: false,
+    lowestTag: 'none',
+    appScore: 9.4,
+    price: 168,
+    originalPrice: 349,
   },
 ];
 

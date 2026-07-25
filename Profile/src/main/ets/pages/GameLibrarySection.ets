@@ -4,6 +4,11 @@ import {
   LibraryNavKey,
   OwnedSortKey,
   WishlistFilterKey,
+  LowestTagType,
+  formatFollowCount,
+  formatPriceYuan,
+  isLowestOrNew,
+  resolveLowestTag,
 } from '../model/ProfileModel';
 
 /**
@@ -92,7 +97,8 @@ export struct GameLibrarySection {
         if (this.wishlistFilter === 'discount' && !g.onDiscount) {
           continue;
         }
-        if (this.wishlistFilter === 'lowest' && !g.isLowest) {
+        // 史低 Tab：只显示史低 + 新史低
+        if (this.wishlistFilter === 'lowest' && !isLowestOrNew(g)) {
           continue;
         }
         if (this.wishlistFilter === 'steam' && !g.inSteamWishlist) {
@@ -340,30 +346,204 @@ export struct GameLibrarySection {
 
   // ── 游戏卡片 ──
 
+  private isWishlistPriceMode(): boolean {
+    return this.navKey === 'wishlist';
+  }
+
+  private showWishlistPriceMeta(game: LibraryGame): boolean {
+    // 正在折扣 / 史低：价格行；steam 愿望单：已发售价格 or 未发售关注
+    if (this.wishlistFilter === 'discount' || this.wishlistFilter === 'lowest') {
+      return true;
+    }
+    if (this.wishlistFilter === 'steam') {
+      return true;
+    }
+    return false;
+  }
+
+  private lowestTagLabel(tag: LowestTagType): string {
+    if (tag === 'newLowest') {
+      return '新史低';
+    }
+    if (tag === 'lowest') {
+      return '史低';
+    }
+    return '';
+  }
+
+  private lowestTagBg(tag: LowestTagType): string {
+    // 史低：绿色；新史低：深绿色
+    if (tag === 'newLowest') {
+      return '#1A7A4C';
+    }
+    return '#2BC48A';
+  }
+
+  private scoreText(game: LibraryGame): string {
+    if (game.appScore !== undefined) {
+      return game.appScore.toFixed(1);
+    }
+    if (game.myRating !== undefined) {
+      return game.myRating.toFixed(1);
+    }
+    return '—';
+  }
+
+  @Builder
+  CoverBuilder(game: LibraryGame) {
+    Column() {
+      Text(game.title.substring(0, 1))
+        .fontSize(16)
+        .fontWeight(FontWeight.Medium)
+        .fontColor(Color.White)
+    }
+    .width(this.coverW)
+    .height(this.coverH)
+    .borderRadius(6)
+    .justifyContent(FlexAlign.Center)
+    .clip(true)
+    .linearGradient({
+      angle: 135,
+      colors: [
+        [game.coverColors[0], 0],
+        [game.coverColors[1], 1],
+      ],
+    })
+  }
+
+  /** 史低方形标签 */
+  @Builder
+  LowestTagBuilder(tag: LowestTagType) {
+    if (tag === 'lowest' || tag === 'newLowest') {
+      Text(this.lowestTagLabel(tag))
+        .fontSize(9)
+        .fontWeight(FontWeight.Medium)
+        .fontColor(Color.White)
+        .padding({ left: 4, right: 4, top: 1, bottom: 1 })
+        .borderRadius(2)
+        .backgroundColor(this.lowestTagBg(tag))
+        .margin({ left: 6 })
+    }
+  }
+
+  /**
+   * 心愿单价格行：
+   * 左：现价 + 原价(删除线) + 可选史低标签
+   * 右：评分顶格同行
+   * 未发售（steam）：左 releaseLabel，右 爱心+关注人数(红)
+   */
+  @Builder
+  WishlistMetaRowBuilder(game: LibraryGame) {
+    if (this.wishlistFilter === 'steam' && game.unreleased === true) {
+      Row() {
+        Text(game.releaseLabel !== undefined && game.releaseLabel.length > 0
+          ? game.releaseLabel
+          : '即将宣布')
+          .fontSize(12)
+          .fontColor('#999999')
+          .layoutWeight(1)
+          .maxLines(1)
+          .textOverflow({ overflow: TextOverflow.Ellipsis })
+
+        Row({ space: 3 }) {
+          Text('♥')
+            .fontSize(12)
+            .fontColor('#FF3B30')
+          Text(formatFollowCount(game.followCount !== undefined ? game.followCount : 0))
+            .fontSize(12)
+            .fontWeight(FontWeight.Medium)
+            .fontColor('#FF3B30')
+        }
+      }
+      .width('100%')
+      .margin({ top: 8 })
+      .alignItems(VerticalAlign.Center)
+    } else {
+      Row() {
+        Row() {
+          Text(formatPriceYuan(game.price !== undefined ? game.price : 0))
+            .fontSize(13)
+            .fontWeight(FontWeight.Medium)
+            .fontColor('#1A1A1A')
+
+          if (game.originalPrice !== undefined &&
+            game.price !== undefined &&
+            game.originalPrice > game.price) {
+            Text(formatPriceYuan(game.originalPrice))
+              .fontSize(11)
+              .fontColor('#B0B0B0')
+              .decoration({ type: TextDecorationType.LineThrough, color: '#B0B0B0' })
+              .margin({ left: 6 })
+          }
+
+          this.LowestTagBuilder(resolveLowestTag(game))
+        }
+        .layoutWeight(1)
+        .alignItems(VerticalAlign.Center)
+
+        // 右侧顶格：小黑盒评分
+        Text(this.scoreText(game))
+          .fontSize(13)
+          .fontWeight(FontWeight.Medium)
+          .fontColor('#2BC48A')
+      }
+      .width('100%')
+      .margin({ top: 8 })
+      .alignItems(VerticalAlign.Center)
+    }
+  }
+
+  /** 拥有 / 完美通关 / 评分：进度条 + 时长 + 成就列 */
+  @Builder
+  OwnedMetaBuilder(game: LibraryGame) {
+    if (game.myRating !== undefined && this.navKey === 'rated') {
+      Text(`${game.myRating.toFixed(1)} 分`)
+        .fontSize(11)
+        .fontColor('#2BC48A')
+        .margin({ top: 3 })
+        .width('100%')
+    }
+
+    Row() {
+      Stack({ alignContent: Alignment.Start }) {
+        Row()
+          .width('100%')
+          .height(5)
+          .borderRadius(2.5)
+          .backgroundColor('#EEEEF0')
+
+        Row()
+          .width(`${this.progressRatio(this.activeHours(game), this.activeCap()) * 100}%`)
+          .height(5)
+          .borderRadius(2.5)
+          .linearGradient({
+            angle: 90,
+            colors: [
+              ['#2BC48A', 0],
+              ['#F5A623', 1],
+            ],
+          })
+      }
+      .layoutWeight(1)
+      .height(5)
+
+      Text(this.formatHours(this.activeHours(game)))
+        .fontSize(11)
+        .fontColor('#666666')
+        .width(this.hoursW)
+        .textAlign(TextAlign.End)
+        .margin({ left: 6 })
+    }
+    .width('100%')
+    .margin({ top: 8 })
+    .alignItems(VerticalAlign.Center)
+  }
+
   @Builder
   GameCardBuilder(game: LibraryGame) {
     Row() {
-      // 封面：横向长方形，左缘与搜索框对齐
-      Column() {
-        Text(game.title.substring(0, 1))
-          .fontSize(16)
-          .fontWeight(FontWeight.Medium)
-          .fontColor(Color.White)
-      }
-      .width(this.coverW)
-      .height(this.coverH)
-      .borderRadius(6)
-      .justifyContent(FlexAlign.Center)
-      .clip(true)
-      .linearGradient({
-        angle: 135,
-        colors: [
-          [game.coverColors[0], 0],
-          [game.coverColors[1], 1],
-        ],
-      })
+      this.CoverBuilder(game)
 
-      // 信息：名称 / 评分 / 进度条+右侧时长
       Column() {
         Text(game.title)
           .fontSize(this.titleFontSize(game.title))
@@ -373,74 +553,39 @@ export struct GameLibrarySection {
           .textOverflow({ overflow: TextOverflow.Ellipsis })
           .width('100%')
 
-        if (game.myRating !== undefined && this.navKey === 'rated') {
-          Text(`${game.myRating.toFixed(1)} 分`)
-            .fontSize(11)
-            .fontColor('#2BC48A')
-            .margin({ top: 3 })
-            .width('100%')
+        if (this.isWishlistPriceMode() && this.showWishlistPriceMeta(game)) {
+          this.WishlistMetaRowBuilder(game)
+        } else {
+          this.OwnedMetaBuilder(game)
         }
-
-        // 进度条 + 右侧顶头时长（总时长 / 两周内，取决于排序）
-        Row() {
-          Stack({ alignContent: Alignment.Start }) {
-            Row()
-              .width('100%')
-              .height(5)
-              .borderRadius(2.5)
-              .backgroundColor('#EEEEF0')
-
-            Row()
-              .width(`${this.progressRatio(this.activeHours(game), this.activeCap()) * 100}%`)
-              .height(5)
-              .borderRadius(2.5)
-              .linearGradient({
-                angle: 90,
-                colors: [
-                  ['#2BC48A', 0],
-                  ['#F5A623', 1],
-                ],
-              })
-          }
-          .layoutWeight(1)
-          .height(5)
-
-          Text(this.formatHours(this.activeHours(game)))
-            .fontSize(11)
-            .fontColor('#666666')
-            .width(this.hoursW)
-            .textAlign(TextAlign.End)
-            .margin({ left: 6 })
-        }
-        .width('100%')
-        .margin({ top: 8 })
-        .alignItems(VerticalAlign.Center)
       }
       .layoutWeight(1)
-      .padding({ left: 10, right: 4 })
+      .padding({ left: 10, right: this.isWishlistPriceMode() ? 0 : 4 })
       .justifyContent(FlexAlign.Center)
       .alignItems(HorizontalAlign.Start)
       .constraintSize({ minHeight: this.coverH })
 
-      // 成就列
-      Column({ space: 2 }) {
-        Text(`${game.achievementUnlocked}`)
-          .fontSize(13)
-          .fontWeight(FontWeight.Medium)
-          .fontColor(
-            game.achievementTotal > 0 &&
-              game.achievementUnlocked === game.achievementTotal
-              ? '#2BC48A'
-              : '#1A1A1A'
-          )
-        Text(`/${game.achievementTotal}`)
-          .fontSize(10)
-          .fontColor('#B0B0B0')
+      // 心愿单价格模式不显示成就列；右侧评分已在 meta 行顶格
+      if (!this.isWishlistPriceMode()) {
+        Column({ space: 2 }) {
+          Text(`${game.achievementUnlocked}`)
+            .fontSize(13)
+            .fontWeight(FontWeight.Medium)
+            .fontColor(
+              game.achievementTotal > 0 &&
+                game.achievementUnlocked === game.achievementTotal
+                ? '#2BC48A'
+                : '#1A1A1A'
+            )
+          Text(`/${game.achievementTotal}`)
+            .fontSize(10)
+            .fontColor('#B0B0B0')
+        }
+        .width(this.achieveW)
+        .justifyContent(FlexAlign.Center)
+        .alignItems(HorizontalAlign.Center)
+        .constraintSize({ minHeight: this.coverH })
       }
-      .width(this.achieveW)
-      .justifyContent(FlexAlign.Center)
-      .alignItems(HorizontalAlign.Center)
-      .constraintSize({ minHeight: this.coverH })
     }
     .width('100%')
     .padding({ top: 10, bottom: 10 })
