@@ -14,6 +14,8 @@ import {
 export struct PlatformPanel {
   @State platformIndex: number = 0;
   @State inputId: string = '';
+  /** 绑定输入框 placeholder，随平台切换更新（避免 TextInput 复用残留） */
+  @State bindPlaceholder: string = platformList[0].inputHint;
   @State newlyBoundIds: string[] = [];
   @State newlyBoundNames: string[] = [];
 
@@ -75,6 +77,7 @@ export struct PlatformPanel {
   private onSelectPlatform(index: number): void {
     this.platformIndex = index;
     this.inputId = '';
+    this.bindPlaceholder = platformList[index].inputHint;
   }
 
   @Builder
@@ -117,7 +120,9 @@ export struct PlatformPanel {
         .textAlign(TextAlign.Center)
 
       Row({ space: 8 }) {
-        TextInput({ placeholder: platform.inputHint, text: this.inputId })
+        // key + @State placeholder：避免 TextInput 复用导致一直显示上一平台提示
+        TextInput({ placeholder: this.bindPlaceholder, text: this.inputId })
+          .key(`platform_bind_${platform.id}`)
           .height(32)
           .fontSize(12)
           .fontColor(platform.textOnBg)
