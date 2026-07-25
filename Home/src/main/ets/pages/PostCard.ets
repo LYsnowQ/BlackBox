@@ -464,6 +464,13 @@ export struct PostCard {
     .margin({ top: 10 })
   }
 
+  private openPostDetail(): void {
+    router.pushUrl({
+      url: HomeRoutes.POST_DETAIL,
+      params: { id: this.post.id },
+    });
+  }
+
   build() {
     Column() {
       Row() {
@@ -513,10 +520,7 @@ export struct PostCard {
           .alignItems(VerticalAlign.Center)
         }
         .layoutWeight(1)
-        .onClick((event: ClickEvent) => {
-          event.stopPropagation();
-          this.openUserProfile();
-        })
+        .onClick(() => this.openUserProfile())
 
         Text('···')
           .fontSize(16)
@@ -526,49 +530,49 @@ export struct PostCard {
       .width('100%')
       .margin({ bottom: 10 })
 
-      if (this.post.imageLayout === 'right') {
-        this.RightImageBodyBuilder()
-      } else {
-        Text(this.post.title)
-          .fontSize(16)
-          .fontWeight(FontWeight.Bold)
-          .fontColor('#1A1A1A')
-          .maxLines(2)
-          .textOverflow({ overflow: TextOverflow.Ellipsis })
-          .lineHeight(22)
-          .width('100%')
-
-        if (this.post.summary !== '') {
-          Text(this.post.summary)
-            .fontSize(13)
-            .fontColor('#8A8A8A')
+      // 正文区单独绑定详情跳转，避免与头像主页点击冲突（ArkTS ClickEvent 无 stopPropagation）
+      Column() {
+        if (this.post.imageLayout === 'right') {
+          this.RightImageBodyBuilder()
+        } else {
+          Text(this.post.title)
+            .fontSize(16)
+            .fontWeight(FontWeight.Bold)
+            .fontColor('#1A1A1A')
             .maxLines(2)
             .textOverflow({ overflow: TextOverflow.Ellipsis })
-            .margin({ top: 6 })
-            .lineHeight(18)
+            .lineHeight(22)
             .width('100%')
-        }
 
-        if (this.post.images.length > 0) {
-          Column() {
-            this.GridImagesBuilder()
+          if (this.post.summary !== '') {
+            Text(this.post.summary)
+              .fontSize(13)
+              .fontColor('#8A8A8A')
+              .maxLines(2)
+              .textOverflow({ overflow: TextOverflow.Ellipsis })
+              .margin({ top: 6 })
+              .lineHeight(18)
+              .width('100%')
           }
-          .width('100%')
-          .margin({ top: 10 })
-        }
-      }
 
-      this.FooterBuilder()
+          if (this.post.images.length > 0) {
+            Column() {
+              this.GridImagesBuilder()
+            }
+            .width('100%')
+            .margin({ top: 10 })
+          }
+        }
+
+        this.FooterBuilder()
+      }
+      .width('100%')
+      .alignItems(HorizontalAlign.Start)
+      .onClick(() => this.openPostDetail())
     }
     .width('100%')
     .padding({ left: 16, right: 16, top: 14, bottom: 14 })
     .backgroundColor(Color.White)
     .alignItems(HorizontalAlign.Start)
-    .onClick(() => {
-      router.pushUrl({
-        url: HomeRoutes.POST_DETAIL,
-        params: { id: this.post.id },
-      });
-    })
   }
 }
