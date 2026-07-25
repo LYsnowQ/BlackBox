@@ -1,5 +1,6 @@
 import { router } from '@kit.ArkUI';
-import { MessageSession, messageSessions } from '../model/ProfileModel';
+import { MessageSession } from '../model/types/MessageModel';
+import { getMessageSessionsSync } from '../api/MessageApi';
 import { ProfileRoutes } from '../router/ProfileRoutes';
 
 /**
@@ -8,7 +9,7 @@ import { ProfileRoutes } from '../router/ProfileRoutes';
  */
 @Component
 export struct MessagesPage {
-  private messages: MessageSession[] = messageSessions;
+  private messages: MessageSession[] = getMessageSessionsSync();
 
   private openChat(item: MessageSession): void {
     router.pushUrl({

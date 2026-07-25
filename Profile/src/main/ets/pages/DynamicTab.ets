@@ -1,10 +1,12 @@
-import { feedList, FeedItem } from '../model/ProfileModel';
+import { FeedItem } from '../model/types/FeedModel';
+import { getFeedListSync } from '../api/FeedApi';
 
 /**
  * 「动态」Tab — 仿小黑盒个人动态流
  */
 @Component
 export struct DynamicTab {
+  private feeds: FeedItem[] = getFeedListSync();
   @Builder
   FeedCardBuilder(item: FeedItem) {
     Column() {
@@ -90,11 +92,11 @@ export struct DynamicTab {
   build() {
     Scroll() {
       Column() {
-        if (feedList.length === 0) {
+        if (this.feeds.length === 0) {
           this.EmptyBuilder()
         } else {
           Column() {
-            ForEach(feedList, (item: FeedItem) => {
+            ForEach(this.feeds, (item: FeedItem) => {
               this.FeedCardBuilder(item)
             }, (item: FeedItem) => item.id)
 

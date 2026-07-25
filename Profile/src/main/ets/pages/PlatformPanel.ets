@@ -1,10 +1,13 @@
 import {
-  platformList,
-  getBoundAccount,
   PlatformItem,
   PlatformAccount,
   PlatformFriend,
-} from '../model/ProfileModel';
+} from '../model/types/PlatformModel';
+import {
+  bindPlatform,
+  getBoundAccountSync,
+  getPlatformListSync,
+} from '../api/PlatformApi';
 
 /**
  * 已绑定平台内容（独立组件 + @Prop）
@@ -162,22 +165,21 @@ struct PlatformBoundBody {
 @Component
 export struct PlatformPanel {
   @State platformIndex: number = 0;
+  @State platforms: PlatformItem[] = getPlatformListSync();
   /** ForEach 数据源：单元素，token 变化即整树重建 */
-  @State viewTokens: string[] = [`${platformList[0].id}_bound`];
+  @State viewTokens: string[] = ['init'];
 
   @State inputId: string = '';
-  @State newlyBoundIds: string[] = [];
-  @State newlyBoundNames: string[] = [];
 
-  @State isCurrentBound: boolean = true;
-  @State platformName: string = platformList[0].name;
-  @State inputHint: string = platformList[0].inputHint;
-  @State accent: string = platformList[0].accent;
-  @State textOnBg: string = platformList[0].textOnBg;
-  @State textMuted: string = platformList[0].textMuted;
-  @State surface: string = platformList[0].surface;
-  @State bgTop: string = platformList[0].bgTop;
-  @State bgBottom: string = platformList[0].bgBottom;
+  @State isCurrentBound: boolean = false;
+  @State platformName: string = '';
+  @State inputHint: string = '';
+  @State accent: string = '#66C0F4';
+  @State textOnBg: string = '#C7D5E0';
+  @State textMuted: string = 'rgba(199,213,224,0.55)';
+  @State surface: string = 'rgba(255,255,255,0.08)';
+  @State bgTop: string = '#1B2838';
+  @State bgBottom: string = '#171A21';
 
   @State accountNickname: string = '';
   @State accountAvatarChar: string = '';
@@ -188,43 +190,17 @@ export struct PlatformPanel {
   @State accountFriends: PlatformFriend[] = [];
 
   aboutToAppear(): void {
+    this.platforms = getPlatformListSync();
     this.applyPlatform(0);
   }
 
-  private isBound(platformId: string): boolean {
-    if (getBoundAccount(platformId) !== undefined) {
-      return true;
-    }
-    return this.newlyBoundIds.indexOf(platformId) >= 0;
-  }
-
-  private resolveAccount(platform: PlatformItem): PlatformAccount {
-    const existing = getBoundAccount(platform.id);
-    if (existing !== undefined) {
-      return existing;
-    }
-    let name = '已绑定用户';
-    const idx = this.newlyBoundIds.indexOf(platform.id);
-    if (idx >= 0 && idx < this.newlyBoundNames.length) {
-      name = this.newlyBoundNames[idx];
-    }
-    const first = platform.name.length > 0 ? platform.name.substring(0, 1).toUpperCase() : '?';
-    return {
-      platformId: platform.id,
-      nickname: name,
-      avatarChar: first,
-      level: '',
-      accountValue: '—',
-      playTime: '—',
-      gameCount: '—',
-      friends: [],
-    };
-  }
-
   private applyPlatform(index: number): void {
-    const platform = platformList[index];
-    const bound = this.isBound(platform.id);
-    // token 必须含 platformId；同 bound 态的 steam/ps 也要不同
+    if (index < 0 || index >= this.platforms.length) {
+      return;
+    }
+    const platform = this.platforms[index];
+    const account = getBoundAccountSync(platform.id);
+    const bound = account !== undefined;
     const token = `${platform.id}_${bound ? 'bound' : 'free'}`;
 
     this.platformIndex = index;
@@ -239,8 +215,7 @@ export struct PlatformPanel {
     this.inputId = '';
     this.isCurrentBound = bound;
 
-    if (bound) {
-      const account = this.resolveAccount(platform);
+    if (bound && account !== undefined) {
       this.accountNickname = account.nickname;
       this.accountAvatarChar = account.avatarChar;
       this.accountLevel = account.level;
@@ -267,21 +242,13 @@ export struct PlatformPanel {
 
   private onBind(): void {
     const id = this.inputId.trim();
-    if (id.length === 0) {
+    if (id.length === 0 || this.platformIndex >= this.platforms.length) {
       return;
     }
-    const key = platformList[this.platformIndex].id;
-    if (this.newlyBoundIds.indexOf(key) < 0) {
-      const ids: string[] = [];
-      const names: string[] = [];
-      for (let i = 0; i < this.newlyBoundIds.length; i++) {
-        ids.push(this.newlyBoundIds[i]);
-        names.push(this.newlyBoundNames[i]);
-      }
-      ids.push(key);
-      names.push(id);
-      this.newlyBoundIds = ids;
-      this.newlyBoundNames = names;
+    const platformId = this.platforms[this.platformIndex].id;
+    const res = bindPlatform({ platformId: platformId, accountId: id });
+    if (res.code !== 0) {
+      return;
     }
     this.applyPlatform(this.platformIndex);
   }
@@ -296,7 +263,7 @@ export struct PlatformPanel {
   @Builder
   PlatformNavBuilder() {
     Row() {
-      ForEach(platformList, (item: PlatformItem, index: number) => {
+      ForEach(this.platforms, (item: PlatformItem, index: number) => {
         Column() {
           Text(item.name)
             .fontSize(11)

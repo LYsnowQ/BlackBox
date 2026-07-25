@@ -10,3 +10,17 @@ export { EditProfilePage } from './src/main/ets/pages/EditProfilePage';
 
 /** 路由契约：与 entry main_pages / 壳页面路径对齐 */
 export { ProfileRoutes } from './src/main/ets/router/ProfileRoutes';
+
+/** API 桶（业务侧优先从此接入；mock 实现可替换为真实网络） */
+export {
+  fetchCurrentUser,
+  updateCurrentUser,
+  fetchPlatformList,
+  fetchBoundAccount,
+  bindPlatform,
+  fetchLibraryGames,
+  fetchFeedList,
+  fetchMessageSessions,
+  fetchChatMessages,
+  sendChatMessage,
+} from './src/main/ets/api/index';

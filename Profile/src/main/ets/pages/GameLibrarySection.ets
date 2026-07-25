@@ -1,15 +1,16 @@
 import {
-  libraryGames,
   LibraryGame,
   LibraryNavKey,
   OwnedSortKey,
   WishlistFilterKey,
   LowestTagType,
+} from '../model/types/LibraryModel';
+import {
   formatFollowCount,
   formatPriceYuan,
-  isLowestOrNew,
   resolveLowestTag,
-} from '../model/ProfileModel';
+} from '../model/utils/LibraryFormat';
+import { getLibraryGamesSync } from '../api/LibraryApi';
 
 /**
  * 平台卡片下方 · 游戏库分区
@@ -83,79 +84,15 @@ export struct GameLibrarySection {
     return this.ownedSort === 'twoWeek' ? 100 : 300;
   }
 
-  // ── 列表过滤 / 排序 ──
-
-  private baseList(): LibraryGame[] {
-    const src = libraryGames;
-    const out: LibraryGame[] = [];
-    for (let i = 0; i < src.length; i++) {
-      const g = src[i];
-      if (this.navKey === 'wishlist') {
-        if (!g.inWishlist) {
-          continue;
-        }
-        if (this.wishlistFilter === 'discount' && !g.onDiscount) {
-          continue;
-        }
-        // 史低 Tab：只显示史低 + 新史低
-        if (this.wishlistFilter === 'lowest' && !isLowestOrNew(g)) {
-          continue;
-        }
-        if (this.wishlistFilter === 'steam' && !g.inSteamWishlist) {
-          continue;
-        }
-        out.push(g);
-      } else if (this.navKey === 'owned') {
-        if (g.owned) {
-          out.push(g);
-        }
-      } else if (this.navKey === 'perfect') {
-        if (g.owned && g.achievementTotal > 0 &&
-          g.achievementUnlocked === g.achievementTotal) {
-          out.push(g);
-        }
-      } else if (this.navKey === 'rated') {
-        if (g.myRating !== undefined) {
-          out.push(g);
-        }
-      }
-    }
-    return out;
-  }
+  // ── 列表：统一走 LibraryApi ──
 
   private filteredList(): LibraryGame[] {
-    let list = this.baseList();
-    const q = this.searchText.trim().toLowerCase();
-    if ((this.navKey === 'owned' || this.navKey === 'perfect') && q.length > 0) {
-      const hit: LibraryGame[] = [];
-      for (let i = 0; i < list.length; i++) {
-        if (list[i].title.toLowerCase().indexOf(q) >= 0) {
-          hit.push(list[i]);
-        }
-      }
-      list = hit;
-    }
-    if (this.navKey === 'owned' || this.navKey === 'perfect') {
-      return this.sortOwned(list);
-    }
-    return list;
-  }
-
-  private sortOwned(list: LibraryGame[]): LibraryGame[] {
-    const copy: LibraryGame[] = [];
-    for (let i = 0; i < list.length; i++) {
-      copy.push(list[i]);
-    }
-    copy.sort((a: LibraryGame, b: LibraryGame) => {
-      if (this.ownedSort === 'twoWeek') {
-        return b.twoWeekHours - a.twoWeekHours;
-      }
-      if (this.ownedSort === 'achievement') {
-        return b.achievementUnlocked - a.achievementUnlocked;
-      }
-      return b.totalHours - a.totalHours;
+    return getLibraryGamesSync({
+      nav: this.navKey,
+      wishlistFilter: this.wishlistFilter,
+      ownedSort: this.ownedSort,
+      keyword: this.searchText,
     });
-    return copy;
   }
 
   private onNav(key: LibraryNavKey): void {

@@ -1,10 +1,10 @@
 import { router } from '@kit.ArkUI';
+import { ChatMessage, MessageSession } from '../model/types/MessageModel';
 import {
-  ChatMessage,
-  MessageSession,
-  getChatMessages,
-  getMessageSessionById,
-} from '../model/ProfileModel';
+  getChatMessagesSync,
+  getMessageSessionByIdSync,
+  sendChatMessage,
+} from '../api/MessageApi';
 
 /**
  * 消息聊天页（由 entry 路由壳挂载）
@@ -22,8 +22,8 @@ export struct ChatPage {
   aboutToAppear(): void {
     const params = router.getParams() as Record<string, Object>;
     const id = params ? (params['id'] as string) : '';
-    this.session = getMessageSessionById(id);
-    this.messages = getChatMessages(id);
+    this.session = getMessageSessionByIdSync(id);
+    this.messages = getChatMessagesSync(id);
   }
 
   private isChatSession(): boolean {
@@ -37,26 +37,18 @@ export struct ChatPage {
 
   private sendDraft(): void {
     const text = this.draft.trim();
-    if (text.length === 0) {
+    if (text.length === 0 || this.session === undefined) {
       return;
     }
-    const next: ChatMessage = {
-      id: `local_${Date.now()}`,
-      isSelf: true,
-      content: text,
-      time: '刚刚',
-    };
-    const list: ChatMessage[] = [];
-    for (let i = 0; i < this.messages.length; i++) {
-      list.push(this.messages[i]);
+    const res = sendChatMessage({ sessionId: this.session.id, content: text });
+    if (res.code !== 0) {
+      return;
     }
-    list.push(next);
-    this.messages = list;
+    this.messages = getChatMessagesSync(this.session.id);
     this.draft = '';
     this.dismissKeyboard();
-    // 滚到最新一条
-    if (list.length > 0) {
-      this.listScroller.scrollToIndex(list.length - 1);
+    if (this.messages.length > 0) {
+      this.listScroller.scrollToIndex(this.messages.length - 1);
     }
   }
 
