@@ -63,6 +63,8 @@ export interface HotRankItem {
   tag: string;
   commentCount: number;
   thumbColors: [string, string];
+  /** 列表右侧缩略图真实资源（优先于渐变） */
+  coverImg?: ResourceStr;
   thumbLabel?: string;
   /** 对应详情新闻 id，可复用正文 mock */
   newsId?: string;
@@ -291,75 +293,109 @@ export const hotNewsList: HotNewsItem[] = [
   },
 ];
 
+/** 热榜列表（对照 热榜总图 1–10） */
 export const hotRankList: HotRankItem[] = [
   {
     id: 'rank-1',
     rank: 1,
-    title: '《龙之剑：觉醒》现已发售，¥98/¥144.9，限时...',
-    readLabel: '11.1万阅读',
-    tag: 'DragonSword...',
-    commentCount: 666,
-    thumbColors: ['#4A6A9A', '#2A3A5A'],
-    newsId: 'news-steam-sale',
+    title: '装机噩耗！显卡即将迎来暴涨！华硕官涨、主播下架...',
+    readLabel: '11.8万阅读',
+    tag: '数码硬件',
+    commentCount: 982,
+    thumbColors: ['#1A2A1A', '#0A1A0A'],
+    coverImg: $r('app.media.hot_rank1_img1'),
+    newsId: 'news-gpu-price',
   },
   {
     id: 'rank-2',
     rank: 2,
-    title: 'Steam现已支持跨地区送礼！你们想的我试过了，...',
-    readLabel: '9.6万阅读',
+    title: '获2.3亿元投资，网游改单机，他们把一款二游卖到...',
+    readLabel: '11.1万阅读',
     tag: 'Steam',
-    commentCount: 341,
-    thumbColors: ['#1A3A5A', '#0A1A2A'],
-    thumbLabel: '跨区送礼',
-    newsId: 'news-steam-sale',
+    commentCount: 503,
+    thumbColors: ['#3A4A6A', '#1A2438'],
+    thumbLabel: '二游',
   },
   {
     id: 'rank-3',
     rank: 3,
-    title: 'rain淘汰Falcons赛后采访：Not Today🍺',
-    readLabel: '16.2万阅读',
-    tag: 'CS2',
-    commentCount: 482,
-    thumbColors: ['#3A3A3A', '#1A1A1A'],
+    title: '老大，你的显卡升值了！英伟达宣布涨价！渠道封仓...',
+    readLabel: '8.3万阅读',
+    tag: '盒友杂谈',
+    commentCount: 662,
+    thumbColors: ['#1A3A5A', '#0A1A2A'],
+    thumbLabel: '显卡涨价',
   },
   {
     id: 'rank-4',
     rank: 4,
-    title: '大半夜看得我荡气回肠！冯骥盛赞DeepSeek梁文锋...',
-    readLabel: '14.7万阅读',
-    tag: 'Steam',
-    commentCount: 422,
-    thumbColors: ['#4A4A4A', '#2A2A2A'],
+    title: '26版西游记杀疯了！单周涨粉200万，全即兴',
+    readLabel: '19.3万阅读',
+    tag: '盒友杂谈',
+    commentCount: 536,
+    thumbColors: ['#6A3A2A', '#3A1A10'],
+    thumbLabel: '西游记',
   },
   {
     id: 'rank-5',
     rank: 5,
-    title: '积分下乡！Falcons翻车不敌100T、一轮游出局！',
-    readLabel: '9.5万阅读',
-    tag: 'CS2',
-    commentCount: 638,
-    thumbColors: ['#1A4A3A', '#0A2A1A'],
-    thumbLabel: '2:1',
+    title: '《影之刃 零》过审！国行版号批示！',
+    readLabel: '11.3万阅读',
+    tag: '影之刃零',
+    commentCount: 646,
+    thumbColors: ['#3A2A4A', '#1A1020'],
+    thumbLabel: '2026 / 10 / 29',
+    newsId: 'news-shadow-blade',
   },
   {
     id: 'rank-6',
     rank: 6,
-    title: '胖东来出新规：员工禁止互相借钱，违规取消奖金与...',
-    readLabel: '11.5万阅读',
-    tag: '盒友杂谈',
-    commentCount: 510,
-    thumbColors: ['#5A6A8A', '#2A3A4A'],
+    title: '《昭和米国物语》将参加科隆游戏展，包含现场试玩...',
+    readLabel: '9.3万阅读',
+    tag: '昭和米国物语',
+    commentCount: 492,
+    thumbColors: ['#8A5A2A', '#4A2A10'],
+    thumbLabel: '科隆',
   },
   {
     id: 'rank-7',
     rank: 7,
-    title: '《影之刃 零》过审！国行版号批示！',
-    readLabel: '8.6万阅读',
-    tag: '影之刃零',
-    commentCount: 504,
-    thumbColors: ['#3A2A4A', '#1A1020'],
-    thumbLabel: '2026 / 10 / 29',
-    newsId: 'news-shadow-blade',
+    title: '悲剧！外国抗癌主播惨遭盗窃，嫌疑人时隔一年终于...',
+    readLabel: '12.2万阅读',
+    tag: 'Steam',
+    commentCount: 140,
+    thumbColors: ['#4A2A3A', '#201018'],
+    thumbLabel: '主播',
+  },
+  {
+    id: 'rank-8',
+    rank: 8,
+    title: 'Falcons成为史上第二支赢得Major后在首个赛事中...',
+    readLabel: '9.5万阅读',
+    tag: 'CS2',
+    commentCount: 271,
+    thumbColors: ['#2A3A2A', '#101810'],
+    thumbLabel: 'Major',
+  },
+  {
+    id: 'rank-9',
+    rank: 9,
+    title: '40/50都开涨：据报道NVIDIA已提高了GDDR7...',
+    readLabel: '7.1万阅读',
+    tag: 'Steam',
+    commentCount: 533,
+    thumbColors: ['#1A2A3A', '#0A1520'],
+    thumbLabel: 'GDDR7',
+  },
+  {
+    id: 'rank-10',
+    rank: 10,
+    title: '电影《生化危机：爆发夜》全新预告发布，9月17日...',
+    readLabel: '9.3万阅读',
+    tag: '生化危机2重...',
+    commentCount: 216,
+    thumbColors: ['#3A1A1A', '#1A0808'],
+    thumbLabel: '爆发夜',
   },
 ];
 
@@ -729,6 +765,353 @@ const detailStellarMod: HotNewsDetailData = {
   ],
 };
 
+/** 热榜1 作者「漂亮的秀色」 */
+const authorPrettyShow: HotAuthor = {
+  name: '漂亮的秀色',
+  level: 'Lv14',
+  levelColor: '#E8A838',
+  timeLocation: '3小时前·广东',
+  verified: true,
+  avatarColors: ['#8A6A5A', '#4A3A2A'],
+  avatarText: '秀',
+  avatarImg: $r('app.media.hot_rank1_avatar'),
+};
+
+/** 热榜第1：装机噩耗 / 显卡暴涨（对照 热榜1-内容截图） */
+const detailGpuPrice: HotNewsDetailData = {
+  id: 'news-gpu-price',
+  title: '装机噩耗！显卡即将迎来暴涨！华硕官涨、主播下架、厂商封仓',
+  author: authorPrettyShow,
+  platforms: ['数码硬件', '盒友杂谈'],
+  likeCount: 1280,
+  starCount: 356,
+  shareCount: 210,
+  commentCount: 982,
+  blocks: [
+    {
+      type: 'paragraph',
+      text:
+        '一波来势汹汹的显卡涨价潮正在酝酿。据渠道消息和博主爆料，50系显卡将迎来官方涨价，部分型号涨幅不小。',
+    },
+    {
+      type: 'image',
+      imageLabel: 'RTX 显卡',
+      imageIndex: '1/5',
+      imageColors: ['#1A2A1A', '#0A1A0A'],
+      imageSrc: $r('app.media.hot_rank1_img1'),
+    },
+    {
+      type: 'paragraph',
+      text:
+        '已得到 NVIDIA 通知：接下来 8G 显存将会涨价 600，12G 涨价 900，16G 涨价 1200，并且立即生效。这个视频是最后一批涨价前的显卡，如有需要大家尽快入手吧。',
+    },
+    {
+      type: 'image',
+      imageLabel: '渠道涨价通知',
+      imageIndex: '2/5',
+      imageColors: ['#F5F5F5', '#E0E0E0'],
+      imageSrc: $r('app.media.hot_rank1_img2'),
+    },
+    {
+      type: 'paragraph',
+      text: '渠道群内也陆续出现封仓、惜售通知：60TI 暂时芯片进不来，今日起公司封仓，马上要全部涨价。',
+    },
+    {
+      type: 'image',
+      imageLabel: '封仓通知',
+      imageIndex: '3/5',
+      imageColors: ['#F0F0F0', '#D8D8D8'],
+      imageSrc: $r('app.media.hot_rank1_img3'),
+    },
+    {
+      type: 'image',
+      imageLabel: '涨价通知',
+      imageIndex: '4/5',
+      imageColors: ['#F0F0F0', '#D8D8D8'],
+      imageSrc: $r('app.media.hot_rank1_img4'),
+    },
+    {
+      type: 'paragraph',
+      text:
+        '综合多方信息，50 系主流型号（如 RTX 5070 / 5060 系列）的渠道报价与供货节奏都在收紧。若近期有装机或升级计划，建议关注官方与授权渠道动态，避免盲目追高。',
+    },
+    {
+      type: 'image',
+      imageLabel: 'NVIDIA',
+      imageIndex: '5/5',
+      imageColors: ['#101010', '#1A2A1A'],
+      imageSrc: $r('app.media.hot_rank1_img5'),
+    },
+    {
+      type: 'heading',
+      text: '简要结论',
+    },
+    {
+      type: 'bullet',
+      bullets: [
+        '渠道确认多档显存规格将同步上调报价',
+        '部分厂商/代理已出现封仓、惜售',
+        '装机用户宜对比多店与历史价，按需出手',
+      ],
+    },
+  ],
+  // 评论按 热榜1-内容截图 热门区原文录入，不杜撰
+  comments: [
+    {
+      id: 'g1',
+      author: {
+        name: 'envy',
+        level: 'Lv.18',
+        levelColor: '#E53935',
+        timeLocation: '昨天23:06·江苏',
+        avatarColors: ['#3A1A1A', '#1A0808'],
+        avatarText: 'e',
+      },
+      content: '有种让让游戏行业死翘翘，地球所有产业服务AI得了😊。',
+      likeCount: 823,
+      replies: [
+        {
+          userName: '安墨',
+          content: 'AI让我买不起设备，AI还要抢我的工作😭',
+          timeLocation: '昨天23:11·湖北',
+        },
+        {
+          userName: '卡卡罗卜卜',
+          content:
+            '游戏那点份额真别拿出来说了，你要说说手机啥的还好点，听过举国造车，举国造手机，举国造AI，谁听过举国造游戏啊',
+          timeLocation: '昨天23:36·内蒙古',
+        },
+      ],
+    },
+    {
+      id: 'g2',
+      author: {
+        name: 'anjuxkx',
+        level: 'Lv.20',
+        levelColor: '#1A1A1A',
+        timeLocation: '昨天23:10·吉林',
+        avatarColors: ['#4A7AB0', '#2A4A70'],
+        avatarText: 'a',
+      },
+      content: '臭打游戏的从30系开始就没过过几天好日子😭',
+      likeCount: 429,
+      replies: [
+        {
+          userName: '逸心安Miguel',
+          content: '24年还好，我就双11装的，都不太贵。',
+          timeLocation: '昨天23:17·陕西',
+        },
+        {
+          userName: '牢川258',
+          content: '前几年矿潮崩盘的时候不就挺好的，4090有半年时间都能原价买',
+          timeLocation: '昨天23:40·湖南',
+        },
+      ],
+    },
+    {
+      id: 'g3',
+      author: {
+        name: 'yuusaku',
+        level: 'Lv.27',
+        levelColor: '#1A1A1A',
+        timeLocation: '13小时前·湖南',
+        avatarColors: ['#5A6A7A', '#2A3440'],
+        avatarText: 'y',
+      },
+      content: '这辈子不用换了 这个涨完涨那个左脚踩右脚螺旋升天涨 只有工资不见涨😑',
+      likeCount: 363,
+      replies: [
+        {
+          userName: 'しん',
+          content: '给你们涨涨房租❤️',
+          timeLocation: '8小时前·上海',
+        },
+        {
+          userName: '云淡青',
+          content: '回复 しん: 沪爷nb',
+          timeLocation: '7小时前·陕西',
+        },
+      ],
+    },
+    {
+      id: 'g4',
+      author: {
+        name: '只道花无十日红',
+        level: 'Lv.10',
+        levelColor: '#9B6BFF',
+        timeLocation: '13小时前·吉林',
+        avatarColors: ['#6A5A7A', '#3A2A4A'],
+        avatarText: '只',
+      },
+      content:
+        '涨吧涨吧，你们就涨吧！涨得整个DIY市场鸡飞狗跳，把这装机圈子搞黄了，老子无非把钱砸手里面就是！',
+      likeCount: 214,
+      replies: [
+        {
+          userName: '吃柠檬不说酸',
+          content: '😭',
+          timeLocation: '13小时前·河南',
+        },
+        {
+          userName: '额上面有人',
+          content: '我怎么磕巴的读完的评论😵‍💫',
+          timeLocation: '9小时前·吉林',
+        },
+      ],
+    },
+    {
+      id: 'g5',
+      author: {
+        name: '杜七说得对',
+        level: 'Lv.18',
+        levelColor: '#E53935',
+        timeLocation: '15小时前·浙江',
+        avatarColors: ['#3A3A4A', '#1A1A22'],
+        avatarText: '杜',
+      },
+      content:
+        '这是好事啊，天下苦这群啥鎏厂商的优化久矣，是时候该回归游戏应有的占用了。',
+      likeCount: 157,
+      replies: [
+        {
+          userName: 'lamSB',
+          content: '赞同，让那些厂商舒服了这么多年力大砖飞，现在该他们还债的时候了😊',
+          timeLocation: '7小时前·重庆',
+        },
+        {
+          userName: '专业掉节操',
+          content: '这么多条评论，你是最对的 哥们，还不如拉优化',
+          timeLocation: '5小时前·广东',
+        },
+      ],
+    },
+    {
+      id: 'g6',
+      author: {
+        name: 'auv1',
+        level: 'Lv.16',
+        levelColor: '#E53935',
+        timeLocation: '14小时前·陕西',
+        avatarColors: ['#4A3A2A', '#201810'],
+        avatarText: 'a',
+      },
+      content: '玩辣钱要砸在手里了',
+      likeCount: 184,
+      replies: [
+        {
+          userName: '正在加载中.',
+          content: '三瓜两枣的',
+          timeLocation: '10小时前·北京',
+        },
+        {
+          userName: '道行山下',
+          content: '回复 正在加载中.: 京✌️ v50看看实力',
+          timeLocation: '8小时前·河南',
+        },
+      ],
+    },
+    {
+      id: 'g7',
+      author: {
+        name: 'KkGOD1',
+        level: 'Lv.26',
+        levelColor: '#1A1A1A',
+        timeLocation: '12小时前·天津',
+        avatarColors: ['#5A2A2A', '#2A1010'],
+        avatarText: 'K',
+      },
+      content:
+        '25年年初配电脑真是最好的选择了😭，谁能想到短短一年半，我的电脑就成了整个家中最贵的东西了😭，地震了都得带着她跑路😭',
+      likeCount: 62,
+      replies: [
+        {
+          userName: '华北理工大学招生办-',
+          content: '我也是25年初的，配的4060，好像过了半年多，内存条就开始涨价了',
+          timeLocation: '8小时前·河北',
+        },
+        {
+          userName: '可这就是我',
+          content: '😭😭😭',
+          timeLocation: '8小时前·四川',
+        },
+      ],
+    },
+    {
+      id: 'g8',
+      author: {
+        name: '青梅竹马不会输',
+        level: 'Lv.16',
+        levelColor: '#E53935',
+        timeLocation: '11小时前·广东',
+        avatarColors: ['#3A5A7A', '#1A2A3A'],
+        avatarText: '青',
+      },
+      content:
+        '无所谓，虚拟货币的时候不也吹无限涨价？记住经济学说的没有任何东西可以永远“涨价”的，十年二十年AI能锤那么久空中楼阁吗？',
+      likeCount: 40,
+      replies: [
+        {
+          userName: 'NormalNeko',
+          content: '比特币现在没跌吧',
+          timeLocation: '9小时前·广东',
+        },
+        {
+          userName: '喵喵露利普贝当',
+          content: '买台电脑能等十年吗 那很能等了',
+          timeLocation: '9小时前·日本',
+        },
+      ],
+    },
+    {
+      id: 'g9',
+      author: {
+        name: 'Flashbacks',
+        level: 'Lv.22',
+        levelColor: '#1A1A1A',
+        timeLocation: '8小时前·北京',
+        avatarColors: ['#E8C080', '#8A6A40'],
+        avatarText: 'F',
+      },
+      content:
+        '去年年初我做了一个梦，梦见未来电脑各种硬件被美国制裁，大陆将买不到电脑，于是配了一台台式，虽然这波并非制裁，但好歹也是在最便宜的时候买到电脑了',
+      likeCount: 22,
+      replies: [
+        {
+          userName: '玩家16702684',
+          content:
+            '也算是制裁了，但不制裁硬件涨的只会更快，毕竟就算你拿鞭子抽老黄，老黄也拿不出那么多计算卡出来',
+          timeLocation: '8小时前·安徽',
+        },
+        {
+          userName: '柿子李天下',
+          content: '他要真敢制裁那真好了，直接放开了😊',
+          timeLocation: '8小时前·北京',
+        },
+      ],
+    },
+    {
+      id: 'g10',
+      author: {
+        name: '冯多鸡撒句嘞',
+        level: 'Lv.30',
+        levelColor: '#2A8A6A',
+        timeLocation: '10小时前·浙江',
+        avatarColors: ['#4A8AC0', '#1A4A70'],
+        avatarText: '冯',
+      },
+      content: '1660用了8年了😭😭😭😭😭',
+      likeCount: 19,
+      replies: [
+        {
+          userName: '奔波儿坝',
+          content: '1060还在用',
+          timeLocation: '7小时前·陕西',
+        },
+      ],
+    },
+  ],
+};
+
 /** 通用占位详情（无专属正文时使用） */
 function buildPlaceholderDetail(item: HotNewsItem): HotNewsDetailData {
   return {
@@ -754,6 +1137,7 @@ function buildPlaceholderDetail(item: HotNewsItem): HotNewsDetailData {
         imageLabel: item.thumbLabel ?? item.tag,
         imageIndex: '1/3',
         imageColors: item.thumbColors,
+        imageSrc: item.coverImg,
       },
       {
         type: 'paragraph',
@@ -785,6 +1169,7 @@ function buildPlaceholderDetail(item: HotNewsItem): HotNewsDetailData {
 const detailMap: Record<string, HotNewsDetailData> = {
   'news-steam-sale': detailSteamSale,
   'news-stellar-mod': detailStellarMod,
+  'news-gpu-price': detailGpuPrice,
 };
 
 export function getHotNewsById(id: string): HotNewsDetailData | undefined {
@@ -810,6 +1195,7 @@ export function getHotNewsById(id: string): HotNewsDetailData | undefined {
       thumbType: 'image',
       thumbColors: rank.thumbColors,
       thumbLabel: rank.thumbLabel,
+      coverImg: rank.coverImg,
       showInAll: false,
     });
   }

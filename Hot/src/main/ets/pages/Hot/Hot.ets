@@ -411,21 +411,28 @@ export struct Hot {
       .padding({ left: 10, right: 10 })
 
       Stack({ alignContent: Alignment.BottomEnd }) {
-        Column() {
-          Text(item.thumbLabel ?? '')
-            .fontSize(10)
-            .fontColor('rgba(255,255,255,0.9)')
-            .maxLines(2)
-            .textAlign(TextAlign.Center)
-            .padding(4)
+        if (item.coverImg) {
+          Image(item.coverImg)
+            .width('100%')
+            .height('100%')
+            .objectFit(ImageFit.Cover)
+        } else {
+          Column() {
+            Text(item.thumbLabel ?? '')
+              .fontSize(10)
+              .fontColor('rgba(255,255,255,0.9)')
+              .maxLines(2)
+              .textAlign(TextAlign.Center)
+              .padding(4)
+          }
+          .width('100%')
+          .height('100%')
+          .justifyContent(FlexAlign.Center)
+          .linearGradient({
+            angle: 120,
+            colors: [[item.thumbColors[0], 0], [item.thumbColors[1], 1]],
+          })
         }
-        .width('100%')
-        .height('100%')
-        .justifyContent(FlexAlign.Center)
-        .linearGradient({
-          angle: 120,
-          colors: [[item.thumbColors[0], 0], [item.thumbColors[1], 1]],
-        })
       }
       .width(96)
       .height(64)

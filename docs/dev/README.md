@@ -11,3 +11,4 @@
 | 2026-07-24 | hot | 第一条新闻接入新闻1 配图与博主头像 | [20260724-hot-news1-images.md](./20260724-hot-news1-images.md) |
 | 2026-07-24 | hot | 阶段进度汇总（HAR 迁移 + Banner + 新闻1） | [20260724-hot-progress-summary.md](./20260724-hot-progress-summary.md) |
 | 2026-07-24 | hot | 第二条新闻接入新闻2 配图/头像/游戏图标与评论 | [20260724-hot-news2-images.md](./20260724-hot-news2-images.md) |
+| 2026-07-25 | hot | 热榜总条目 1–10 + 热榜1 详情真图 | [20260725-hot-rank-list-and-rank1.md](./20260725-hot-rank-list-and-rank1.md) |
