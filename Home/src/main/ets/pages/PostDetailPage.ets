@@ -1065,7 +1065,7 @@ export struct PostDetailPage {
                 .margin({ left: 6 })
             }
             Blank()
-            Text(`👍 ${this.displayCommentLikeCount(comment)}`)
+            Text(`${this.isCommentLiked(comment.id) ? '♥' : '♡'} ${this.displayCommentLikeCount(comment)}`)
               .fontSize(12)
               .fontColor(this.isCommentLiked(comment.id) ? '#FF5A5A' : '#B0B0B0')
               .fontWeight(this.isCommentLiked(comment.id) ? FontWeight.Medium : FontWeight.Normal)
@@ -1277,7 +1277,7 @@ export struct PostDetailPage {
           })
 
         Column() {
-          Text('👍')
+          Text(this.liked ? '♥' : '♡')
             .fontSize(18)
             .fontColor(this.liked ? '#FF5A5A' : '#1A1A1A')
           Text(`${this.likeCount}`)
@@ -1304,7 +1304,7 @@ export struct PostDetailPage {
 
         Column() {
           Text('⚡')
-            .fontSize(18)
+            .fontSize(16)
             .fontColor(this.awarded ? '#FF7A00' : '#1A1A1A')
           Text(`${this.awardCount}`)
             .fontSize(10)
@@ -1315,8 +1315,9 @@ export struct PostDetailPage {
         .onClick(() => this.toggleAward())
 
         Column() {
-          Text('💬')
-            .fontSize(18)
+          Text('◡')
+            .fontSize(16)
+            .fontColor('#1A1A1A')
           Text(`${this.commentCount}`)
             .fontSize(10)
             .fontColor('#666666')

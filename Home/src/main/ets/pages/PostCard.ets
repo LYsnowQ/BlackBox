@@ -474,26 +474,26 @@ export struct PostCard {
 
       Row() {
         Row() {
-          Text('💬')
-            .fontSize(13)
+          Text('◡')
+            .fontSize(14)
             .fontColor('#B0B0B0')
           Text(`${this.displayCommentCount()}`)
             .fontSize(12)
             .fontColor('#B0B0B0')
-            .margin({ left: 3 })
+            .margin({ left: 4 })
         }
         .padding({ right: 14 })
         .onClick(() => this.openPostDetail())
 
         Row() {
-          Text('👍')
-            .fontSize(13)
+          Text(this.isLiked() ? '♥' : '♡')
+            .fontSize(14)
             .fontColor(this.isLiked() ? '#FF5A5A' : '#B0B0B0')
           Text(`${this.displayLikeCount()}`)
             .fontSize(12)
             .fontColor(this.isLiked() ? '#FF5A5A' : '#B0B0B0')
             .fontWeight(this.isLiked() ? FontWeight.Medium : FontWeight.Normal)
-            .margin({ left: 3 })
+            .margin({ left: 4 })
         }
         .onClick(() => this.toggleLike())
       }

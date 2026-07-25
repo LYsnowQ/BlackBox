@@ -46,14 +46,22 @@ export struct Home {
       Blank()
 
       Row() {
-        Text('🔍')
-          .fontSize(18)
+        // 搜索：线性放大镜
+        Text('⌕')
+          .fontSize(20)
           .fontColor('#1A1A1A')
-          .margin({ right: 18 })
+          .width(28)
+          .height(28)
+          .textAlign(TextAlign.Center)
+          .margin({ right: 10 })
           .onClick(() => this.goSearch())
-        Text('✉️')
+        // 消息：信封线框风格
+        Text('✉')
           .fontSize(18)
           .fontColor('#1A1A1A')
+          .width(28)
+          .height(28)
+          .textAlign(TextAlign.Center)
           .onClick(() => this.goMessages())
       }
     }
