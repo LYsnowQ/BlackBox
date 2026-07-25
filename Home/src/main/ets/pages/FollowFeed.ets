@@ -3,14 +3,18 @@ import { FeedPost, FollowUser, followPosts, followUsers } from '../model/HomeMod
 import { HomeRoutes } from '../router/HomeRoutes';
 import { PostCard } from './PostCard';
 
+const PAGE_SIZE: number = 6;
+
 @Component
 export struct FollowFeed {
   @State selectedUserId: string = '';
-  /** 进入页时打乱后的关注流动态顺序 */
   @State shuffledPosts: FeedPost[] = [];
+  @State visibleCount: number = PAGE_SIZE;
+  @State isRefreshing: boolean = false;
+  @State loadEpoch: number = 0;
 
   aboutToAppear(): void {
-    this.shuffledPosts = this.shufflePosts(followPosts);
+    this.resetPool();
   }
 
   private shufflePosts(src: FeedPost[]): FeedPost[] {
@@ -27,11 +31,46 @@ export struct FollowFeed {
     return arr;
   }
 
-  private filteredPosts(): FeedPost[] {
+  private resetPool(): void {
+    this.shuffledPosts = this.shufflePosts(followPosts);
+    this.visibleCount = PAGE_SIZE;
+    this.loadEpoch = this.loadEpoch + 1;
+  }
+
+  private filteredAll(): FeedPost[] {
     if (this.selectedUserId === '') {
       return this.shuffledPosts;
     }
     return this.shuffledPosts.filter((post: FeedPost) => post.authorId === this.selectedUserId);
+  }
+
+  private displayedPosts(): FeedPost[] {
+    const all = this.filteredAll();
+    const n = Math.min(this.visibleCount, all.length);
+    const out: FeedPost[] = [];
+    for (let i = 0; i < n; i++) {
+      out.push(all[i]);
+    }
+    return out;
+  }
+
+  private hasMore(): boolean {
+    return this.visibleCount < this.filteredAll().length;
+  }
+
+  private loadMore(): void {
+    if (!this.hasMore()) {
+      return;
+    }
+    this.visibleCount = Math.min(this.visibleCount + PAGE_SIZE, this.filteredAll().length);
+  }
+
+  private doRefresh(): void {
+    this.isRefreshing = true;
+    setTimeout(() => {
+      this.resetPool();
+      this.isRefreshing = false;
+    }, 500);
   }
 
   private openUserProfile(user: FollowUser): void {
@@ -89,6 +128,7 @@ export struct FollowFeed {
         .constraintSize({ maxWidth: 64 })
         .onClick(() => {
           this.selectedUserId = this.selectedUserId === user.id ? '' : user.id;
+          this.visibleCount = PAGE_SIZE;
         })
     }
     .width(68)
@@ -97,57 +137,64 @@ export struct FollowFeed {
   }
 
   build() {
-    List() {
-      ListItem() {
-        Scroll() {
-          Row({ space: 6 }) {
-            ForEach(followUsers, (user: FollowUser) => {
-              this.UserItemBuilder(user)
-            }, (user: FollowUser) => user.id)
-          }
-          .padding({ left: 12, right: 12, top: 6, bottom: 10 })
-        }
-        .scrollable(ScrollDirection.Horizontal)
-        .scrollBar(BarState.Off)
-        .edgeEffect(EdgeEffect.Spring)
-        .width('100%')
-      }
-
-      if (this.selectedUserId === '') {
+    Refresh({ refreshing: $$this.isRefreshing }) {
+      List() {
         ListItem() {
-          Text('盒友动态')
-            .fontSize(16)
-            .fontWeight(FontWeight.Bold)
-            .fontColor('#1A1A1A')
-            .width('100%')
-            .padding({ left: 16, right: 16, top: 4, bottom: 6 })
-        }
-      }
-
-      ForEach(this.filteredPosts(), (post: FeedPost) => {
-        ListItem() {
-          Column() {
-            Divider()
-              .color('#F0F0F0')
-              .strokeWidth(0.5)
-            PostCard({ post: post, variant: 'follow' })
+          Scroll() {
+            Row({ space: 6 }) {
+              ForEach(followUsers, (user: FollowUser) => {
+                this.UserItemBuilder(user)
+              }, (user: FollowUser) => user.id)
+            }
+            .padding({ left: 12, right: 12, top: 6, bottom: 10 })
           }
-        }
-      }, (post: FeedPost) => `${this.selectedUserId}|${post.id}`)
-
-      ListItem() {
-        Text(this.filteredPosts().length === 0 ? '暂无动态' : '已经到底了')
-          .fontSize(12)
-          .fontColor('#C0C0C0')
+          .scrollable(ScrollDirection.Horizontal)
+          .scrollBar(BarState.Off)
+          .edgeEffect(EdgeEffect.Spring)
           .width('100%')
-          .textAlign(TextAlign.Center)
-          .padding({ top: 12, bottom: 24 })
+        }
+
+        if (this.selectedUserId === '') {
+          ListItem() {
+            Text('盒友动态')
+              .fontSize(16)
+              .fontWeight(FontWeight.Bold)
+              .fontColor('#1A1A1A')
+              .width('100%')
+              .padding({ left: 16, right: 16, top: 4, bottom: 6 })
+          }
+        }
+
+        ForEach(this.displayedPosts(), (post: FeedPost) => {
+          ListItem() {
+            Column() {
+              Divider()
+                .color('#F0F0F0')
+                .strokeWidth(0.5)
+              PostCard({ post: post, variant: 'follow' })
+            }
+          }
+        }, (post: FeedPost) => `${this.loadEpoch}|${this.selectedUserId}|${post.id}`)
+
+        ListItem() {
+          Text(this.filteredAll().length === 0 ? '暂无动态' :
+            (this.hasMore() ? '上拉加载更多' : '已经到底了'))
+            .fontSize(12)
+            .fontColor('#C0C0C0')
+            .width('100%')
+            .textAlign(TextAlign.Center)
+            .padding({ top: 12, bottom: 24 })
+        }
       }
+      .width('100%')
+      .height('100%')
+      .edgeEffect(EdgeEffect.Spring)
+      .scrollBar(BarState.Off)
+      .backgroundColor(Color.White)
+      .onReachEnd(() => this.loadMore())
     }
+    .onRefreshing(() => this.doRefresh())
     .width('100%')
     .layoutWeight(1)
-    .edgeEffect(EdgeEffect.Spring)
-    .scrollBar(BarState.Off)
-    .backgroundColor(Color.White)
   }
 }
