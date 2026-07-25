@@ -18,6 +18,12 @@ interface StatCell {
   isTrend?: boolean;
 }
 
+interface StarDistributionItem {
+  stars: string;
+  percent: number;
+}
+
+
 @Component
 export struct GameDetail {
   @State game: GameItem | undefined = undefined;
@@ -2520,7 +2526,7 @@ export struct GameDetail {
             { stars: '★★★', percent: 0.08 },
             { stars: '★★', percent: 0.04 },
             { stars: '★', percent: 0.05 }
-          ], (item: { stars: string, percent: number }) => {
+          ], (item: StarDistributionItem) => {
             Row() {
               Text(item.stars)
                 .fontSize(8)
