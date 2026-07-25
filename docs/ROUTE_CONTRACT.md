@@ -34,6 +34,7 @@
 | `pages/Profile/EditProfile` | 编辑资料 |
 | `pages/Home/Search` | 首页搜索壳 |
 | `pages/Home/UserProfile` | 用户主页壳 |
+| `pages/Home/ImagePreview` | 配图全屏预览壳 |
 
 冲突合并时：**只追加、不重排、不删**；两边新增 path **都保留**。
 
@@ -47,6 +48,7 @@
 | `AppRoutes.HOME_POST_DETAIL` / `HomeRoutes.POST_DETAIL` | `pages/Home/PostDetail` | 帖子 `params: { id, tab? }` |
 | `AppRoutes.HOME_SEARCH` / `HomeRoutes.SEARCH` | `pages/Home/Search` | 首页搜索 |
 | `AppRoutes.HOME_USER_PROFILE` / `HomeRoutes.USER_PROFILE` | `pages/Home/UserProfile` | 用户主页 `params: { name, avatarColor, avatarText, levelLabel?, authorId? }` |
+| `AppRoutes.HOME_IMAGE_PREVIEW` / `HomeRoutes.IMAGE_PREVIEW` | `pages/Home/ImagePreview` | 配图预览 `params: { postId, index? }` |
 | `AppRoutes.PROFILE_SETTINGS` / `ProfileRoutes.SETTINGS` | `pages/Profile/Settings` | 设置 |
 | `AppRoutes.PROFILE_MESSAGES` / `ProfileRoutes.MESSAGES` / `HomeRoutes.MESSAGES` | `pages/Profile/Messages` | 消息（首页顶栏复用） |
 | `AppRoutes.PROFILE_SCAN` / `ProfileRoutes.SCAN` | `pages/Profile/Scan` | 扫一扫 |

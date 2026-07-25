@@ -9,6 +9,7 @@
     "pages/Profile/Scan",
     "pages/Profile/EditProfile",
     "pages/Home/Search",
-    "pages/Home/UserProfile"
+    "pages/Home/UserProfile",
+    "pages/Home/ImagePreview"
   ]
 }

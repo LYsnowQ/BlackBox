@@ -77,6 +77,7 @@ docs/Home.md / ROUTE_CONTRACT.md
 
 > 每完成一小部分功能，在此追加一条（新在上）。
 
+- 2026-07-25 · 配图全屏预览 · `ImagePreviewPage` + entry 壳 · 列表/详情点图 Swiper
 - 2026-07-25 · 修评论赞数同步 + 进首页随机排序 · `PostDetailPage` 展示层用 likedCommentIds 叠加；`HomeRecommend`/`FollowFeed` 进入打乱
 - 2026-07-25 · 评论点赞 + 用户主页 · `PostDetailPage` `PostCard` `FollowFeed` `UserProfilePage` `HomeInteractStore` · 路由 `HomeRoutes.USER_PROFILE`
 - 2026-07-25 · 首页搜索 + 消息入口 + 评论回复 · `HomeSearchPage` `Home` `PostDetailPage` `HomeInteractStore` + entry 壳 `Search` · 路由 `HomeRoutes.SEARCH/MESSAGES`
@@ -99,7 +100,7 @@ docs/Home.md / ROUTE_CONTRACT.md
 
 ### 待办（按序）
 
-1. 配图全屏预览（列表/详情 Swiper）
+1. ~~配图全屏预览（列表/详情 Swiper）~~
 2. 列表层帖子点赞（PostCard 接 InteractStore）
 3. 下拉刷新 + 触底加载更多（mock）
 4. 评论热门/最新排序

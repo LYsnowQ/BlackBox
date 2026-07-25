@@ -21,4 +21,6 @@ export class HomeRoutes {
    * 用户主页 params: { name, avatarColor, avatarText, levelLabel?, authorId? }
    */
   static readonly USER_PROFILE: string = 'pages/Home/UserProfile';
+  /** 配图预览 params: { postId: string, index?: number } */
+  static readonly IMAGE_PREVIEW: string = 'pages/Home/ImagePreview';
 }

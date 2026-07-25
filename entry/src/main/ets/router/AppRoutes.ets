@@ -25,6 +25,8 @@ export class AppRoutes {
   static readonly HOME_SEARCH: string = 'pages/Home/Search';
   /** 用户主页 params: { name, avatarColor, avatarText, levelLabel?, authorId? } */
   static readonly HOME_USER_PROFILE: string = 'pages/Home/UserProfile';
+  /** 配图预览 params: { postId: string, index?: number } */
+  static readonly HOME_IMAGE_PREVIEW: string = 'pages/Home/ImagePreview';
 
   // ── Profile ──
   static readonly PROFILE_SETTINGS: string = 'pages/Profile/Settings';

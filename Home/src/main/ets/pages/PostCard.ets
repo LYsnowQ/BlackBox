@@ -257,8 +257,18 @@ export struct PostCard {
     }
   }
 
+  private openImagePreview(index: number): void {
+    if (this.post.images.length === 0) {
+      return;
+    }
+    router.pushUrl({
+      url: HomeRoutes.IMAGE_PREVIEW,
+      params: { postId: this.post.id, index: index },
+    });
+  }
+
   @Builder
-  ImageTileBuilder(img: PostImage, tileWidth: Length, tileHeight: number, showCount: boolean) {
+  ImageTileBuilder(img: PostImage, tileWidth: Length, tileHeight: number, showCount: boolean, index: number) {
     Stack({ alignContent: Alignment.BottomEnd }) {
       this.MediaImageBuilder(img)
 
@@ -276,6 +286,7 @@ export struct PostCard {
     .height(tileHeight)
     .clip(true)
     .borderRadius(8)
+    .onClick(() => this.openImagePreview(index))
   }
 
   @Builder
@@ -302,7 +313,7 @@ export struct PostCard {
       .padding({ right: 10 })
 
       if (this.post.images.length > 0) {
-        this.ImageTileBuilder(this.post.images[0], 108, 108, false)
+        this.ImageTileBuilder(this.post.images[0], 108, 108, false, 0)
       }
     }
     .width('100%')
@@ -329,6 +340,7 @@ export struct PostCard {
       .clip(true)
       .borderRadius(8)
       .backgroundColor(this.post.images[0].placeholderColor)
+      .onClick(() => this.openImagePreview(0))
     } else if (this.post.images.length === 2) {
       Row({ space: 6 }) {
         Stack({ alignContent: Alignment.BottomEnd }) {
@@ -338,6 +350,7 @@ export struct PostCard {
         .height(110)
         .clip(true)
         .borderRadius(8)
+        .onClick(() => this.openImagePreview(0))
 
         Stack({ alignContent: Alignment.BottomEnd }) {
           this.MediaImageBuilder(this.post.images[1])
@@ -355,6 +368,7 @@ export struct PostCard {
         .height(110)
         .clip(true)
         .borderRadius(8)
+        .onClick(() => this.openImagePreview(1))
       }
       .width('100%')
     } else if (this.post.images.length >= 3) {
@@ -366,6 +380,7 @@ export struct PostCard {
         .height(150)
         .clip(true)
         .borderRadius(8)
+        .onClick(() => this.openImagePreview(0))
 
         Column({ space: 6 }) {
           Stack() {
@@ -375,6 +390,7 @@ export struct PostCard {
           .height(72)
           .clip(true)
           .borderRadius(8)
+          .onClick(() => this.openImagePreview(1))
 
           Stack({ alignContent: Alignment.BottomEnd }) {
             this.MediaImageBuilder(this.post.images[2])
@@ -392,6 +408,7 @@ export struct PostCard {
           .height(72)
           .clip(true)
           .borderRadius(8)
+          .onClick(() => this.openImagePreview(2))
         }
         .layoutWeight(1)
         .height(150)
@@ -530,11 +547,44 @@ export struct PostCard {
       .width('100%')
       .margin({ bottom: 10 })
 
-      // 正文区单独绑定详情跳转，避免与头像主页点击冲突（ArkTS ClickEvent 无 stopPropagation）
-      Column() {
-        if (this.post.imageLayout === 'right') {
-          this.RightImageBodyBuilder()
-        } else {
+      // 标题/摘要/底栏进详情；配图单独进预览（避免父子 onClick 冲突）
+      if (this.post.imageLayout === 'right') {
+        Row() {
+          Column() {
+            Text(this.post.title)
+              .fontSize(16)
+              .fontWeight(FontWeight.Bold)
+              .fontColor('#1A1A1A')
+              .maxLines(2)
+              .textOverflow({ overflow: TextOverflow.Ellipsis })
+              .lineHeight(22)
+            Text(this.post.summary)
+              .fontSize(13)
+              .fontColor('#8A8A8A')
+              .maxLines(2)
+              .textOverflow({ overflow: TextOverflow.Ellipsis })
+              .margin({ top: 6 })
+              .lineHeight(18)
+          }
+          .alignItems(HorizontalAlign.Start)
+          .layoutWeight(1)
+          .padding({ right: 10 })
+          .onClick(() => this.openPostDetail())
+
+          if (this.post.images.length > 0) {
+            this.ImageTileBuilder(this.post.images[0], 108, 108, false, 0)
+          }
+        }
+        .width('100%')
+        .alignItems(VerticalAlign.Top)
+
+        Column() {
+          this.FooterBuilder()
+        }
+        .width('100%')
+        .onClick(() => this.openPostDetail())
+      } else {
+        Column() {
           Text(this.post.title)
             .fontSize(16)
             .fontWeight(FontWeight.Bold)
@@ -554,21 +604,25 @@ export struct PostCard {
               .lineHeight(18)
               .width('100%')
           }
+        }
+        .width('100%')
+        .alignItems(HorizontalAlign.Start)
+        .onClick(() => this.openPostDetail())
 
-          if (this.post.images.length > 0) {
-            Column() {
-              this.GridImagesBuilder()
-            }
-            .width('100%')
-            .margin({ top: 10 })
+        if (this.post.images.length > 0) {
+          Column() {
+            this.GridImagesBuilder()
           }
+          .width('100%')
+          .margin({ top: 10 })
         }
 
-        this.FooterBuilder()
+        Column() {
+          this.FooterBuilder()
+        }
+        .width('100%')
+        .onClick(() => this.openPostDetail())
       }
-      .width('100%')
-      .alignItems(HorizontalAlign.Start)
-      .onClick(() => this.openPostDetail())
     }
     .width('100%')
     .padding({ left: 16, right: 16, top: 14, bottom: 14 })

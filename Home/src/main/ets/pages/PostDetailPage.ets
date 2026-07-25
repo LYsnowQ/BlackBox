@@ -229,6 +229,13 @@ export struct PostDetailPage {
     });
   }
 
+  private openImagePreview(index: number): void {
+    router.pushUrl({
+      url: HomeRoutes.IMAGE_PREVIEW,
+      params: { postId: this.postId, index: index },
+    });
+  }
+
   private toggleCommentLike(commentId: string): void {
     const liked = this.isCommentLiked(commentId);
     const nextLiked: string[] = [];
@@ -795,7 +802,7 @@ export struct PostDetailPage {
       .width('100%')
 
       Column({ space: 8 }) {
-        ForEach(this.detailMediaKeys(d), (key: string) => {
+        ForEach(this.detailMediaKeys(d), (key: string, i: number) => {
           Stack({ alignContent: Alignment.BottomEnd }) {
             this.MediaByKey(key, d.heroColor)
             Text('小黑盒')
@@ -808,7 +815,8 @@ export struct PostDetailPage {
           .borderRadius(10)
           .clip(true)
           .backgroundColor(d.heroColor.length > 0 ? d.heroColor : '#F3F4F6')
-        }, (key: string) => key)
+          .onClick(() => this.openImagePreview(i))
+        }, (key: string, i: number) => `${i}|${key}`)
       }
       .width('100%')
       .margin({ top: 14 })
