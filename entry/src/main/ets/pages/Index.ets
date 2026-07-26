@@ -72,13 +72,13 @@ struct Index {
           Column() {
             Column() {
               Text(item.icon)
-                .fontSize(16)
+                .fontSize(17)
                 .fontWeight(FontWeight.Medium)
                 .fontColor(Color.White)
             }
-            .width(24)
-            .height(24)
-            .constraintSize({ minWidth: 24, maxWidth: 24, minHeight: 24, maxHeight: 24 })
+            .width(28)
+            .height(28)
+            .constraintSize({ minWidth: 28, maxWidth: 28, minHeight: 28, maxHeight: 28 })
             .borderRadius(8)
             .backgroundColor('#1A1A1A')
             .justifyContent(FlexAlign.Center)
