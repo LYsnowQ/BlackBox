@@ -75,8 +75,8 @@ struct Index {
               .fontWeight(FontWeight.Medium)
               .fontColor(Color.White)
           }
-          .width(32)
-          .height(32)
+          .width(29)
+          .height(29)
           .borderRadius(8)
           .backgroundColor('#1A1A1A')
           .justifyContent(FlexAlign.Center)
