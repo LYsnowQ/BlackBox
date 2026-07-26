@@ -1,0 +1,1318 @@
+两帖截图已读完，结构化提取如下（仅返回 JSON，不写项目文件）：
+
+```json
+[
+  {
+    "folder": 1,
+    "authorName": "清岁安",
+    "levelLabel": "Lv.17",
+    "isOfficial": false,
+    "publishTime": "2025-12-27",
+    "region": "山东",
+    "fullTitle": "绿色地狱好玩",
+    "summary": "亚马逊求生不删档！《绿色地狱》萌新救命攻略，少走99%的弯路",
+    "bodyParagraphs": [
+      "谁懂啊家人们！刚进《绿色地狱》的亚马逊雨林，开局5分钟被蚂蟥吸血、10分钟被美洲豹追着啃、半小时伤口感染直接黑屏，这游戏简直是萌新劝退天花板😭 整理了亲测能用的生存干货，从开局活到通关的核心技巧全在这，新手直接抄作业！",
+      "🔥 开局30分钟生存流程（必看！）",
+      "1. 出生先按F调手表看坐标，优先找巨型岩石采集石头，2块石头合成石刀（开局神器，砍树、剥肉全靠它）",
+      "2. 找带藤蔓的树采藤蔓做绳子，1根长木棍+绳子+石刀=石矛，长按中键瞄准猎物爆头，一发带走犰狳/螃蟹",
+      "3. 速建简易庇护所（必须！只有这能存档），里面搭个叶床，避免野外睡觉被虫子寄生",
+      "4. 收集船子草做叶子绷带，再去动物尸体旁捡蛆（别嫌恶心），感染伤口全靠它清腐肉",
+      "5. 生火后一定要搭屋顶！露天火堆会被雨水浇灭，带屋顶的火堆还能烧出木炭",
+      "⚔ 必备工具/武器配方（优先级排序）",
+      "- 基础生存三件套：",
+      "✅ 石刀=石头×2（解锁所有采集）",
+      "✅ 石斧=木棍+石头+绳子（砍树效率翻倍）",
+      "✅ 棍甲=木棍×3+绳子×2+芭蕉叶（防两次攻击不破甲）",
+      "- 战斗神器：",
+      "✅ 竹弓=长竹棍+绳子（伤害最高，容错率拉满）",
+      "✅ 石矛=长木棍+绳子+石刀（投掷爆头秒野人和大猫）",
+      "✅ 犰狳甲=犰狳壳+绳子×2+芭蕉叶（后期神甲，防蜜蜂蚂蚁）",
+      "💙 健康急救指南（别死在治疗上！）",
+      "- 伤口感染（变绿）：先放蛆清创→再用绷带包扎",
+      "- 被毒虫/蛇咬：烟草绷带/百合绷带直接用，或生吃百合叶子解毒",
+      "- 蚂蟥寄生：按C检查身体，鼠标拖动就能拽掉",
+      "- 寄生虫（肠胃图标）：红蘑菇生吃或煮水喝，蓝蘑菇效果更强",
+      "- 脱水/饥饿：优先喝干净水源（瀑布最佳），熟肉放篝肉架风干，避免腐烂",
+      "🔑 关键资源&避坑冷知识",
+      "1. 地图获取：第一张在制毒厂（50/27）椅子上，第二张在简易机场（29/22）铁皮屋",
+      "2. 建家首选坐标48/16水边洞穴：有干净水源，野人不会游泳，安全感拉满",
+      "3. 生火小技巧：带屋顶的火堆永不熄灭，想熄火就放装满水的水壶",
+      "4. 背包整理：长按Y自动归类，按住ALT能批量移动物品，超省时间",
+      "5. 战斗秘诀：面对大猫/鳄鱼必须爆头（大猫1箭、鳄鱼2箭），近战按方向键+空格滑步无敌",
+      "从开局被追着打到轻松通关，这些技巧真的救了我无数次！剧情模式的死藤水材料（卡皮木藤蔓+绿九节）、金矿钩爪获取这些关键节点，需要的话评论区喊我，单独出一期剧情全流程～ 你们在雨林里遇到过最离谱的死法是什么？欢迎来评论区交流补充！"
+    ],
+    "circles": ["绿色地狱", "PC游戏"],
+    "topicTags": ["绿色地狱联机"],
+    "gameTag": "绿色地狱",
+    "circleIdGuess": "pc",
+    "hotTag": "萌新",
+    "likeCount": null,
+    "starCount": null,
+    "awardCount": null,
+    "commentCount": 497,
+    "imageCount": 2,
+    "imageDesc": "第一人称视角篝火烤蟹：沙地/浅水旁生火，木柴交叉燃烧冒烟，右侧有红蟹，左侧白色线稿蟹UI显示「蟹（上烤）」「拿取」「展开」，右手持绿绳缠柄武器，地面落叶与木柴散落。",
+    "comments": [
+      {
+        "authorName": "真真真",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "06-23",
+        "region": "贵州",
+        "content": "绿色地狱新手教程",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "玩家58358351",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "06-19",
+        "region": "重庆",
+        "content": "绿色地狱生存指南",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "压力玩家87852464",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "06-05",
+        "region": "山东",
+        "content": "绿色地狱狱生存",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "坏小孩-7",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "06-03",
+        "region": "山西",
+        "content": "出门就遇到 吓一跳，转眼天黑又遇到豹子",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "PanNote",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "06-01",
+        "region": "山西",
+        "content": "玩了20分钟蒙的我天堂地转",
+        "likeCount": 1,
+        "replies": [
+          {
+            "authorName": "云淡风轻",
+            "isAuthor": false,
+            "content": "关神视角摇晃",
+            "timeText": "06-03",
+            "region": "河南",
+            "replyToName": ""
+          },
+          {
+            "authorName": "",
+            "isAuthor": false,
+            "content": "你看看你说的啥：我差点点了，尤其是一转视角，边缘视角太奇怪了。",
+            "timeText": "06-15",
+            "region": "山东",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "玩家97233795",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "05-31",
+        "region": "辽宁",
+        "content": "绿色地狱攻略",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "Aspire",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "05-27",
+        "region": "安徽",
+        "content": "绿色地狱新手",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "时雨",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "05-19",
+        "region": "江苏",
+        "content": "有人一起玩吗 我有基础自己玩过几天",
+        "likeCount": 0,
+        "replies": [
+          {
+            "authorName": "玩家47694384",
+            "isAuthor": false,
+            "content": "一起啊",
+            "timeText": "05-28",
+            "region": "广东",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "德玛尼克",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "05-12",
+        "region": "江苏",
+        "content": "绿色地狱新手教程",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "夏末凛盛",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "05-07",
+        "region": "湖北",
+        "content": "我靠，我全知道，合成配方看蓝版基础，技巧全是我和朋友自己研究出来的，我还算萌新么",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "亿狐",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "05-02",
+        "region": "湖北",
+        "content": "绿色地狱生存指南",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "小酱儿呀",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "05-02",
+        "region": "广西",
+        "content": "绿色地狱生存指南",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "回忆放飞夜的篇章",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "04-30",
+        "region": "浙江",
+        "content": "萌新，有老玩家带吗？可以采药物资源和砍树",
+        "likeCount": 2,
+        "replies": [
+          {
+            "authorName": "夏末凛盛",
+            "isAuthor": false,
+            "content": "我算老玩家么 会和朋友玩了几天有不少经验",
+            "timeText": "05-06",
+            "region": "湖北",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "真之卵91",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "04-28",
+        "region": "山东",
+        "content": "有没有加联机的",
+        "likeCount": 1,
+        "replies": [
+          {
+            "authorName": "玩家52710228",
+            "isAuthor": false,
+            "content": "有",
+            "timeText": "05-04",
+            "region": "湖南",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "秋风物",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "04-27",
+        "region": "广东",
+        "content": "联机经常卡，放的东西没有同步，是不是没有开加速器的原因啊",
+        "likeCount": 1,
+        "replies": [
+          {
+            "authorName": "清岁安",
+            "isAuthor": true,
+            "content": "对，要大家都用一个加速器才行",
+            "timeText": "04-28",
+            "region": "山东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "秋风物",
+            "isAuthor": false,
+            "content": "好的",
+            "timeText": "04-28",
+            "region": "广东",
+            "replyToName": "清岁安"
+          }
+        ]
+      },
+      {
+        "authorName": "氪氪少年",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "04-25",
+        "region": "新疆",
+        "content": "绿色地狱生存指南",
+        "likeCount": 1,
+        "replies": []
+      },
+      {
+        "authorName": "甜蜜的蓝莓",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "04-23",
+        "region": "浙江",
+        "content": "《绿色地狱小提示》在遇到你之前我简直是在裸玩",
+        "likeCount": 1,
+        "replies": []
+      },
+      {
+        "authorName": "喵喵的大王",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "04-16",
+        "region": "天津",
+        "content": "绿色地狱攻略",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "我非吾非俺非孤非朕",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "04-13",
+        "region": "上海",
+        "content": "绿色地狱攻略",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "超级无敌水牛大王",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "04-05",
+        "region": "合肥",
+        "content": "（附图评论，文字未识别）",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "R1895- Q",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "04-04",
+        "region": "湖南",
+        "content": "？火不是烧完了就灭吗？我们三人联机壁炉旁边放这个格子里面放几十个干草鸟窝",
+        "likeCount": 3,
+        "replies": [
+          {
+            "authorName": "LOOXH",
+            "isAuthor": false,
+            "content": "会被雨水浇灭，烧完自灭，一二天的铁一点一天的慢一点",
+            "timeText": "03-28",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "兄友弟恭妹巴适",
+            "isAuthor": false,
+            "content": "其实可以加木炭的，火堆顶有一标志可以放木棍什么的",
+            "timeText": "04-28",
+            "region": "湖南",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "星期一田田玩游戏",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "03-23",
+        "region": "河北",
+        "content": "绿色地狱攻略",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "源卿",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "03-21",
+        "region": "山东",
+        "content": "不知道，玩其他3d没晕过，玩了这个不知道是不是fov的问题，晕的我脑仁疼",
+        "likeCount": 2,
+        "replies": [
+          {
+            "authorName": "",
+            "isAuthor": false,
+            "content": "我玩这个也容易，两个小时就晕的不行了",
+            "timeText": "03-21",
+            "region": "山东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "",
+            "isAuthor": false,
+            "content": "今天把亮度调高了一点，反正是好了些",
+            "timeText": "03-21",
+            "region": "山东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "白给弟",
+            "isAuthor": false,
+            "content": "把控制里的平滑调低就好了",
+            "timeText": "01-22",
+            "region": "黑龙江",
+            "replyToName": ""
+          },
+          {
+            "authorName": "我我我我我我有钱",
+            "isAuthor": false,
+            "content": "玩过fps的把那个平滑度拉到最后会好很多，亲试有效，不过经常本尽量拉到最高，因为已经是PPT了，那玩意儿可以看着没那么卡",
+            "timeText": "04-16",
+            "region": "江苏",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "志诚zai",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "03-21",
+        "region": "山东",
+        "content": "这游戏为啥这么卡",
+        "likeCount": 2,
+        "replies": [
+          {
+            "authorName": "小女孩",
+            "isAuthor": false,
+            "content": "优化问题，性能调度大坑没办法",
+            "timeText": "04-04",
+            "region": "浙江",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "什么fa",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "03-19",
+        "region": "重庆",
+        "content": "",
+        "likeCount": 0,
+        "replies": [
+          {
+            "authorName": "",
+            "isAuthor": false,
+            "content": "是？ cy",
+            "timeText": "04-05",
+            "region": "浙江",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "雕斗花局第一炮灰",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "03-19",
+        "region": "安徽",
+        "content": "为啥椅子上没地图是因为我联机吗",
+        "likeCount": 0,
+        "replies": [
+          {
+            "authorName": "苏塘墨茶",
+            "isAuthor": false,
+            "content": "我是剧情模式",
+            "timeText": "04-08",
+            "region": "山东",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "kaedeskiro",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "03-16",
+        "region": "广东",
+        "content": "请问点燃多个火堆，也要一个个手提引燃物吗",
+        "likeCount": 1,
+        "replies": [
+          {
+            "authorName": "S1nGod",
+            "isAuthor": false,
+            "content": "是的",
+            "timeText": "03-16",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "花会枯萎857",
+            "isAuthor": false,
+            "content": "木棍加绳子做火把，可以点多根",
+            "timeText": "03-16",
+            "region": "江苏",
+            "replyToName": ""
+          },
+          {
+            "authorName": "是为山河故人",
+            "isAuthor": false,
+            "content": "怎么点满啊，我有木棍不知道怎么点",
+            "timeText": "03-16",
+            "region": "山西",
+            "replyToName": ""
+          },
+          {
+            "authorName": "曲尽茶香良月",
+            "isAuthor": false,
+            "content": "打开背包，把可燃物拖到火堆中间那个圆盘上",
+            "timeText": "03-16",
+            "region": "广东",
+            "replyToName": "是为山河故人"
+          },
+          {
+            "authorName": "是为山河故人",
+            "isAuthor": false,
+            "content": "会了",
+            "timeText": "03-17",
+            "region": "山西",
+            "replyToName": "曲尽茶香良月"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "folder": 2,
+    "authorName": "花开富贵紫气东来",
+    "levelLabel": "Lv.14",
+    "isOfficial": false,
+    "publishTime": "07-21",
+    "region": "广东",
+    "fullTitle": "新生群真好玩",
+    "summary": "为了当嘉豪我高考都没这么绞尽脑汁，这嘉豪当的应该还算合格吧",
+    "bodyParagraphs": [
+      "为了当嘉豪我高考都没这么绞尽脑汁，这嘉豪当的应该还算合格吧"
+    ],
+    "circles": ["校园生活"],
+    "topicTags": [],
+    "gameTag": "",
+    "circleIdGuess": "chat",
+    "hotTag": "",
+    "likeCount": null,
+    "starCount": null,
+    "awardCount": null,
+    "commentCount": 374,
+    "imageCount": 1,
+    "imageDesc": "微信群「2026广软高考新生群①(311)」聊天截图：粉红荷花壁纸，一女性头像用户发「你们暑假有去哪里玩吗？」，配两张出海图（船上穿蓝工装戴墨镜的外国男子与金属笼、手持红白条纹海鱼），再发「和外国佬钓鱼好无聊」；群友 boom boom、Pink 发「？」表情；水印大字「花开富贵」。",
+    "comments": [
+      {
+        "authorName": "花开富贵紫气东来",
+        "levelLabel": "",
+        "isAuthor": true,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "07-21",
+        "region": "广东",
+        "content": "很多人说我无聊脑洞，若至，认为我不应该在新生群说这些。然而我觉得真的嘉豪都不会在意这些看法的，我的心态这几天也发生了很大的改变，现在对嘉豪更加敬佩和憧憬，那些说我嘉豪不自知的过了，我以为我还没达到那种境界～",
+        "likeCount": 164,
+        "replies": [
+          {
+            "authorName": "電光ガマ",
+            "isAuthor": false,
+            "content": "他们说的对",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "花开富贵紫气东来",
+            "isAuthor": true,
+            "content": "确实",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": "電光ガマ"
+          },
+          {
+            "authorName": "花开富贵紫气东来",
+            "isAuthor": true,
+            "content": "这个不是我学校所以说可以尽情愉快的嘉豪",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "黎都LICO",
+            "isAuthor": false,
+            "content": "自知为豪就永远做不出来了，只能沦为卑劣的表演者了",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "07-21",
+        "region": "河南",
+        "content": "你以为假装嘉豪真的不嘉豪吗",
+        "likeCount": 3550,
+        "replies": [
+          {
+            "authorName": "RaferTian",
+            "isAuthor": false,
+            "content": "披着假豪的皮奴役内心的真豪",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "开开福运我就是狗",
+            "isAuthor": false,
+            "content": "豪情在天",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": "RaferTian"
+          },
+          {
+            "authorName": "花开富贵紫气东来",
+            "isAuthor": true,
+            "content": "还好我身边没有这种人，不过这是建议你们多看看金融的书，对人性特别大，投资也更容易挣到钱",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "回笼",
+            "isAuthor": false,
+            "content": "这个更是由假变真",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": "花开富贵紫气东来"
+          },
+          {
+            "authorName": "黄瓜暴壮",
+            "isAuthor": false,
+            "content": "你也不简单",
+            "timeText": "07-21",
+            "region": "上海",
+            "replyToName": "花开富贵紫气东来"
+          },
+          {
+            "authorName": "BeiUu666",
+            "isAuthor": false,
+            "content": "一直很不简单",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": "花开富贵紫气东来"
+          },
+          {
+            "authorName": "全平实",
+            "isAuthor": false,
+            "content": "学到了",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": "花开富贵紫气东来"
+          },
+          {
+            "authorName": "LiyahSan",
+            "isAuthor": false,
+            "content": "学到了",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": "花开富贵紫气东来"
+          },
+          {
+            "authorName": "兔兔对",
+            "isAuthor": false,
+            "content": "哭拉了",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": "花开富贵紫气东来"
+          },
+          {
+            "authorName": "兔兔对回复的老大",
+            "isAuthor": false,
+            "content": "我想说也不要你们看哦",
+            "timeText": "07-21",
+            "region": "新疆",
+            "replyToName": ""
+          },
+          {
+            "authorName": "周毅",
+            "isAuthor": false,
+            "content": "豪情在天",
+            "timeText": "07-21",
+            "region": "山西",
+            "replyToName": "RaferTian"
+          },
+          {
+            "authorName": "DERIVEdsw",
+            "isAuthor": false,
+            "content": "薛定谔的嘉豪?",
+            "timeText": "07-21",
+            "region": "山西",
+            "replyToName": ""
+          },
+          {
+            "authorName": "NhaoL",
+            "isAuthor": false,
+            "content": "哈哈",
+            "timeText": "07-21",
+            "region": "湖南",
+            "replyToName": "RaferTian"
+          },
+          {
+            "authorName": "cun",
+            "isAuthor": false,
+            "content": "还有高手",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": "花开富贵紫气东来"
+          },
+          {
+            "authorName": "JayT逼头鱼",
+            "isAuthor": false,
+            "content": "看你个人真还是能做出中的我感觉",
+            "timeText": "09-15",
+            "region": "辽宁",
+            "replyToName": ""
+          },
+          {
+            "authorName": "秋. B",
+            "isAuthor": false,
+            "content": "我天嘉豪帅比有人155真嘉豪",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "猫煲粥警告",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "07-21",
+        "region": "广东",
+        "content": "假装嘉豪的行为本身就很嘉豪",
+        "likeCount": 1410,
+        "replies": [
+          {
+            "authorName": "6先生",
+            "isAuthor": false,
+            "content": "借假修真的借口大天性是",
+            "timeText": "07-21",
+            "region": "山西",
+            "replyToName": ""
+          },
+          {
+            "authorName": "狐狐的白兔",
+            "isAuthor": false,
+            "content": "这种我都看了懵了，已经是那种真嘉豪+虚假的共生了",
+            "timeText": "07-21",
+            "region": "山西",
+            "replyToName": ""
+          },
+          {
+            "authorName": "企鹅插入北冰洋",
+            "isAuthor": false,
+            "content": "中二思流，奇葩天",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": "6先生"
+          },
+          {
+            "authorName": "落落无光泽",
+            "isAuthor": false,
+            "content": "身在家中不知豪",
+            "timeText": "07-21",
+            "region": "山西",
+            "replyToName": ""
+          },
+          {
+            "authorName": "6先生",
+            "isAuthor": false,
+            "content": "不还是假嘉豪且，只停在在嘉豪中",
+            "timeText": "07-21",
+            "region": "山西",
+            "replyToName": "企鹅插入北冰洋"
+          },
+          {
+            "authorName": "紫荆花",
+            "isAuthor": false,
+            "content": "看似清澈实际已经参到不知天为何物了",
+            "timeText": "07-21",
+            "region": "山西",
+            "replyToName": ""
+          },
+          {
+            "authorName": "花开富贵紫气东来",
+            "isAuthor": true,
+            "content": "爱到极致：看似豪情在天实际豪情中无人",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": "6先生"
+          }
+        ]
+      },
+      {
+        "authorName": "玩家43187602",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "07-21",
+        "region": "广东",
+        "content": "怎么会有种精神一样",
+        "likeCount": 1175,
+        "replies": [
+          {
+            "authorName": "花开富贵紫气东来",
+            "isAuthor": true,
+            "content": "嗯，...",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "double",
+            "isAuthor": false,
+            "content": "还是",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "痛HS",
+            "isAuthor": false,
+            "content": "还是",
+            "timeText": "07-21",
+            "region": "安徽",
+            "replyToName": ""
+          },
+          {
+            "authorName": "风起时",
+            "isAuthor": false,
+            "content": "还了",
+            "timeText": "07-21",
+            "region": "山东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "河水水",
+            "isAuthor": false,
+            "content": "还是，这种有意思的吗",
+            "timeText": "07-21",
+            "region": "黑龙江",
+            "replyToName": ""
+          },
+          {
+            "authorName": "LyoOrs",
+            "isAuthor": false,
+            "content": "傻缺",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "东瓜鱼鱼",
+            "isAuthor": false,
+            "content": "还是",
+            "timeText": "07-21",
+            "region": "山西",
+            "replyToName": ""
+          },
+          {
+            "authorName": "有机",
+            "isAuthor": false,
+            "content": "也是还人",
+            "timeText": "07-21",
+            "region": "安徽",
+            "replyToName": ""
+          },
+          {
+            "authorName": "是包子不是小狗",
+            "isAuthor": false,
+            "content": "哦哦",
+            "timeText": "07-21",
+            "region": "河南",
+            "replyToName": ""
+          },
+          {
+            "authorName": "Duvi",
+            "isAuthor": false,
+            "content": "还是",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "还是那不到",
+            "isAuthor": false,
+            "content": "哈哈哈哈",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "玩家74570761",
+            "isAuthor": false,
+            "content": "这是精神冲击看着装的头号头扰人",
+            "timeText": "07-21",
+            "region": "吉林",
+            "replyToName": ""
+          },
+          {
+            "authorName": "伏特",
+            "isAuthor": false,
+            "content": "还是",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "Cyyyyyy",
+            "isAuthor": false,
+            "content": "没病",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "LudenX",
+            "isAuthor": false,
+            "content": "小年轻玩儿太硬了，妹科学生生的包的一样",
+            "timeText": "07-21",
+            "region": "山西",
+            "replyToName": ""
+          },
+          {
+            "authorName": "这什么好好呀",
+            "isAuthor": false,
+            "content": "难道不是吗",
+            "timeText": "07-21",
+            "region": "山西",
+            "replyToName": ""
+          },
+          {
+            "authorName": "吖天元气",
+            "isAuthor": false,
+            "content": "还是",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "KOing",
+            "isAuthor": false,
+            "content": "还是",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "L6841468",
+            "isAuthor": false,
+            "content": "点了",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "花开富贵紫气东来",
+            "isAuthor": true,
+            "content": "还是 还是",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "玩家43187602",
+            "isAuthor": false,
+            "content": "我还以为我被网易了",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "寻薇淘",
+            "isAuthor": false,
+            "content": "还是",
+            "timeText": "07-21",
+            "region": "江苏",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "GGhostA",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "07-21",
+        "region": "广东",
+        "content": "群里看到这种玩意真的烦，别人问个正经问题什么的 这种货一直发些有的没的",
+        "likeCount": 630,
+        "replies": [
+          {
+            "authorName": "冰河过处风吹",
+            "isAuthor": false,
+            "content": "非常正确 模式很让我认可 不是我说 大家都是看乐子 这在cos上了 很难不想",
+            "timeText": "07-21",
+            "region": "安徽",
+            "replyToName": ""
+          },
+          {
+            "authorName": "花开富贵紫气东来",
+            "isAuthor": true,
+            "content": "点了",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "柚基",
+            "isAuthor": false,
+            "content": "我还以为是吃瓜 见本人写的",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "SekaiNoYamada",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "07-21",
+        "region": "湖南",
+        "content": "开玩笑，而我是纯的",
+        "likeCount": 343,
+        "replies": [
+          {
+            "authorName": "开瓶装",
+            "isAuthor": false,
+            "content": "是的",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "玩咖中毒",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "07-21",
+        "region": "广东",
+        "content": "我说了在这种在新生群和宿舍群发之类的群一直当显眼包，纯打码，缺德还是没朋友只能在这种地方刷存在感",
+        "likeCount": 307,
+        "replies": [
+          {
+            "authorName": "Coinago09",
+            "isAuthor": false,
+            "content": "点了",
+            "timeText": "07-21",
+            "region": "安徽",
+            "replyToName": ""
+          },
+          {
+            "authorName": "打工人员",
+            "isAuthor": false,
+            "content": "点了",
+            "timeText": "07-21",
+            "region": "安徽",
+            "replyToName": ""
+          },
+          {
+            "authorName": "零之夜隐隐隐",
+            "isAuthor": false,
+            "content": "hyw，不让该说的了 群里聊聊也行 当然不妨碍讨厌",
+            "timeText": "07-21",
+            "region": "黑龙江",
+            "replyToName": ""
+          },
+          {
+            "authorName": "懒懒的夜隐隐隐",
+            "isAuthor": false,
+            "content": "你可以这么说，当然也不妨碍讨厌，还没开学就成你的好感觉，我不好评价是不是自说自话了",
+            "timeText": "07-21",
+            "region": "安徽",
+            "replyToName": ""
+          },
+          {
+            "authorName": "柚柚",
+            "isAuthor": false,
+            "content": "群里其他人不是在问嘛，他一直在那里，不妨碍别人觉得他",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": "零之夜隐隐隐"
+          },
+          {
+            "authorName": "喜神",
+            "isAuthor": false,
+            "content": "点了",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "暴雨风",
+            "isAuthor": false,
+            "content": "点了",
+            "timeText": "05-13",
+            "region": "辽宁",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "兰舒舒",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "07-21",
+        "region": "重庆",
+        "content": "身在家中不知豪",
+        "likeCount": 85,
+        "replies": []
+      },
+      {
+        "authorName": "蒋彭分",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "07-21",
+        "region": "广东",
+        "content": "冷知识：只有真嘉豪喜欢假装嘉豪的梗哦关注",
+        "likeCount": 66,
+        "replies": []
+      },
+      {
+        "authorName": "玩家46258064",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "07-21",
+        "region": "山西",
+        "content": "xhhm 真是多，明显现实生活的行为层次太低 线上我去认真思考了，闲聊时想聊到智力和装以及成功实际的，这都能批判的，这不是在集中凶朋友一起开玩笑啊？还有怎么真有人用嘉豪这个词严重批判别人的，下词不就是玩笑么，又没多大的贬义。正黑心用词与嘉豪都不会在意啥吧，对嘉豪哈气的感觉有点太激进了",
+        "likeCount": 49,
+        "replies": [
+          {
+            "authorName": "世界，个人都以为站在道德的最高点",
+            "isAuthor": false,
+            "content": "在这里反驳型人是最恶心的 纯而且评论风向朝着嘉豪都不敢说了",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "b4ri",
+            "isAuthor": false,
+            "content": "是这样的",
+            "timeText": "07-21",
+            "region": "安徽",
+            "replyToName": ""
+          },
+          {
+            "authorName": "每天都掉皮",
+            "isAuthor": false,
+            "content": "我看也是这样的，不过我更是挺讨厌装嘉豪的，我在群里看到有点点的感觉还是挺烦人的",
+            "timeText": "07-21",
+            "region": "山西",
+            "replyToName": ""
+          },
+          {
+            "authorName": "很多神之",
+            "isAuthor": false,
+            "content": "人身攻击一下又没搞死你，大家都是看着玩的，你这么批判到了，有点太敏感了",
+            "timeText": "07-21",
+            "region": "安徽",
+            "replyToName": ""
+          },
+          {
+            "authorName": "玩家46258064",
+            "isAuthor": false,
+            "content": "很多神之：做好了，很嗨",
+            "timeText": "07-21",
+            "region": "山西",
+            "replyToName": ""
+          },
+          {
+            "authorName": "秒！我觉",
+            "isAuthor": false,
+            "content": "你和楼主一样233",
+            "timeText": "07-21",
+            "region": "山西",
+            "replyToName": ""
+          },
+          {
+            "authorName": "冷静的猫头鹰",
+            "isAuthor": false,
+            "content": "我啊 我啊个开开辣妹妹",
+            "timeText": "07-21",
+            "region": "山西",
+            "replyToName": ""
+          },
+          {
+            "authorName": "凉哥",
+            "isAuthor": false,
+            "content": "我找你，也不管白拿了么",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "很多神之",
+            "isAuthor": false,
+            "content": "我从头到尾都是在指导别人",
+            "timeText": "07-21",
+            "region": "安徽",
+            "replyToName": ""
+          },
+          {
+            "authorName": "Pihhq",
+            "isAuthor": false,
+            "content": "是这样的 重要了",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "冰河党",
+            "isAuthor": false,
+            "content": "是一乐 我请你在乎是啊？是会一帮在读过时的孩子在新生群闹屏被看人看出来是一趟还是什么 总之真的东西的学学学乐吗 还是在评论区肆意地说出不是你的学校可以随便说的行为呢？总之以后可以在群里消磨不被这种科普过了孩子隔离",
+            "timeText": "07-21",
+            "region": "安徽",
+            "replyToName": ""
+          },
+          {
+            "authorName": "Atiene",
+            "isAuthor": false,
+            "content": "最大大的，就算加社区意见也指导别人",
+            "timeText": "07-21",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "很多神之",
+            "isAuthor": false,
+            "content": "给你老木棒了也没搞死，大家都是被看着的，太敏感了有毛病",
+            "timeText": "07-21",
+            "region": "安徽",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "没有了的罗非鱼",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "07-21",
+        "region": "广东",
+        "content": "身在家中不知豪，还嘲那装，知道别人豪自己还要搞这么一下，不找比嘉豪还豪，而且是真，正权比豪",
+        "likeCount": 38,
+        "replies": []
+      }
+    ]
+  }
+]
+```
+
+**提取说明（供调用方）**
+- 帖1：绿色地狱萌新攻略；评论 497；赞藏充正文截图未见 → null；部分评论等级看不清留空；少量楼中楼昵称被截断。
+- 帖2：校园生活嘉豪梗；评论 374；高赞楼（3550）昵称截图未显示完整；「还是」串评与底部长串楼中楼有个别字因分辨率模糊为近似。
+- 配图只描述画面，未 OCR。

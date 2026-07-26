@@ -18,7 +18,7 @@ interface BottomNavItem {
 @Entry
 @Component
 struct Index {
-  @State bottomTabIndex: number = 3;
+  @State bottomTabIndex: number = 0;
   @State topTabIndex: number = 0;
   @State isForYouPageOpen: boolean = false;
   @State activeNavPage: string = '';
