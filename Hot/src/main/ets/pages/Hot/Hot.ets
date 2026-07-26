@@ -4,12 +4,15 @@ import {
   HotChannel,
   HotNewsItem,
   HotRankItem,
+  HotStellarHeader,
   DealCell,
   hotBanners,
   hotChannels,
   hotRankList,
+  hotStellarHeader,
   getAllFeedNews,
-} from '../model/HotModel';
+  getStellarFeed,
+} from '../../model/HotModel';
 import {
   HotThemeColors,
   HotThemeMode,
@@ -17,15 +20,16 @@ import {
   getHotTheme,
   rankBadgeBackground,
 } from './HotTheme';
-import { HotRoutes } from '../router/HotRoutes';
+import { HotRoutes } from '../../router/HotRoutes';
 
 /**
- * 热点 Tab 主页
+ * 热点 Tab 主页（Hot HAR 业务组件，由 entry Index 挂载）
  * - 默认浅色（对照 Screen/Light 图1 全部 / 图2 热榜）
  * - 深色：HotTheme.HOT_DEFAULT_THEME_MODE = 'dark' 调试；后期由上层主题接管
  * - 全部：Banner + 新闻列表
  * - 热榜：排行列表
- * - 剑星 / Steam 等：待开发占位
+ * - 剑星：顶部游戏卡 + 6 条主列表（对照 剑星/主页面条目）
+ * - 其它游戏频道：待开发占位
  */
 @Component
 export struct Hot {
@@ -38,6 +42,8 @@ export struct Hot {
   private banners: HotBanner[] = hotBanners;
   private feedList: HotNewsItem[] = getAllFeedNews();
   private rankList: HotRankItem[] = hotRankList;
+  private stellarHeader: HotStellarHeader = hotStellarHeader;
+  private stellarList: HotNewsItem[] = getStellarFeed();
 
   private theme(): HotThemeColors {
     return getHotTheme(this.themeMode);
@@ -125,52 +131,59 @@ export struct Hot {
     .padding({ left: 16, right: 12, bottom: 4 })
   }
 
-  // ---------- Banner ----------
+  // ---------- Banner（顶部动态展示栏：优先真实图，图内已含文案） ----------
   @Builder
   BannerSlideBuilder(slide: HotBanner) {
     Stack({ alignContent: Alignment.BottomStart }) {
-      Column() {
-        Text(slide.cta)
-          .fontSize(18)
-          .fontWeight(FontWeight.Bold)
-          .fontColor(Color.White)
-          .opacity(0.95)
-      }
-      .width('100%')
-      .height('100%')
-      .justifyContent(FlexAlign.Center)
-      .linearGradient({
-        angle: 120,
-        colors: [[slide.gradientColors[0], 0], [slide.gradientColors[1], 1]],
-      })
-
-      Column() {
-        Row() {
+      if (slide.coverImg) {
+        Image(slide.coverImg)
+          .width('100%')
+          .height('100%')
+          .objectFit(ImageFit.Cover)
+      } else {
+        Column() {
           Text(slide.cta)
-            .fontSize(11)
+            .fontSize(18)
+            .fontWeight(FontWeight.Bold)
             .fontColor(Color.White)
-            .padding({ left: 10, right: 10, top: 5, bottom: 5 })
-            .backgroundColor('#1A8CFF')
-            .borderRadius(4)
+            .opacity(0.95)
         }
         .width('100%')
+        .height('100%')
         .justifyContent(FlexAlign.Center)
-        .padding({ bottom: 8 })
+        .linearGradient({
+          angle: 120,
+          colors: [[slide.gradientColors[0], 0], [slide.gradientColors[1], 1]],
+        })
 
-        Text(slide.title)
-          .fontSize(13)
-          .fontColor(Color.White)
-          .maxLines(1)
-          .textOverflow({ overflow: TextOverflow.Ellipsis })
-          .textAlign(TextAlign.Center)
+        Column() {
+          Row() {
+            Text(slide.cta)
+              .fontSize(11)
+              .fontColor(Color.White)
+              .padding({ left: 10, right: 10, top: 5, bottom: 5 })
+              .backgroundColor('#1A8CFF')
+              .borderRadius(4)
+          }
           .width('100%')
-          .padding({ left: 12, right: 12, bottom: 12 })
+          .justifyContent(FlexAlign.Center)
+          .padding({ bottom: 8 })
+
+          Text(slide.title)
+            .fontSize(13)
+            .fontColor(Color.White)
+            .maxLines(1)
+            .textOverflow({ overflow: TextOverflow.Ellipsis })
+            .textAlign(TextAlign.Center)
+            .width('100%')
+            .padding({ left: 12, right: 12, bottom: 12 })
+        }
+        .width('100%')
+        .linearGradient({
+          angle: 180,
+          colors: [['rgba(0,0,0,0)', 0], ['rgba(0,0,0,0.65)', 1]],
+        })
       }
-      .width('100%')
-      .linearGradient({
-        angle: 180,
-        colors: [['rgba(0,0,0,0)', 0], ['rgba(0,0,0,0.65)', 1]],
-      })
     }
     .width('100%')
     .height('100%')
@@ -236,22 +249,29 @@ export struct Hot {
   @Builder
   ImageThumbBuilder(item: HotNewsItem) {
     Stack({ alignContent: Alignment.Center }) {
-      Column() {
-        Text(item.thumbLabel ?? '')
-          .fontSize(11)
-          .fontWeight(FontWeight.Medium)
-          .fontColor('rgba(255,255,255,0.9)')
-          .maxLines(2)
-          .textAlign(TextAlign.Center)
-          .padding({ left: 6, right: 6 })
+      if (item.coverImg) {
+        Image(item.coverImg)
+          .width('100%')
+          .height('100%')
+          .objectFit(ImageFit.Cover)
+      } else {
+        Column() {
+          Text(item.thumbLabel ?? '')
+            .fontSize(11)
+            .fontWeight(FontWeight.Medium)
+            .fontColor('rgba(255,255,255,0.9)')
+            .maxLines(2)
+            .textAlign(TextAlign.Center)
+            .padding({ left: 6, right: 6 })
+        }
+        .width('100%')
+        .height('100%')
+        .justifyContent(FlexAlign.Center)
+        .linearGradient({
+          angle: 120,
+          colors: [[item.thumbColors[0], 0], [item.thumbColors[1], 1]],
+        })
       }
-      .width('100%')
-      .height('100%')
-      .justifyContent(FlexAlign.Center)
-      .linearGradient({
-        angle: 120,
-        colors: [[item.thumbColors[0], 0], [item.thumbColors[1], 1]],
-      })
 
       if (item.thumbType === 'video') {
         Row() {
@@ -397,21 +417,28 @@ export struct Hot {
       .padding({ left: 10, right: 10 })
 
       Stack({ alignContent: Alignment.BottomEnd }) {
-        Column() {
-          Text(item.thumbLabel ?? '')
-            .fontSize(10)
-            .fontColor('rgba(255,255,255,0.9)')
-            .maxLines(2)
-            .textAlign(TextAlign.Center)
-            .padding(4)
+        if (item.coverImg) {
+          Image(item.coverImg)
+            .width('100%')
+            .height('100%')
+            .objectFit(ImageFit.Cover)
+        } else {
+          Column() {
+            Text(item.thumbLabel ?? '')
+              .fontSize(10)
+              .fontColor('rgba(255,255,255,0.9)')
+              .maxLines(2)
+              .textAlign(TextAlign.Center)
+              .padding(4)
+          }
+          .width('100%')
+          .height('100%')
+          .justifyContent(FlexAlign.Center)
+          .linearGradient({
+            angle: 120,
+            colors: [[item.thumbColors[0], 0], [item.thumbColors[1], 1]],
+          })
         }
-        .width('100%')
-        .height('100%')
-        .justifyContent(FlexAlign.Center)
-        .linearGradient({
-          angle: 120,
-          colors: [[item.thumbColors[0], 0], [item.thumbColors[1], 1]],
-        })
       }
       .width(96)
       .height(64)
@@ -448,7 +475,93 @@ export struct Hot {
     .edgeEffect(EdgeEffect.Spring)
   }
 
-  // ---------- 游戏频道待开发 ----------
+  // ---------- 剑星频道：顶部游戏卡 + 6 条列表 ----------
+  @Builder
+  StellarHeaderCardBuilder() {
+    Row() {
+      if (this.stellarHeader.coverImg) {
+        Image(this.stellarHeader.coverImg)
+          .width(52)
+          .height(52)
+          .borderRadius(8)
+          .objectFit(ImageFit.Cover)
+      } else {
+        Column()
+          .width(52)
+          .height(52)
+          .borderRadius(8)
+          .linearGradient({
+            angle: 120,
+            colors: [[this.stellarHeader.gradientColors[0], 0], [this.stellarHeader.gradientColors[1], 1]],
+          })
+      }
+
+      Column() {
+        Text(this.stellarHeader.titleLabel)
+          .fontSize(16)
+          .fontWeight(FontWeight.Bold)
+          .fontColor(Color.White)
+
+        Row() {
+          ForEach(this.stellarHeader.chips, (chip: string) => {
+            Text(chip)
+              .fontSize(11)
+              .fontColor('rgba(255,255,255,0.88)')
+              .padding({ left: 8, right: 8, top: 4, bottom: 4 })
+              .backgroundColor('rgba(255,255,255,0.18)')
+              .borderRadius(4)
+              .margin({ right: 6 })
+          }, (chip: string) => chip)
+        }
+        .margin({ top: 8 })
+        .width('100%')
+      }
+      .layoutWeight(1)
+      .alignItems(HorizontalAlign.Start)
+      .padding({ left: 12 })
+    }
+    .width('100%')
+    .padding({ left: 12, right: 12, top: 12, bottom: 12 })
+    .borderRadius(10)
+    .linearGradient({
+      angle: 100,
+      colors: [['#3A4A5A', 0], ['#1A2430', 1]],
+    })
+  }
+
+  @Builder
+  StellarFeedBuilder() {
+    List() {
+      ListItem() {
+        Column() {
+          this.StellarHeaderCardBuilder();
+        }
+        .width('100%')
+        .padding({ left: 12, right: 12, top: 8, bottom: 4 })
+      }
+
+      ForEach(this.stellarList, (item: HotNewsItem) => {
+        ListItem() {
+          this.NewsItemBuilder(item);
+        }
+      }, (item: HotNewsItem) => item.id)
+
+      ListItem() {
+        Text('已经到底啦')
+          .fontSize(12)
+          .fontColor(this.theme().emptyText)
+          .width('100%')
+          .textAlign(TextAlign.Center)
+          .padding({ top: 12, bottom: 24 })
+      }
+    }
+    .width('100%')
+    .layoutWeight(1)
+    .scrollBar(BarState.Off)
+    .edgeEffect(EdgeEffect.Spring)
+  }
+
+  // ---------- 其它游戏频道待开发 ----------
   @Builder
   GamePlaceholderBuilder() {
     Column() {
@@ -480,6 +593,8 @@ export struct Hot {
       this.AllFeedBuilder();
     } else if (this.currentChannel().type === 'rank') {
       this.RankListBuilder();
+    } else if (this.currentChannel().id === 'stellar') {
+      this.StellarFeedBuilder();
     } else {
       this.GamePlaceholderBuilder();
     }

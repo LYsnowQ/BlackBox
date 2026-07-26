@@ -7,7 +7,7 @@ import {
   HotNewsDetailData,
   HotReply,
   getHotNewsById,
-} from '../model/HotModel';
+} from '../../model/HotModel';
 import {
   HotThemeColors,
   HotThemeMode,
@@ -16,7 +16,7 @@ import {
 } from './HotTheme';
 
 /**
- * 热点新闻详情
+ * 热点新闻详情（Hot HAR 业务组件，由 entry 路由壳挂载）
  * - 默认浅色（对照 Screen/Light 图3 正文 / 图4 评论）
  * - 深色可经路由 params.themeMode 或 HOT_DEFAULT_THEME_MODE 调试
  * 组件名 HotNewsDetail，数据模型为 HotNewsDetailData，避免 ArkTS 同名冲突。
@@ -102,22 +102,30 @@ export struct HotNewsDetail {
     .alignItems(VerticalAlign.Center)
   }
 
-  // ---------- 头像占位 ----------
+  // ---------- 头像（优先真实图） ----------
   @Builder
   AvatarBuilder(author: HotAuthor, size: number) {
-    Stack({ alignContent: Alignment.Center }) {
-      Text(author.avatarText)
-        .fontSize(size > 36 ? 14 : 13)
-        .fontWeight(FontWeight.Bold)
-        .fontColor(Color.White)
+    if (author.avatarImg) {
+      Image(author.avatarImg)
+        .width(size)
+        .height(size)
+        .borderRadius(size / 2)
+        .objectFit(ImageFit.Cover)
+    } else {
+      Stack({ alignContent: Alignment.Center }) {
+        Text(author.avatarText)
+          .fontSize(size > 36 ? 14 : 13)
+          .fontWeight(FontWeight.Bold)
+          .fontColor(Color.White)
+      }
+      .width(size)
+      .height(size)
+      .borderRadius(size / 2)
+      .linearGradient({
+        angle: 135,
+        colors: [[author.avatarColors[0], 0], [author.avatarColors[1], 1]],
+      })
     }
-    .width(size)
-    .height(size)
-    .borderRadius(size / 2)
-    .linearGradient({
-      angle: 135,
-      colors: [[author.avatarColors[0], 0], [author.avatarColors[1], 1]],
-    })
   }
 
   // ---------- 作者名 + 等级 + 时间（不含头像） ----------
@@ -196,18 +204,42 @@ export struct HotNewsDetail {
   @Builder
   GameCardBuilder(game: HotGameCard) {
     Row() {
-      Stack({ alignContent: Alignment.Center }) {
-        Text(game.name.substring(0, 2))
-          .fontSize(14)
-          .fontColor(Color.White)
+      Stack({ alignContent: Alignment.TopEnd }) {
+        if (game.coverImg) {
+          Image(game.coverImg)
+            .width('100%')
+            .height('100%')
+            .objectFit(ImageFit.Cover)
+            .borderRadius(6)
+        } else {
+          Stack({ alignContent: Alignment.Center }) {
+            Text(game.name.substring(0, 2))
+              .fontSize(14)
+              .fontColor(Color.White)
+          }
+          .width('100%')
+          .height('100%')
+          .borderRadius(6)
+          .linearGradient({
+            angle: 120,
+            colors: [[game.gradientColors[0], 0], [game.gradientColors[1], 1]],
+          })
+        }
+
+        if (game.discountLabel) {
+          Text(game.discountLabel)
+            .fontSize(10)
+            .fontWeight(FontWeight.Bold)
+            .fontColor(Color.White)
+            .padding({ left: 4, right: 4, top: 1, bottom: 1 })
+            .backgroundColor('#E53935')
+            .borderRadius({ topRight: 6, bottomLeft: 4 })
+        }
       }
       .width(56)
       .height(56)
       .borderRadius(6)
-      .linearGradient({
-        angle: 120,
-        colors: [[game.gradientColors[0], 0], [game.gradientColors[1], 1]],
-      })
+      .clip(true)
 
       Column() {
         Text(game.name)
@@ -301,24 +333,33 @@ export struct HotNewsDetail {
       .margin({ bottom: 14 })
     } else if (block.type === 'image') {
       Stack({ alignContent: Alignment.BottomEnd }) {
-        Column() {
-          Text(block.imageLabel ?? '')
-            .fontSize(16)
-            .fontWeight(FontWeight.Bold)
-            .fontColor('rgba(255,255,255,0.85)')
+        if (block.imageSrc) {
+          // 游戏截图 / 展示图：Contain 保比例；整页价格截图同理不被 Cover 裁切
+          Image(block.imageSrc)
+            .width('100%')
+            .objectFit(ImageFit.Contain)
+            .borderRadius(8)
+        } else {
+          Column() {
+            Text(block.imageLabel ?? '')
+              .fontSize(16)
+              .fontWeight(FontWeight.Bold)
+              .fontColor('rgba(255,255,255,0.85)')
+          }
+          .width('100%')
+          .height(180)
+          .justifyContent(FlexAlign.Center)
+          .linearGradient({
+            angle: 120,
+            colors: [
+              [block.imageColors ? block.imageColors[0] : '#3A3A3A', 0],
+              [block.imageColors ? block.imageColors[1] : '#1A1A1A', 1],
+            ],
+          })
+          .borderRadius(8)
         }
-        .width('100%')
-        .height('100%')
-        .justifyContent(FlexAlign.Center)
-        .linearGradient({
-          angle: 120,
-          colors: [
-            [block.imageColors ? block.imageColors[0] : '#3A3A3A', 0],
-            [block.imageColors ? block.imageColors[1] : '#1A1A1A', 1],
-          ],
-        })
 
-        if (block.imageIndex) {
+        if (block.imageIndex && !block.imageSrc) {
           Text(block.imageIndex)
             .fontSize(11)
             .fontColor(Color.White)
@@ -329,8 +370,6 @@ export struct HotNewsDetail {
         }
       }
       .width('100%')
-      .height(180)
-      .borderRadius(8)
       .clip(true)
       .margin({ bottom: 14 })
     }
@@ -384,7 +423,7 @@ export struct HotNewsDetail {
         ForEach(detail.blocks, (block: HotContentBlock) => {
           this.BlockBuilder(block);
         }, (block: HotContentBlock) =>
-          `${block.type}-${block.text ?? ''}-${block.imageLabel ?? ''}-${block.imageIndex ?? ''}-${block.game?.name ?? ''}`)
+          `${block.type}-${block.text ?? ''}-${block.imageLabel ?? ''}-${block.imageIndex ?? ''}-${block.game?.name ?? ''}-${block.game?.priceLabel ?? ''}`)
       }
       .width('100%')
       .margin({ top: 16 })

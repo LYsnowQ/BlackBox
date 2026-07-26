@@ -1,6 +1,7 @@
 /**
  * 热点模块数据模型与 Mock
- * 说明：仅前端展示，数据全部为 mock；封面/配图用渐变色占位，后续可替换为 Image 资源。
+ * 说明：仅前端展示，数据全部为 mock。
+ * Banner / 第一条新闻（news-steam-sale）已接真实图，其余列表缩略图仍可用渐变占位。
  */
 
 /** 频道 Tab */
@@ -11,12 +12,15 @@ export interface HotChannel {
   type: 'all' | 'rank' | 'game';
 }
 
-/** 轮播 Banner */
+/** 轮播 Banner（顶部动态展示栏） */
 export interface HotBanner {
   id: string;
   title: string;
   cta: string;
+  /** 无真实图时的渐变占位色 */
   gradientColors: [string, string];
+  /** 顶部轮播真实图片（Hot/media：hot_banner_1~4） */
+  coverImg?: ResourceStr;
 }
 
 /** 列表缩略图类型 */
@@ -32,6 +36,8 @@ export interface HotNewsItem {
   thumbType: HotThumbType;
   /** 缩略图渐变占位色 */
   thumbColors: [string, string];
+  /** 缩略图真实图（优先于渐变） */
+  coverImg?: ResourceStr;
   /** 缩略图角标文字，如视频播放、折扣格等 */
   thumbLabel?: string;
   /** 折扣宫格（deal 类型） */
@@ -57,9 +63,21 @@ export interface HotRankItem {
   tag: string;
   commentCount: number;
   thumbColors: [string, string];
+  /** 列表右侧缩略图真实资源（优先于渐变） */
+  coverImg?: ResourceStr;
   thumbLabel?: string;
   /** 对应详情新闻 id，可复用正文 mock */
   newsId?: string;
+}
+
+/** 剑星频道顶部游戏卡（对照 剑星/主页面条目 结构截图） */
+export interface HotStellarHeader {
+  name: string;
+  /** 右侧小箭头文案，如「剑星 >」 */
+  titleLabel: string;
+  coverImg?: ResourceStr;
+  chips: string[];
+  gradientColors: [string, string];
 }
 
 /** 正文内嵌游戏卡片 */
@@ -71,6 +89,10 @@ export interface HotGameCard {
   ownLabel?: string;
   gradientColors: [string, string];
   favoriteLabel?: string;
+  /** 封面真实图 */
+  coverImg?: ResourceStr;
+  /** 封面角标折扣，如 -50% */
+  discountLabel?: string;
 }
 
 /** 正文段落 / 列表 */
@@ -81,6 +103,8 @@ export interface HotContentBlock {
   imageLabel?: string;
   imageIndex?: string;
   imageColors?: [string, string];
+  /** 正文配图真实资源 */
+  imageSrc?: ResourceStr;
   game?: HotGameCard;
 }
 
@@ -94,6 +118,8 @@ export interface HotAuthor {
   isAuthor?: boolean;
   avatarColors: [string, string];
   avatarText: string;
+  /** 头像真实图 */
+  avatarImg?: ResourceStr;
 }
 
 /** 评论回复 */
@@ -142,21 +168,31 @@ export const hotChannels: HotChannel[] = [
 export const hotBanners: HotBanner[] = [
   {
     id: 'b1',
-    title: '首发限时9 折叠加92 折券，点击抢购！',
+    title: '风暴枪弹现已发售，首发限时优惠点击抢购',
     cta: '现已发售点击抢购',
     gradientColors: ['#2A1A3A', '#5C2A1A'],
+    coverImg: $r('app.media.hot_banner_1'),
   },
   {
     id: 'b2',
-    title: 'Steam 夏日特卖进行中，史低好价不错过',
-    cta: '查看全部优惠',
+    title: '战地风云 6 第 4 赛季：海战回归，参与活动赢载具外观',
+    cta: '海战回归',
     gradientColors: ['#0F1B2B', '#1A4A6A'],
+    coverImg: $r('app.media.hot_banner_2'),
   },
   {
     id: 'b3',
-    title: '独立游戏节精选，口碑佳作 5 折起',
-    cta: '立即逛逛',
-    gradientColors: ['#122A22', '#1F5C4A'],
+    title: '碧蓝幻想 Relink：Endless Ragnarok',
+    cta: '立即了解',
+    gradientColors: ['#3A1A5A', '#1A0A2A'],
+    coverImg: $r('app.media.hot_banner_3'),
+  },
+  {
+    id: 'b4',
+    title: 'PUBG：KUN 的夏日空投，蔡徐坤全球代言人',
+    cta: 'K SPECIAL DELIVERY',
+    gradientColors: ['#0A1A2A', '#1A2A4A'],
+    coverImg: $r('app.media.hot_banner_4'),
   },
 ];
 
@@ -166,9 +202,10 @@ export const hotNewsList: HotNewsItem[] = [
     title: '(7.24) Steam发大力！85款精品佳作迎来骨折价，最低仅需3元',
     timeLabel: '42分钟前',
     tag: 'Steam',
-    commentCount: 4,
+    commentCount: 20,
     thumbType: 'deal',
     thumbColors: ['#1A3A1A', '#0A1A0A'],
+    // 列表仍用折扣宫格；详情用 新闻1-图片* 与博主头像
     dealCells: [
       { discount: '-100%', price: '¥ 0.00', highlight: true },
       { discount: '-80%', price: '¥ 14.60' },
@@ -184,49 +221,54 @@ export const hotNewsList: HotNewsItem[] = [
   {
     id: 'news-stellar-mod',
     title: '剑星可爱白色蓬蓬裙伊芙 mods + 安装教程',
-    timeLabel: '8小时前',
+    timeLabel: '昨天15:12',
     tag: '剑星',
-    commentCount: 12,
+    commentCount: 14,
     thumbType: 'image',
     thumbColors: ['#4A5568', '#2D3748'],
     thumbLabel: 'MOD',
+    coverImg: $r('app.media.hot_news2_img1'),
     showInAll: true,
     channelIds: ['stellar'],
   },
   {
-    id: 'news-shadow-blade',
-    title: '版号已至！《影之刃零》WeGame商店开启预约！',
-    timeLabel: '3小时前',
-    tag: 'Steam',
-    commentCount: 336,
+    id: 'news-hd2-report',
+    title: '【HD2时报】鱿鱼发动100级入侵！',
+    timeLabel: '昨天23:21',
+    tag: '绝地潜兵2',
+    commentCount: 56,
     thumbType: 'image',
-    thumbColors: ['#3A2A1A', '#1A1008'],
-    thumbLabel: '影之刃零',
-    showInAll: true,
-    channelIds: ['steam'],
-  },
-  {
-    id: 'news-gta-titan',
-    title: '[GTA 活动攻略]：参与泰坦差事领取一次性丰厚奖励',
-    timeLabel: '2小时前',
-    tag: '侠盗猎车手V',
-    commentCount: 22,
-    thumbType: 'image',
-    thumbColors: ['#5A3A1A', '#2A1A0A'],
-    thumbLabel: 'THE TITAN JOB',
+    thumbColors: ['#4A1A1A', '#1A0808'],
+    thumbLabel: 'HD2',
+    // 列表缩略图：新闻3-列表缩略图.png
+    coverImg: $r('app.media.hot_news3_thumb'),
     showInAll: true,
   },
   {
-    id: 'news-steam-end',
-    title: '【7.23】仅剩1天！不少折扣即将结束！骨折价。154款佳作',
-    timeLabel: '昨天23:33',
-    tag: 'Steam',
+    id: 'news-elden-faded',
+    title: '《艾尔登法环：褪色者版》双新职业公开，完整开局属性...',
+    timeLabel: '昨天16:49',
+    tag: '主机游戏',
     commentCount: 17,
     thumbType: 'image',
-    thumbColors: ['#6A4A1A', '#3A2A0A'],
-    thumbLabel: '史低合集',
+    thumbColors: ['#3A2A1A', '#1A1008'],
+    thumbLabel: '褪色者版',
+    // 列表缩略图：新闻4-列表缩略图.png
+    coverImg: $r('app.media.hot_news4_thumb'),
     showInAll: true,
-    channelIds: ['steam'],
+  },
+  {
+    id: 'news-wzry-oxyear',
+    title: '牛年限定返场半天，百万玩家纷纷入手，为何涉及抽奖热...',
+    timeLabel: '昨天19:57',
+    tag: '王者荣耀',
+    commentCount: 8,
+    thumbType: 'image',
+    thumbColors: ['#1A3A6A', '#0A1A3A'],
+    thumbLabel: '限定返场',
+    // 列表专用缩略图未单独提供，暂用正文图1
+    coverImg: $r('app.media.hot_news5_img1'),
+    showInAll: true,
   },
   {
     id: 'news-gta-weekly',
@@ -265,95 +307,134 @@ export const hotNewsList: HotNewsItem[] = [
   },
 ];
 
+/** 热榜列表（对照 热榜总图 1–10） */
 export const hotRankList: HotRankItem[] = [
   {
     id: 'rank-1',
     rank: 1,
-    title: '《龙之剑：觉醒》现已发售，¥98/¥144.9，限时...',
-    readLabel: '11.1万阅读',
-    tag: 'DragonSword...',
-    commentCount: 666,
-    thumbColors: ['#4A6A9A', '#2A3A5A'],
-    newsId: 'news-steam-sale',
+    title: '装机噩耗！显卡即将迎来暴涨！华硕官涨、主播下架...',
+    readLabel: '11.8万阅读',
+    tag: '数码硬件',
+    commentCount: 982,
+    thumbColors: ['#1A2A1A', '#0A1A0A'],
+    coverImg: $r('app.media.hot_rank1_img1'),
+    newsId: 'news-gpu-price',
   },
   {
     id: 'rank-2',
     rank: 2,
-    title: 'Steam现已支持跨地区送礼！你们想的我试过了，...',
-    readLabel: '9.6万阅读',
+    title: '获2.3亿元投资，网游改单机，他们把一款二游卖到...',
+    readLabel: '11.1万阅读',
     tag: 'Steam',
-    commentCount: 341,
-    thumbColors: ['#1A3A5A', '#0A1A2A'],
-    thumbLabel: '跨区送礼',
-    newsId: 'news-steam-sale',
+    commentCount: 503,
+    thumbColors: ['#3A4A6A', '#1A2438'],
+    thumbLabel: '二游',
   },
   {
     id: 'rank-3',
     rank: 3,
-    title: 'rain淘汰Falcons赛后采访：Not Today🍺',
-    readLabel: '16.2万阅读',
-    tag: 'CS2',
-    commentCount: 482,
-    thumbColors: ['#3A3A3A', '#1A1A1A'],
+    title: '老大，你的显卡升值了！英伟达宣布涨价！渠道封仓...',
+    readLabel: '8.3万阅读',
+    tag: '盒友杂谈',
+    commentCount: 662,
+    thumbColors: ['#1A3A5A', '#0A1A2A'],
+    thumbLabel: '显卡涨价',
   },
   {
     id: 'rank-4',
     rank: 4,
-    title: '大半夜看得我荡气回肠！冯骥盛赞DeepSeek梁文锋...',
-    readLabel: '14.7万阅读',
-    tag: 'Steam',
-    commentCount: 422,
-    thumbColors: ['#4A4A4A', '#2A2A2A'],
+    title: '26版西游记杀疯了！单周涨粉200万，全即兴',
+    readLabel: '19.3万阅读',
+    tag: '盒友杂谈',
+    commentCount: 536,
+    thumbColors: ['#6A3A2A', '#3A1A10'],
+    thumbLabel: '西游记',
   },
   {
     id: 'rank-5',
     rank: 5,
-    title: '积分下乡！Falcons翻车不敌100T、一轮游出局！',
-    readLabel: '9.5万阅读',
-    tag: 'CS2',
-    commentCount: 638,
-    thumbColors: ['#1A4A3A', '#0A2A1A'],
-    thumbLabel: '2:1',
-  },
-  {
-    id: 'rank-6',
-    rank: 6,
-    title: '胖东来出新规：员工禁止互相借钱，违规取消奖金与...',
-    readLabel: '11.5万阅读',
-    tag: '盒友杂谈',
-    commentCount: 510,
-    thumbColors: ['#5A6A8A', '#2A3A4A'],
-  },
-  {
-    id: 'rank-7',
-    rank: 7,
     title: '《影之刃 零》过审！国行版号批示！',
-    readLabel: '8.6万阅读',
+    readLabel: '11.3万阅读',
     tag: '影之刃零',
-    commentCount: 504,
+    commentCount: 646,
     thumbColors: ['#3A2A4A', '#1A1020'],
     thumbLabel: '2026 / 10 / 29',
     newsId: 'news-shadow-blade',
   },
+  {
+    id: 'rank-6',
+    rank: 6,
+    title: '《昭和米国物语》将参加科隆游戏展，包含现场试玩...',
+    readLabel: '9.3万阅读',
+    tag: '昭和米国物语',
+    commentCount: 492,
+    thumbColors: ['#8A5A2A', '#4A2A10'],
+    thumbLabel: '科隆',
+  },
+  {
+    id: 'rank-7',
+    rank: 7,
+    title: '悲剧！外国抗癌主播惨遭盗窃，嫌疑人时隔一年终于...',
+    readLabel: '12.2万阅读',
+    tag: 'Steam',
+    commentCount: 140,
+    thumbColors: ['#4A2A3A', '#201018'],
+    thumbLabel: '主播',
+  },
+  {
+    id: 'rank-8',
+    rank: 8,
+    title: 'Falcons成为史上第二支赢得Major后在首个赛事中...',
+    readLabel: '9.5万阅读',
+    tag: 'CS2',
+    commentCount: 271,
+    thumbColors: ['#2A3A2A', '#101810'],
+    thumbLabel: 'Major',
+  },
+  {
+    id: 'rank-9',
+    rank: 9,
+    title: '40/50都开涨：据报道NVIDIA已提高了GDDR7...',
+    readLabel: '7.1万阅读',
+    tag: 'Steam',
+    commentCount: 533,
+    thumbColors: ['#1A2A3A', '#0A1520'],
+    thumbLabel: 'GDDR7',
+  },
+  {
+    id: 'rank-10',
+    rank: 10,
+    title: '电影《生化危机：爆发夜》全新预告发布，9月17日...',
+    readLabel: '9.3万阅读',
+    tag: '生化危机2重...',
+    commentCount: 216,
+    thumbColors: ['#3A1A1A', '#1A0808'],
+    thumbLabel: '爆发夜',
+  },
 ];
+
+/** 第一条新闻作者（塔可松）共用字段 */
+const authorTacosong: HotAuthor = {
+  name: '塔可松',
+  level: 'Lv10',
+  levelColor: '#9B6BFF',
+  timeLocation: '42分钟前·浙江',
+  verified: true,
+  avatarColors: ['#5A2A2A', '#2A1010'],
+  avatarText: '塔',
+  avatarImg: $r('app.media.hot_news1_avatar'),
+};
 
 const detailSteamSale: HotNewsDetailData = {
   id: 'news-steam-sale',
   title: '(7.24) Steam发大力！85款精品佳作迎来骨折价，最低仅需3元',
-  author: {
-    name: '塔可松',
-    level: 'Lv10',
-    levelColor: '#9B6BFF',
-    timeLocation: '42分钟前·浙江',
-    verified: true,
-    avatarColors: ['#5A2A2A', '#2A1010'],
-    avatarText: '塔',
-  },
+  author: authorTacosong,
   platforms: ['Steam'],
-  likeCount: 46,
-  starCount: 9,
-  shareCount: 15,
-  commentCount: 4,
+  // 对照真实 App 详情底栏
+  likeCount: 837,
+  starCount: 187,
+  shareCount: 93,
+  commentCount: 20,
   blocks: [
     {
       type: 'paragraph',
@@ -389,13 +470,64 @@ const detailSteamSale: HotNewsDetailData = {
         badge: '史低',
         favoriteLabel: '79万',
         gradientColors: ['#4A3A2A', '#1A1008'],
+        coverImg: $r('app.media.hot_news1_img1'),
+        discountLabel: '-74%',
       },
     },
     {
       type: 'image',
-      imageLabel: 'MONSTER HUNT',
+      imageLabel: '怪物猎人：世界',
       imageIndex: '1/17',
       imageColors: ['#3A2A1A', '#1A1008'],
+      imageSrc: $r('app.media.hot_news1_img2'),
+    },
+    {
+      type: 'paragraph',
+      text: '2',
+    },
+    {
+      type: 'game',
+      game: {
+        name: '街头霸王6',
+        rating: '9.5',
+        priceLabel: '¥90 券后价',
+        badge: '史低',
+        favoriteLabel: '36.3万',
+        gradientColors: ['#5A2A1A', '#2A1008'],
+        coverImg: $r('app.media.hot_news1_img3'),
+        discountLabel: '-50%',
+      },
+    },
+    {
+      type: 'image',
+      imageLabel: '街头霸王6',
+      imageIndex: '1/28',
+      imageColors: ['#5A2A1A', '#1A0A08'],
+      imageSrc: $r('app.media.hot_news1_img4'),
+    },
+    {
+      type: 'paragraph',
+      text: '3',
+    },
+    {
+      type: 'game',
+      game: {
+        name: '生化危机4 重制版',
+        rating: '9.9',
+        priceLabel: '¥45 券后价',
+        badge: '史低',
+        favoriteLabel: '65.1万',
+        gradientColors: ['#2A1A1A', '#100808'],
+        coverImg: $r('app.media.hot_news1_img5'),
+        discountLabel: '-75%',
+      },
+    },
+    {
+      type: 'image',
+      imageLabel: '生化危机4 重制版',
+      imageIndex: '1/11',
+      imageColors: ['#2A1A1A', '#100808'],
+      imageSrc: $r('app.media.hot_news1_img6'),
     },
   ],
   comments: [
@@ -403,14 +535,15 @@ const detailSteamSale: HotNewsDetailData = {
       id: 'c1',
       isPinned: true,
       author: {
-        name: '塔可松',
-        level: 'Lv10',
-        levelColor: '#9B6BFF',
-        timeLocation: '42分钟前·浙江',
+        name: authorTacosong.name,
+        level: authorTacosong.level,
+        levelColor: authorTacosong.levelColor,
+        timeLocation: authorTacosong.timeLocation,
         verified: true,
         isAuthor: true,
-        avatarColors: ['#5A2A2A', '#2A1010'],
-        avatarText: '塔',
+        avatarColors: authorTacosong.avatarColors,
+        avatarText: authorTacosong.avatarText,
+        avatarImg: authorTacosong.avatarImg,
       },
       content: '可以双击屏幕点点免费的👍吗',
       likeCount: 0,
@@ -443,107 +576,1064 @@ const detailSteamSale: HotNewsDetailData = {
   ],
 };
 
+/** 新闻2 作者 CHENSTUDIOS */
+const authorChenStudios: HotAuthor = {
+  name: 'CHENSTUDIOS',
+  level: 'Lv13',
+  levelColor: '#E8A838',
+  timeLocation: '昨天15:12·广东',
+  verified: true,
+  avatarColors: ['#4A3A5A', '#2A1A3A'],
+  avatarText: '宸',
+  avatarImg: $r('app.media.hot_news2_avatar'),
+};
+
 const detailStellarMod: HotNewsDetailData = {
   id: 'news-stellar-mod',
   title: '剑星可爱白色蓬蓬裙伊芙 mods + 安装教程',
-  author: {
-    name: 'CHENSTUDIOS',
-    level: 'Lv13',
-    levelColor: '#E8A838',
-    timeLocation: '9小时前·广东',
-    verified: true,
-    avatarColors: ['#4A3A5A', '#2A1A3A'],
-    avatarText: '宸',
-  },
-  platforms: ['剑星', 'Steam'],
+  author: authorChenStudios,
+  platforms: ['剑星', 'Steam', 'steam游戏'],
+  // 对照真实 App 详情底栏 / 评论数
   likeCount: 86,
   starCount: 141,
   shareCount: 9,
-  commentCount: 12,
+  commentCount: 14,
   gameCard: {
     name: '剑星',
     rating: '9.1',
     priceLabel: '¥242 券后价',
     ownLabel: '已拥有',
     gradientColors: ['#2A3A5A', '#101828'],
+    coverImg: $r('app.media.hot_news2_game'),
   },
   blocks: [
     {
       type: 'image',
       imageLabel: '伊芙 白色蓬蓬裙 · 正面 / 背面',
-      imageIndex: '1/4',
+      imageIndex: '1/5',
       imageColors: ['#5A6A7A', '#2A3440'],
-    },
-    {
-      type: 'paragraph',
-      text: '本帖分享剑星可爱白色蓬蓬裙伊芙 MOD 安装方式与效果预览，支持正版客户端。',
-    },
-    {
-      type: 'heading',
-      text: '安装步骤',
-    },
-    {
-      type: 'bullet',
-      bullets: [
-        '下载 MOD 压缩包并解压',
-        '将文件放入游戏 mods 目录',
-        '启动游戏后在外观界面启用',
-      ],
+      imageSrc: $r('app.media.hot_news2_img1'),
     },
     {
       type: 'image',
-      imageLabel: '伊芙 展示图',
-      imageIndex: '2/4',
-      imageColors: ['#4A5A6A', '#1A2430'],
+      imageLabel: '工业场景对比',
+      imageIndex: '2/5',
+      imageColors: ['#6A5A4A', '#3A2A20'],
+      imageSrc: $r('app.media.hot_news2_img2'),
+    },
+    {
+      type: 'image',
+      imageLabel: '湖边场景',
+      imageIndex: '3/5',
+      imageColors: ['#4A7A6A', '#2A4A3A'],
+      imageSrc: $r('app.media.hot_news2_img3'),
+    },
+    {
+      type: 'image',
+      imageLabel: '峡谷 · ver2.0',
+      imageIndex: '4/5',
+      imageColors: ['#8A7A5A', '#4A3A2A'],
+      imageSrc: $r('app.media.hot_news2_img4'),
+    },
+    {
+      type: 'image',
+      imageLabel: '太空场景',
+      imageIndex: '5/5',
+      imageColors: ['#1A3A6A', '#0A1A3A'],
+      imageSrc: $r('app.media.hot_news2_img5'),
+    },
+    {
+      type: 'heading',
+      text: '安装路径',
+    },
+    {
+      type: 'paragraph',
+      text: '\\StellarBlade\\SB\\Content\\Paks\\~mods\\',
+    },
+    {
+      type: 'paragraph',
+      text: '白色蓬蓬裙编号2990',
+    },
+    {
+      type: 'heading',
+      text: '已知可能遇到的问题',
+    },
+    {
+      type: 'paragraph',
+      text:
+        '若模组已显示在 CNS 菜单中，却无法生成模型网格，大概率是存在其他模组与该模组使用了相同的区块 ID（Chunk ID）从而引发冲突。目前暂无可行修复方案，CNS 工具的开发者正在开发一款专用软件来解决此问题，但该过程需要一定时间。',
     },
   ],
   comments: [
     {
-      id: 'c1',
+      id: 'sc1',
       author: {
-        name: 'CHENSTUDIOS',
-        level: 'Lv13',
+        name: '哈哈哈嘻哈哈',
+        level: 'Lv17',
         levelColor: '#E8A838',
-        timeLocation: '9小时前·广东',
-        verified: true,
-        isAuthor: true,
-        avatarColors: ['#4A3A5A', '#2A1A3A'],
-        avatarText: '宸',
+        timeLocation: '昨天16:16·广西',
+        avatarColors: ['#3A2A4A', '#1A1020'],
+        avatarText: '哈',
       },
-      content: '有问题评论区留言，看到会回~',
-      likeCount: 12,
+      content: '你怎么穿着母主的衣服',
+      likeCount: 0,
+      replies: [
+        {
+          userName: '幻梦之翼 模组乱码',
+          content: '确实有点像…',
+          timeLocation: '昨天16:30·河北',
+        },
+      ],
     },
     {
-      id: 'c2',
+      id: 'sc2',
       author: {
-        name: '星尘旅人',
+        name: '玩家28355303',
+        level: 'Lv5',
+        levelColor: '#6BB8FF',
+        timeLocation: '10小时前·辽宁',
+        avatarColors: ['#2A3A4A', '#101820'],
+        avatarText: '玩',
+      },
+      content: '剑星mod',
+      likeCount: 0,
+    },
+    {
+      id: 'sc3',
+      author: {
+        name: '鲤鱼也是鱼',
         level: 'Lv8',
         levelColor: '#6BB8FF',
-        timeLocation: '3小时前·上海',
-        avatarColors: ['#2A3A4A', '#101820'],
-        avatarText: '星',
+        timeLocation: '昨天21:44·河北',
+        avatarColors: ['#4A3A2A', '#201810'],
+        avatarText: '鲤',
       },
-      content: '太可爱了，已安装成功，感谢分享！',
+      content: '为什么我找不到丝袜啊，只有过膝袜和花边袜',
+      likeCount: 0,
+    },
+    {
+      id: 'sc4',
+      author: {
+        name: '玩家86128639',
+        level: 'Lv6',
+        levelColor: '#6BB8FF',
+        timeLocation: '昨天20:18·河北',
+        avatarColors: ['#2A2A3A', '#101018'],
+        avatarText: '玩',
+      },
+      content: '剑星伊芙蓬蓬裙mod',
+      likeCount: 0,
+    },
+    {
+      id: 'sc5',
+      author: {
+        name: '比奇堡风流往事',
+        level: 'Lv9',
+        levelColor: '#9B6BFF',
+        timeLocation: '昨天19:45·澳大利亚',
+        avatarColors: ['#3A4A2A', '#1A2010'],
+        avatarText: '比',
+      },
+      content: '太可爱了吧',
+      likeCount: 0,
+    },
+    {
+      id: 'sc6',
+      author: {
+        name: '弯一折纸z',
+        level: 'Lv7',
+        levelColor: '#6BB8FF',
+        timeLocation: '昨天19:30·河南',
+        avatarColors: ['#4A2A3A', '#201018'],
+        avatarText: '弯',
+      },
+      content: '剑星伊芙蓬蓬裙mod',
+      likeCount: 1,
+    },
+    {
+      id: 'sc7',
+      author: {
+        name: '黑神话-悟空',
+        level: 'Lv10',
+        levelColor: '#E8A838',
+        timeLocation: '昨天16:50·陕西',
+        avatarColors: ['#3A2A1A', '#1A1008'],
+        avatarText: '黑',
+      },
+      content: '可爱',
+      likeCount: 1,
+    },
+    {
+      id: 'sc8',
+      author: {
+        name: 'Hao2e',
+        level: 'Lv11',
+        levelColor: '#E8A838',
+        timeLocation: '昨天16:14·天津',
+        avatarColors: ['#2A3A5A', '#101828'],
+        avatarText: 'H',
+      },
+      content: '剑星伊芙蓬蓬裙mod',
+      likeCount: 0,
+    },
+  ],
+};
+
+/** 新闻4 作者「阿熊快讯」 */
+const authorAxiong: HotAuthor = {
+  name: '阿熊快讯',
+  level: 'Lv.17',
+  levelColor: '#E53935',
+  timeLocation: '昨天16:49·河南',
+  verified: true,
+  avatarColors: ['#E8C060', '#8A6A20'],
+  avatarText: '熊',
+  avatarImg: $r('app.media.hot_news4_avatar'),
+};
+
+/** 新闻4：艾尔登法环褪色者版双新职业（对照 新闻4 正文/评论截图） */
+const detailEldenFaded: HotNewsDetailData = {
+  id: 'news-elden-faded',
+  title: '《艾尔登法环：褪色者版》双新职业公开，完整开局属性一览',
+  author: authorAxiong,
+  platforms: ['主机游戏'],
+  likeCount: 22,
+  starCount: 8,
+  shareCount: 0,
+  commentCount: 18,
+  blocks: [
+    {
+      type: 'paragraph',
+      text:
+        'FromSoftware 官方放出《艾尔登法环：褪色者版》重磅情报，本作新增重装骑士、伊德斯骑士两个全新初始职业，全部开局属性数值完整曝光，8 月 28 日随完整版同步上线全平台。',
+    },
+    {
+      type: 'image',
+      imageLabel: '官方官推 · 双职业',
+      imageIndex: '1/3',
+      imageColors: ['#2A1A10', '#100808'],
+      imageSrc: $r('app.media.hot_news4_img1'),
+    },
+    {
+      type: 'heading',
+      text: '一、重装骑士（Heavy Knight）',
+    },
+    {
+      type: 'bullet',
+      bullets: [
+        '开局等级：10 级',
+        '基础属性：生命力 14、集中力 8、耐力 17、力气 15、灵巧 11、智力 7、信仰 8、感应 9',
+        '定位：纯力量坦骑，自带全套厚重钢甲与巨型弯刀，耐力数值全职业顶尖，能穿戴高负重重甲，正面抗伤能力拉满。',
+        '优缺点：开局血量、负重优势明显，开荒不用频繁升级耐力；魔法、感应属性极低，法术、出血异常流完全不适合。',
+      ],
+    },
+    {
+      type: 'image',
+      imageLabel: 'HEAVY KNIGHT',
+      imageIndex: '2/3',
+      imageColors: ['#3A2A1A', '#1A1008'],
+      imageSrc: $r('app.media.hot_news4_img2'),
+    },
+    {
+      type: 'heading',
+      text: '二、伊德斯骑士（Idus Knight）',
+    },
+    {
+      type: 'bullet',
+      bullets: [
+        '开局等级：7 级',
+        '基础属性：生命力 10、集中力 12、耐力 11、力气 13、灵巧 15、智力 8、信仰 11、感应 6',
+        '定位：敏捷型轻甲武士，来自全新设定“伊德斯之地”，初始自带轻量铠甲与女爵大剑，灵巧属性突出，兼顾信仰加成。',
+        '优缺点：灵巧成长优秀，战技、武器连击手感顺滑，还能简单使用祷告；初始等级低，前期血量偏少，重甲完全穿不动。',
+      ],
+    },
+    {
+      type: 'image',
+      imageLabel: 'IDUS KNIGHT',
+      imageIndex: '3/3',
+      imageColors: ['#2A3A2A', '#101810'],
+      imageSrc: $r('app.media.hot_news4_img3'),
+    },
+    {
+      type: 'heading',
+      text: '版本配套信息',
+    },
+    {
+      type: 'paragraph',
+      text:
+        '《艾尔登法环：褪色者版》整合游戏本体 +《黄金树幽影》DLC，两个新职业所有平台均可选用，老玩家购买升级包就能解锁，预购还能拿到限定动作、灵马皮肤。另外伊德斯骑士所属的“伊德斯之地”是交界地全新背景地名，不少魂学家推测后续会围绕该地区补充剧情内容。',
+    },
+  ],
+  // 评论按 新闻4-评论截图 原文，不杜撰
+  comments: [
+    {
+      id: 'e1',
+      author: {
+        name: '刃暖枪寒',
+        level: 'Lv.15',
+        levelColor: '#E53935',
+        timeLocation: '昨天16:59·江苏',
+        avatarColors: ['#E0E0E0', '#8A8A8A'],
+        avatarText: '刃',
+      },
+      content: '法环的职业有任何意义么，还要买升级包解锁？🤔',
+      likeCount: 9,
+      replies: [
+        {
+          userName: '弹反派生第六感',
+          content: '有意义啊，卡级需要😭，卡级属性点算得死死的',
+          timeLocation: '昨天17:05·广东',
+        },
+        {
+          userName: '泰勒斯斯文文',
+          content: 'PVP吧，虽然都玩无限联机了',
+          timeLocation: '10小时前·河北',
+        },
+      ],
+    },
+    {
+      id: 'e2',
+      author: {
+        name: 'Watcher',
+        level: 'Lv.17',
+        levelColor: '#E53935',
+        timeLocation: '昨天17:12·山东',
+        avatarColors: ['#6A2A6A', '#3A103A'],
+        avatarText: 'W',
+      },
+      content:
+        'FS要不你直接把黑魂123重做了当法环DLC卖得了😑反正黑环里也出现了你就圆一圆再圈一波(bushi',
+      likeCount: 2,
+    },
+    {
+      id: 'e3',
+      author: {
+        name: '【置顶】',
+        level: 'Lv.12',
+        levelColor: '#9B6BFF',
+        timeLocation: '9小时前·福建',
+        avatarColors: ['#F0C0C0', '#8A6060'],
+        avatarText: '置',
+      },
+      content: '圈一波，再圈一波，再圈一波，再圈一波，不愧是商业游戏',
+      likeCount: 2,
+    },
+    {
+      id: 'e4',
+      author: {
+        name: '略显笨拙',
+        level: 'Lv.17',
+        levelColor: '#E53935',
+        timeLocation: '15分钟前·广东',
+        avatarColors: ['#C0A080', '#6A5030'],
+        avatarText: '略',
+      },
+      content: '可以的出来了再打一个周目🤪',
+      likeCount: 0,
+    },
+    {
+      id: 'e5',
+      author: {
+        name: '杠精',
+        level: 'Lv.14',
+        levelColor: '#E8A838',
+        timeLocation: '8小时前·宁夏',
+        avatarColors: ['#E0C0A0', '#8A6A40'],
+        avatarText: '杠',
+      },
+      content: '那我玩盾戳是不是就可以无脑重装骑士了🥰',
+      likeCount: 0,
+    },
+    {
+      id: 'e6',
+      author: {
+        name: '寒天碎梦',
+        level: 'Lv.28',
+        levelColor: '#1A1A1A',
+        timeLocation: '9小时前·广东',
+        avatarColors: ['#D0D0E0', '#707080'],
+        avatarText: '寒',
+      },
+      content: '伊德斯骑士，从未出现过的名词，难不成是新作里的一个势力？🤪',
+      likeCount: 0,
+    },
+    {
+      id: 'e7',
+      author: {
+        name: 'AoirKunS',
+        level: 'Lv.8',
+        levelColor: '#6BB8FF',
+        timeLocation: '昨天22:10·四川',
+        avatarColors: ['#C0A080', '#6A5030'],
+        avatarText: 'A',
+      },
+      content: '杂七杂八的职业，到二周目都一样😑🫡',
+      likeCount: 1,
+    },
+    {
+      id: 'e8',
+      author: {
+        name: 'taecg1985',
+        level: 'Lv.9',
+        levelColor: '#6BB8FF',
+        timeLocation: '昨天20:28·福建',
+        avatarColors: ['#5A1A1A', '#2A0808'],
+        avatarText: 't',
+      },
+      content: '新职业是为了多周目的吗？',
+      likeCount: 1,
+      replies: [
+        {
+          userName: '不是这名字都有人起',
+          content: '不是',
+          timeLocation: '9小时前·江苏',
+        },
+      ],
+    },
+    {
+      id: 'e9',
+      author: {
+        name: '于是乎福来运转',
+        level: 'Lv.13',
+        levelColor: '#E8A838',
+        timeLocation: '昨天20:05·吉林',
+        avatarColors: ['#3A5A7A', '#1A2A3A'],
+        avatarText: '于',
+      },
+      content: '😊这个重装骑士应该配上哈维尔大盾，那样就无敌了',
+      likeCount: 0,
+      replies: [
+        {
+          userName: '玩家83957981',
+          content: '翻的动吗',
+          timeLocation: '昨天20:32·中国香港',
+        },
+        {
+          userName: '拾號風球',
+          content: '回复 玩家83957981: 需要翻吗',
+          timeLocation: '昨天21:40·广东',
+        },
+      ],
+    },
+    {
+      id: 'e10',
+      author: {
+        name: '意挽卿',
+        level: 'Lv.13',
+        levelColor: '#E8A838',
+        timeLocation: '昨天17:10·陕西',
+        avatarColors: ['#E0C0B0', '#8A6A5A'],
+        avatarText: '意',
+      },
+      content: '你们说这个包出的时候法环会打折吗🐮',
+      likeCount: 1,
+      replies: [
+        {
+          userName: 'TheMonitor',
+          content: '我说顺带涨一波，有没有懂的😊',
+          timeLocation: '9小时前·湖南',
+        },
+        {
+          userName: 'kakiest',
+          content: '再问给你永涨200',
+          timeLocation: '5小时前·山西',
+        },
+      ],
+    },
+  ],
+};
+
+/** 新闻3 作者「绝地潜兵宣传部」 */
+const authorHd2Propaganda: HotAuthor = {
+  name: '绝地潜兵宣传部',
+  level: 'Lv.17',
+  levelColor: '#E53935',
+  timeLocation: '昨天23:21·辽宁',
+  verified: true,
+  avatarColors: ['#3A4A5A', '#1A2430'],
+  avatarText: '潜',
+  avatarImg: $r('app.media.hot_news3_avatar'),
+};
+
+/** 新闻3：【HD2时报】鱿鱼发动100级入侵（对照 新闻3 正文及评论截图） */
+const detailHd2Report: HotNewsDetailData = {
+  id: 'news-hd2-report',
+  title: '【HD2时报】鱿鱼发动100级入侵！',
+  author: authorHd2Propaganda,
+  platforms: ['绝地潜兵2'],
+  likeCount: 210,
+  starCount: 48,
+  shareCount: 32,
+  commentCount: 56,
+  blocks: [
+    {
+      type: 'heading',
+      text: '新战略机遇已发布',
+    },
+    {
+      type: 'paragraph',
+      text: '好消息，我们截获了情报并来到了卡戎主星。',
+    },
+    {
+      type: 'paragraph',
+      text: '坏消息，没时间为情报哀悼了，接下来登场的是情报碎片。',
+    },
+    {
+      type: 'paragraph',
+      text: '现在，全体潜兵需要在卡戎主星上击杀1亿只机器人以合成完整的情报🚀',
+    },
+    {
+      type: 'image',
+      imageLabel: '全新战略机遇',
+      imageIndex: '1/4',
+      imageColors: ['#1A1A1A', '#0A0A0A'],
+      imageSrc: $r('app.media.hot_news3_img1'),
+    },
+    {
+      type: 'paragraph',
+      text: '而现在，距离战略机遇失效仅剩41h，完成度仍不足7%。',
+    },
+    {
+      type: 'image',
+      imageLabel: '战略机遇进度',
+      imageIndex: '2/4',
+      imageColors: ['#1A0A1A', '#0A0510'],
+      imageSrc: $r('app.media.hot_news3_img2'),
+    },
+    {
+      type: 'heading',
+      text: '科埃佩萨IV保卫战大获全胜',
+    },
+    {
+      type: 'paragraph',
+      text: '敌人先前出动的入侵等级30的部队已被击溃，科埃佩萨IV已是超级地球的囊中之物。',
+    },
+    {
+      type: 'image',
+      imageLabel: '科埃佩萨IV 防御战',
+      imageIndex: '3/4',
+      imageColors: ['#2A2A3A', '#101018'],
+      imageSrc: $r('app.media.hot_news3_img3'),
+    },
+    {
+      type: 'heading',
+      text: '鱿鱼发动100级入侵！',
+    },
+    {
+      type: 'paragraph',
+      text: '与此同时，一个无人在意的角落里，遭到光能者100级入侵的角宿二湾轻轻的碎了。',
+    },
+    {
+      type: 'paragraph',
+      text: '若潜兵们不及时制止，光能者的寂域将很快笼罩这颗星球。',
+    },
+    {
+      type: 'image',
+      imageLabel: '角宿二湾 解放战役',
+      imageIndex: '4/4',
+      imageColors: ['#4A2A3A', '#201018'],
+      imageSrc: $r('app.media.hot_news3_img4'),
+    },
+  ],
+  // 评论按 新闻3-正文及评论截图 热门区原文，不杜撰
+  comments: [
+    {
+      id: 'h1',
+      author: {
+        name: '特尼昂的',
+        level: 'Lv.16',
+        levelColor: '#E53935',
+        timeLocation: '昨天23:42·广东',
+        avatarColors: ['#3A3A4A', '#1A1A22'],
+        avatarText: '特',
+      },
+      content: '收不到，已回归平民生活🤪😁',
+      likeCount: 39,
+      replies: [
+        {
+          userName: '特尼昂的',
+          content: '现在只喜欢带坦克停机坪铲飞鹅鹅可惜小车铲不飞了现在',
+          timeLocation: '昨天23:43·广东',
+        },
+        {
+          userName: '绝地潜兵宣传部',
+          content: '退伍申请已驳回🚀',
+          timeLocation: '9小时前·辽宁',
+        },
+      ],
+    },
+    {
+      id: 'h2',
+      author: {
+        name: 'ASh14C',
+        level: 'Lv.18',
+        levelColor: '#E53935',
+        timeLocation: '昨天23:52·广东',
+        avatarColors: ['#1A1A1A', '#0A0A0A'],
+        avatarText: 'A',
+      },
+      content: '南线无战事😎',
+      likeCount: 19,
+      replies: [
+        {
+          userName: '绝地潜兵宣传部',
+          content: '好！既然如此 最高指挥部已决定将你送往角宿二湾度假了🫡',
+          timeLocation: '9小时前·辽宁',
+        },
+      ],
+    },
+    {
+      id: 'h3',
+      author: {
+        name: '商卿参宿',
+        level: 'Lv.17',
+        levelColor: '#E53935',
+        timeLocation: '昨天23:32·湖北',
+        avatarColors: ['#E8D0C0', '#8A6A5A'],
+        avatarText: '商',
+      },
+      content: '南线占领者谁爱玩谁玩去吧，再见了，角小弟🐣',
+      likeCount: 28,
+      replies: [
+        {
+          userName: '绝地潜兵宣传部',
+          content: '😭',
+          timeLocation: '昨天23:32·辽宁',
+        },
+        {
+          userName: 'WAIT_A_SEC_',
+          content: '我宁愿去奥密克戎和生化斯坦也不想去打鱿鱼😭',
+          timeLocation: '昨天23:33·广东',
+        },
+      ],
+    },
+    {
+      id: 'h4',
+      author: {
+        name: 'RinYuki',
+        level: 'Lv.9',
+        levelColor: '#6BB8FF',
+        timeLocation: '3小时前·浙江',
+        avatarColors: ['#C0B0C0', '#6A5A6A'],
+        avatarText: 'R',
+      },
+      content:
+        '大家都不爱打南线占领者吗🤪？虽然怎么看都是必输的，但是打腻了跟机器人的超级地球内战，再打打外星乡巴佬正规军换换口味还是挺好玩的，穿上电甲电榴弹，有挑战还不至于太难',
+      likeCount: 3,
+      replies: [
+        {
+          userName: '绝地潜兵宣传部',
+          content:
+            '这个就是箭头设计的问题了😭东线西线各有各的爽点，唯独南线这个集大成者几乎没什么正反馈😭打倒是也能打，就是相当难受😭',
+          timeLocation: '3小时前·辽宁',
+        },
+        {
+          userName: '玩家30184470',
+          content:
+            '如果每把都是电榴弹机炮那确实挺无聊的，而且异界风暴导致沙尘暴常驻，炮台全废了',
+          timeLocation: '1小时前·福建',
+        },
+      ],
+    },
+    {
+      id: 'h5',
+      author: {
+        name: '白银山神秘帽子男',
+        level: 'Lv.12',
+        levelColor: '#9B6BFF',
+        timeLocation: '昨天23:59·新加坡',
+        avatarColors: ['#E0C0A0', '#8A6A40'],
+        avatarText: '白',
+      },
+      content: '100级的南线入侵，那还是直接打到容都去吧',
+      likeCount: 8,
+      replies: [
+        {
+          userName: '绝地潜兵宣传部',
+          content: '只要不动超级on sea就行😊',
+          timeLocation: '9小时前·辽宁',
+        },
+      ],
+    },
+    {
+      id: 'h6',
+      author: {
+        name: '漫步沙场',
+        level: 'Lv.28',
+        levelColor: '#1A1A1A',
+        timeLocation: '5小时前·上海',
+        avatarColors: ['#2A5A6A', '#103040'],
+        avatarText: '漫',
+      },
+      content: '感觉机器人的地盘连一半都不到了，虫子地',
       likeCount: 5,
     },
   ],
 };
 
-/** 通用占位详情（无专属正文时使用） */
+/** 热榜1 作者「漂亮的秀色」 */
+const authorPrettyShow: HotAuthor = {
+  name: '漂亮的秀色',
+  level: 'Lv14',
+  levelColor: '#E8A838',
+  timeLocation: '3小时前·广东',
+  verified: true,
+  avatarColors: ['#8A6A5A', '#4A3A2A'],
+  avatarText: '秀',
+  avatarImg: $r('app.media.hot_rank1_avatar'),
+};
+
+/** 热榜第1：装机噩耗 / 显卡暴涨（对照 热榜1-内容截图） */
+const detailGpuPrice: HotNewsDetailData = {
+  id: 'news-gpu-price',
+  title: '装机噩耗！显卡即将迎来暴涨！华硕官涨、主播下架、厂商封仓',
+  author: authorPrettyShow,
+  platforms: ['数码硬件', '盒友杂谈'],
+  likeCount: 1280,
+  starCount: 356,
+  shareCount: 210,
+  commentCount: 982,
+  blocks: [
+    {
+      type: 'paragraph',
+      text:
+        '一波来势汹汹的显卡涨价潮正在酝酿。据渠道消息和博主爆料，50系显卡将迎来官方涨价，部分型号涨幅不小。',
+    },
+    {
+      type: 'image',
+      imageLabel: 'RTX 显卡',
+      imageIndex: '1/5',
+      imageColors: ['#1A2A1A', '#0A1A0A'],
+      imageSrc: $r('app.media.hot_rank1_img1'),
+    },
+    {
+      type: 'paragraph',
+      text:
+        '已得到 NVIDIA 通知：接下来 8G 显存将会涨价 600，12G 涨价 900，16G 涨价 1200，并且立即生效。这个视频是最后一批涨价前的显卡，如有需要大家尽快入手吧。',
+    },
+    {
+      type: 'image',
+      imageLabel: '渠道涨价通知',
+      imageIndex: '2/5',
+      imageColors: ['#F5F5F5', '#E0E0E0'],
+      imageSrc: $r('app.media.hot_rank1_img2'),
+    },
+    {
+      type: 'paragraph',
+      text: '渠道群内也陆续出现封仓、惜售通知：60TI 暂时芯片进不来，今日起公司封仓，马上要全部涨价。',
+    },
+    {
+      type: 'image',
+      imageLabel: '封仓通知',
+      imageIndex: '3/5',
+      imageColors: ['#F0F0F0', '#D8D8D8'],
+      imageSrc: $r('app.media.hot_rank1_img3'),
+    },
+    {
+      type: 'image',
+      imageLabel: '涨价通知',
+      imageIndex: '4/5',
+      imageColors: ['#F0F0F0', '#D8D8D8'],
+      imageSrc: $r('app.media.hot_rank1_img4'),
+    },
+    {
+      type: 'paragraph',
+      text:
+        '综合多方信息，50 系主流型号（如 RTX 5070 / 5060 系列）的渠道报价与供货节奏都在收紧。若近期有装机或升级计划，建议关注官方与授权渠道动态，避免盲目追高。',
+    },
+    {
+      type: 'image',
+      imageLabel: 'NVIDIA',
+      imageIndex: '5/5',
+      imageColors: ['#101010', '#1A2A1A'],
+      imageSrc: $r('app.media.hot_rank1_img5'),
+    },
+    {
+      type: 'heading',
+      text: '简要结论',
+    },
+    {
+      type: 'bullet',
+      bullets: [
+        '渠道确认多档显存规格将同步上调报价',
+        '部分厂商/代理已出现封仓、惜售',
+        '装机用户宜对比多店与历史价，按需出手',
+      ],
+    },
+  ],
+  // 评论按 热榜1-内容截图 热门区原文录入，不杜撰
+  comments: [
+    {
+      id: 'g1',
+      author: {
+        name: 'envy',
+        level: 'Lv.18',
+        levelColor: '#E53935',
+        timeLocation: '昨天23:06·江苏',
+        avatarColors: ['#3A1A1A', '#1A0808'],
+        avatarText: 'e',
+      },
+      content: '有种让让游戏行业死翘翘，地球所有产业服务AI得了😊。',
+      likeCount: 823,
+      replies: [
+        {
+          userName: '安墨',
+          content: 'AI让我买不起设备，AI还要抢我的工作😭',
+          timeLocation: '昨天23:11·湖北',
+        },
+        {
+          userName: '卡卡罗卜卜',
+          content:
+            '游戏那点份额真别拿出来说了，你要说说手机啥的还好点，听过举国造车，举国造手机，举国造AI，谁听过举国造游戏啊',
+          timeLocation: '昨天23:36·内蒙古',
+        },
+      ],
+    },
+    {
+      id: 'g2',
+      author: {
+        name: 'anjuxkx',
+        level: 'Lv.20',
+        levelColor: '#1A1A1A',
+        timeLocation: '昨天23:10·吉林',
+        avatarColors: ['#4A7AB0', '#2A4A70'],
+        avatarText: 'a',
+      },
+      content: '臭打游戏的从30系开始就没过过几天好日子😭',
+      likeCount: 429,
+      replies: [
+        {
+          userName: '逸心安Miguel',
+          content: '24年还好，我就双11装的，都不太贵。',
+          timeLocation: '昨天23:17·陕西',
+        },
+        {
+          userName: '牢川258',
+          content: '前几年矿潮崩盘的时候不就挺好的，4090有半年时间都能原价买',
+          timeLocation: '昨天23:40·湖南',
+        },
+      ],
+    },
+    {
+      id: 'g3',
+      author: {
+        name: 'yuusaku',
+        level: 'Lv.27',
+        levelColor: '#1A1A1A',
+        timeLocation: '13小时前·湖南',
+        avatarColors: ['#5A6A7A', '#2A3440'],
+        avatarText: 'y',
+      },
+      content: '这辈子不用换了 这个涨完涨那个左脚踩右脚螺旋升天涨 只有工资不见涨😑',
+      likeCount: 363,
+      replies: [
+        {
+          userName: 'しん',
+          content: '给你们涨涨房租❤️',
+          timeLocation: '8小时前·上海',
+        },
+        {
+          userName: '云淡青',
+          content: '回复 しん: 沪爷nb',
+          timeLocation: '7小时前·陕西',
+        },
+      ],
+    },
+    {
+      id: 'g4',
+      author: {
+        name: '只道花无十日红',
+        level: 'Lv.10',
+        levelColor: '#9B6BFF',
+        timeLocation: '13小时前·吉林',
+        avatarColors: ['#6A5A7A', '#3A2A4A'],
+        avatarText: '只',
+      },
+      content:
+        '涨吧涨吧，你们就涨吧！涨得整个DIY市场鸡飞狗跳，把这装机圈子搞黄了，老子无非把钱砸手里面就是！',
+      likeCount: 214,
+      replies: [
+        {
+          userName: '吃柠檬不说酸',
+          content: '😭',
+          timeLocation: '13小时前·河南',
+        },
+        {
+          userName: '额上面有人',
+          content: '我怎么磕巴的读完的评论😵‍💫',
+          timeLocation: '9小时前·吉林',
+        },
+      ],
+    },
+    {
+      id: 'g5',
+      author: {
+        name: '杜七说得对',
+        level: 'Lv.18',
+        levelColor: '#E53935',
+        timeLocation: '15小时前·浙江',
+        avatarColors: ['#3A3A4A', '#1A1A22'],
+        avatarText: '杜',
+      },
+      content:
+        '这是好事啊，天下苦这群啥鎏厂商的优化久矣，是时候该回归游戏应有的占用了。',
+      likeCount: 157,
+      replies: [
+        {
+          userName: 'lamSB',
+          content: '赞同，让那些厂商舒服了这么多年力大砖飞，现在该他们还债的时候了😊',
+          timeLocation: '7小时前·重庆',
+        },
+        {
+          userName: '专业掉节操',
+          content: '这么多条评论，你是最对的 哥们，还不如拉优化',
+          timeLocation: '5小时前·广东',
+        },
+      ],
+    },
+    {
+      id: 'g6',
+      author: {
+        name: 'auv1',
+        level: 'Lv.16',
+        levelColor: '#E53935',
+        timeLocation: '14小时前·陕西',
+        avatarColors: ['#4A3A2A', '#201810'],
+        avatarText: 'a',
+      },
+      content: '玩辣钱要砸在手里了',
+      likeCount: 184,
+      replies: [
+        {
+          userName: '正在加载中.',
+          content: '三瓜两枣的',
+          timeLocation: '10小时前·北京',
+        },
+        {
+          userName: '道行山下',
+          content: '回复 正在加载中.: 京✌️ v50看看实力',
+          timeLocation: '8小时前·河南',
+        },
+      ],
+    },
+    {
+      id: 'g7',
+      author: {
+        name: 'KkGOD1',
+        level: 'Lv.26',
+        levelColor: '#1A1A1A',
+        timeLocation: '12小时前·天津',
+        avatarColors: ['#5A2A2A', '#2A1010'],
+        avatarText: 'K',
+      },
+      content:
+        '25年年初配电脑真是最好的选择了😭，谁能想到短短一年半，我的电脑就成了整个家中最贵的东西了😭，地震了都得带着她跑路😭',
+      likeCount: 62,
+      replies: [
+        {
+          userName: '华北理工大学招生办-',
+          content: '我也是25年初的，配的4060，好像过了半年多，内存条就开始涨价了',
+          timeLocation: '8小时前·河北',
+        },
+        {
+          userName: '可这就是我',
+          content: '😭😭😭',
+          timeLocation: '8小时前·四川',
+        },
+      ],
+    },
+    {
+      id: 'g8',
+      author: {
+        name: '青梅竹马不会输',
+        level: 'Lv.16',
+        levelColor: '#E53935',
+        timeLocation: '11小时前·广东',
+        avatarColors: ['#3A5A7A', '#1A2A3A'],
+        avatarText: '青',
+      },
+      content:
+        '无所谓，虚拟货币的时候不也吹无限涨价？记住经济学说的没有任何东西可以永远“涨价”的，十年二十年AI能锤那么久空中楼阁吗？',
+      likeCount: 40,
+      replies: [
+        {
+          userName: 'NormalNeko',
+          content: '比特币现在没跌吧',
+          timeLocation: '9小时前·广东',
+        },
+        {
+          userName: '喵喵露利普贝当',
+          content: '买台电脑能等十年吗 那很能等了',
+          timeLocation: '9小时前·日本',
+        },
+      ],
+    },
+    {
+      id: 'g9',
+      author: {
+        name: 'Flashbacks',
+        level: 'Lv.22',
+        levelColor: '#1A1A1A',
+        timeLocation: '8小时前·北京',
+        avatarColors: ['#E8C080', '#8A6A40'],
+        avatarText: 'F',
+      },
+      content:
+        '去年年初我做了一个梦，梦见未来电脑各种硬件被美国制裁，大陆将买不到电脑，于是配了一台台式，虽然这波并非制裁，但好歹也是在最便宜的时候买到电脑了',
+      likeCount: 22,
+      replies: [
+        {
+          userName: '玩家16702684',
+          content:
+            '也算是制裁了，但不制裁硬件涨的只会更快，毕竟就算你拿鞭子抽老黄，老黄也拿不出那么多计算卡出来',
+          timeLocation: '8小时前·安徽',
+        },
+        {
+          userName: '柿子李天下',
+          content: '他要真敢制裁那真好了，直接放开了😊',
+          timeLocation: '8小时前·北京',
+        },
+      ],
+    },
+    {
+      id: 'g10',
+      author: {
+        name: '冯多鸡撒句嘞',
+        level: 'Lv.30',
+        levelColor: '#2A8A6A',
+        timeLocation: '10小时前·浙江',
+        avatarColors: ['#4A8AC0', '#1A4A70'],
+        avatarText: '冯',
+      },
+      content: '1660用了8年了😭😭😭😭😭',
+      likeCount: 19,
+      replies: [
+        {
+          userName: '奔波儿坝',
+          content: '1060还在用',
+          timeLocation: '7小时前·陕西',
+        },
+      ],
+    },
+  ],
+};
+
+/** 通用占位详情（无专属正文时使用；详情页仅正文 / 评论 Tab） */
 function buildPlaceholderDetail(item: HotNewsItem): HotNewsDetailData {
+  const isStellar = (item.channelIds ?? []).indexOf('stellar') >= 0;
   return {
     id: item.id,
     title: item.title,
     author: {
-      name: '黑盒编辑部',
-      level: 'Lv12',
+      name: isStellar ? item.tag : '黑盒编辑部',
+      level: isStellar ? 'Lv12' : 'Lv12',
       levelColor: '#9B6BFF',
-      timeLocation: `${item.timeLabel}·小黑盒`,
+      timeLocation: isStellar ? `${item.timeLabel}·剑星` : `${item.timeLabel}·小黑盒`,
       verified: true,
       avatarColors: item.thumbColors,
-      avatarText: '盒',
+      avatarText: isStellar ? item.tag.substring(0, 1) : '盒',
     },
-    platforms: [item.tag],
+    platforms: isStellar ? ['剑星'] : [item.tag],
     likeCount: 20 + item.commentCount,
     starCount: 8,
     shareCount: 6,
@@ -552,16 +1642,23 @@ function buildPlaceholderDetail(item: HotNewsItem): HotNewsDetailData {
       {
         type: 'image',
         imageLabel: item.thumbLabel ?? item.tag,
-        imageIndex: '1/3',
+        imageIndex: '1/1',
         imageColors: item.thumbColors,
+        imageSrc: item.coverImg,
+      },
+      {
+        type: 'heading',
+        text: '正文占位',
       },
       {
         type: 'paragraph',
-        text: `${item.title}（本篇为前端 Mock 正文，仅用于界面展示。）`,
+        text: isStellar
+          ? `【剑星频道】${item.title}\n本条详情暂未接入完整截图正文，仅作列表跳转与「正文 / 评论」Tab 结构占位。`
+          : `${item.title}（本篇为前端 Mock 正文，仅用于界面展示。）`,
       },
       {
         type: 'paragraph',
-        text: '更多详情与真实数据接入后将替换此占位内容。欢迎在评论区讨论。',
+        text: '后续可按素材补配图、安装教程或新闻全文；评论区见下方「评论」Tab。',
       },
     ],
     comments: [
@@ -575,16 +1672,248 @@ function buildPlaceholderDetail(item: HotNewsItem): HotNewsDetailData {
           avatarColors: ['#3A3A4A', '#1A1A22'],
           avatarText: '路',
         },
-        content: '先占个沙发，等正式内容～',
+        content: isStellar
+          ? '（评论占位）剑星频道条目详情评论区待补真实截图内容。'
+          : '先占个沙发，等正式内容～',
         likeCount: 1,
+      },
+      {
+        id: 'p2',
+        author: {
+          name: '黑盒游客',
+          level: 'Lv3',
+          levelColor: '#6BB8FF',
+          timeLocation: '1分钟前·上海',
+          avatarColors: ['#2A3A4A', '#101820'],
+          avatarText: '游',
+        },
+        content: '顶栏可切换「正文」「评论」查看占位内容。',
+        likeCount: 0,
       },
     ],
   };
 }
 
+/** 新闻5 作者「可儿游戏说」 */
+const authorKeer: HotAuthor = {
+  name: '可儿游戏说',
+  level: 'Lv.11',
+  levelColor: '#9B6BFF',
+  timeLocation: '昨天19:57·湖南',
+  verified: true,
+  avatarColors: ['#F0C0A0', '#C08060'],
+  avatarText: '可',
+  avatarImg: $r('app.media.hot_news5_avatar'),
+};
+
+/** 新闻5：王者荣耀牛年限定返场（对照 新闻5 正文/评论截图） */
+const detailWzryOxyear: HotNewsDetailData = {
+  id: 'news-wzry-oxyear',
+  title: '牛年限定返场半天，百万玩家纷纷入手，为何涉及抽奖热度还这么高',
+  author: authorKeer,
+  platforms: ['王者荣耀'],
+  likeCount: 2,
+  starCount: 0,
+  shareCount: 0,
+  commentCount: 9,
+  blocks: [
+    {
+      type: 'paragraph',
+      text:
+        '最近王者荣耀返场了一套年限皮肤，也就是牛年限定。总共四款牛年限定皮肤，分别属于公孙离、吕布、牛魔还有诸葛亮。',
+    },
+    {
+      type: 'image',
+      imageLabel: '限定皮肤限时返场',
+      imageIndex: '1/4',
+      imageColors: ['#1A3A6A', '#0A1A3A'],
+      imageSrc: $r('app.media.hot_news5_img1'),
+    },
+    {
+      type: 'paragraph',
+      text:
+        '这四款都是通过抽奖的方式返场，价格并不算便宜，但即便如此，依旧有大量玩家参与了这次的抽奖活动。那么为何这次的抽奖活动有这么多玩家参与呢？我想应该和下面这三点原因有关。',
+    },
+    {
+      type: 'heading',
+      text: '1、公孙离新推出星传说',
+    },
+    {
+      type: 'paragraph',
+      text:
+        '原因一，就是这次返场四款牛年限定皮肤的同时，还给公孙离的祁雪灵祝出了一套星传说。这套星传说的配色以蓝白色为主，造型特别好看，局内的特效质量也非常高，很多玩家就是冲着这套星传说才参加的抽奖获得。',
+    },
+    {
+      type: 'image',
+      imageLabel: '公孙离-寒羽凝歌',
+      imageIndex: '2/4',
+      imageColors: ['#2A4A7A', '#1A2A4A'],
+      imageSrc: $r('app.media.hot_news5_img2'),
+    },
+    {
+      type: 'paragraph',
+      text:
+        '虽然星传说是抽奖，但这套星传说的价格并不贵，保底价格也就两百块钱左右，相比较皮肤本身的抽奖价格要便宜许多。很多玩家就是有了祁雪灵祝，才去抽的这套星传说。',
+    },
+    {
+      type: 'heading',
+      text: '2、几位英雄人气热度都很高',
+    },
+    {
+      type: 'paragraph',
+      text:
+        '这次祈愿活动参与玩家数量众多的另外一个原因就是这些英雄的人气都很高。四款牛年限定皮肤的归属英雄中，除了牛魔之外，另外三个英雄的人气都非常高。',
+    },
+    {
+      type: 'paragraph',
+      text:
+        '诸葛亮不用说，这个英雄一直以来都是热门打野中路英雄，而且他的这款年限皮肤时雨天司的质量也非常高，外观非常设计的很高级，而且和荣耀典藏还有联动，不少玩家这次就是冲着诸葛亮的时雨天司才参与抽奖活动的。',
+    },
+    {
+      type: 'paragraph',
+      text:
+        '至于公孙离，一直以来都是版本热门射手，热度常年居高不下，她的皮肤销量也非常高，这次出了星传说，很多玩家都为她的星传说买单。',
+    },
+    {
+      type: 'image',
+      imageLabel: '返场祈愿界面',
+      imageIndex: '3/4',
+      imageColors: ['#1A2A4A', '#0A1528'],
+      imageSrc: $r('app.media.hot_news5_img3'),
+    },
+    {
+      type: 'paragraph',
+      text:
+        '再一个吕布，这个英雄在对抗路一直以来都是万金油游戏，出场率非常高。吕布的年限皮肤很多玩家都有，但这次官方还返场了吕布年限皮肤的星史诗。很多玩家也是为了去抽吕布的星史诗，才参与的这次抽奖活动。而且吕布这款星史诗的价格也不贵，保底价格大概在一百块钱以内，运气好点的好几次，六七十块钱就能抽到吕布的这款星史诗了。',
+    },
+    {
+      type: 'paragraph',
+      text:
+        '相比之下，牛魔这个英雄因为人气低，所以兑换他皮肤的玩家是最少的，估计也是因为人气低，所以四款牛年限定皮肤中，牛魔是唯一一个没有出星元皮肤的。',
+    },
+    {
+      type: 'heading',
+      text: '3、皮肤爆率很高',
+    },
+    {
+      type: 'paragraph',
+      text:
+        '还有一个深层次的原因，就是这次的祈愿活动据说爆率很高。在祈愿活动上线之后，很多玩家都晒出了自己的抽奖记录，其中有相当一部分玩家，只花费了很少的点券，级直接抽中了永久皮肤。比如一位玩家一个十连抽直接抽中了牛魔的年限皮肤，还有玩家直接抽中的诸葛亮的时雨天司。',
+    },
+    {
+      type: 'image',
+      imageLabel: '抽奖记录晒图',
+      imageIndex: '4/4',
+      imageColors: ['#2A4A6A', '#1A2A3A'],
+      imageSrc: $r('app.media.hot_news5_img4'),
+    },
+    {
+      type: 'paragraph',
+      text:
+        '另外还有抽公孙离星传说的玩家，很多也是提前出货了，很多玩家只抽了一百多块钱，就抽到了足够的道具，可以去兑换公孙离的星传说。运气好的玩家甚至只抽了一百块钱不到，抽到的积分就可以兑换公孙离的星传说了。',
+    },
+    {
+      type: 'paragraph',
+      text:
+        '当然了，这个爆率更高仅仅只是玩家的主观感受，到底是不是爆率更高还不清楚，大家如果想要入手这些皮肤的话，最好还是做好保底的预算哦。',
+    },
+  ],
+  // 评论按 新闻5-评论截图 原文，不杜撰
+  comments: [
+    {
+      id: 'w1',
+      author: {
+        name: '暮光云湮',
+        level: 'Lv.16',
+        levelColor: '#E53935',
+        timeLocation: '昨天23:56·江苏',
+        avatarColors: ['#E8E0D8', '#A09080'],
+        avatarText: '暮',
+      },
+      content: '卧槽王者荣耀是真会赚钱，同样的皮肤换个颜色就能让你再花一两百📦',
+      likeCount: 3,
+      replies: [
+        {
+          userName: 'Save',
+          content: '别尬黑！还得换个原画呢😊',
+          timeLocation: '9小时前·广东',
+        },
+      ],
+    },
+    {
+      id: 'w2',
+      author: {
+        name: '知更杨',
+        level: 'Lv.19',
+        levelColor: '#1A1A1A',
+        timeLocation: '7分钟前·河北',
+        avatarColors: ['#3A3A4A', '#1A1A22'],
+        avatarText: '知',
+      },
+      content: '也就牛魔皮肤可以抽了，其他都不行',
+      likeCount: 0,
+    },
+    {
+      id: 'w3',
+      author: {
+        name: '尝尝我的黑暗料理',
+        level: 'Lv.23',
+        levelColor: '#2A8A6A',
+        timeLocation: '2小时前·上海',
+        avatarColors: ['#E8C060', '#8A6A20'],
+        avatarText: '尝',
+      },
+      content: '你们要多冲米',
+      likeCount: 1,
+    },
+    {
+      id: 'w4',
+      author: {
+        name: '陳國易楊',
+        level: 'Lv.18',
+        levelColor: '#E53935',
+        timeLocation: '3小时前·四川',
+        avatarColors: ['#2A2A3A', '#101018'],
+        avatarText: '陳',
+      },
+      content: '这b活动爆率是真的低啊 基本换算1rmb不到2个积分 还是我脸太黑了',
+      likeCount: 0,
+    },
+    {
+      id: 'w5',
+      author: {
+        name: '我不叫夏洛啊',
+        level: 'Lv.19',
+        levelColor: '#1A1A1A',
+        timeLocation: '昨天20:47·河北',
+        avatarColors: ['#2A3A5A', '#101828'],
+        avatarText: '我',
+      },
+      content: '阿离的星传说必须抽是吗？我有一堆币也没用？',
+      likeCount: 0,
+      replies: [
+        {
+          userName: 'becase798',
+          content: '对 必须抽 200保底😭',
+          timeLocation: '昨天21:09·四川',
+        },
+        {
+          userName: '暮光云湮',
+          content: '回复 becase798: 过分了，星传说还要抽，星元皮肤就是个大坑',
+          timeLocation: '昨天23:57·江苏',
+        },
+      ],
+    },
+  ],
+};
+
 const detailMap: Record<string, HotNewsDetailData> = {
   'news-steam-sale': detailSteamSale,
   'news-stellar-mod': detailStellarMod,
+  'news-hd2-report': detailHd2Report,
+  'news-elden-faded': detailEldenFaded,
+  'news-wzry-oxyear': detailWzryOxyear,
+  'news-gpu-price': detailGpuPrice,
 };
 
 export function getHotNewsById(id: string): HotNewsDetailData | undefined {
@@ -594,6 +1923,11 @@ export function getHotNewsById(id: string): HotNewsDetailData | undefined {
   const listItem = hotNewsList.find((n) => n.id === id);
   if (listItem) {
     return buildPlaceholderDetail(listItem);
+  }
+  // 剑星频道条目（无专属正文时占位：仅正文 + 评论 Tab）
+  const stellarItem = hotStellarList.find((n) => n.id === id);
+  if (stellarItem) {
+    return buildPlaceholderDetail(stellarItem);
   }
   // 热榜无独立详情时，尽量映射到 newsId 或占位
   const rank = hotRankList.find((r) => r.id === id || r.newsId === id);
@@ -610,6 +1944,7 @@ export function getHotNewsById(id: string): HotNewsDetailData | undefined {
       thumbType: 'image',
       thumbColors: rank.thumbColors,
       thumbLabel: rank.thumbLabel,
+      coverImg: rank.coverImg,
       showInAll: false,
     });
   }
@@ -618,4 +1953,103 @@ export function getHotNewsById(id: string): HotNewsDetailData | undefined {
 
 export function getAllFeedNews(): HotNewsItem[] {
   return hotNewsList.filter((n) => n.showInAll);
+}
+
+/** 剑星频道顶部卡 */
+export const hotStellarHeader: HotStellarHeader = {
+  name: '剑星',
+  titleLabel: '剑星 >',
+  coverImg: $r('app.media.hot_news2_game'),
+  chips: ['存档解析', '纳米服图鉴', '怪物图鉴'],
+  gradientColors: ['#2A3A5A', '#101828'],
+};
+
+/**
+ * 剑星频道主列表（对照 主页面条目 条目1–6，仅 6 条）
+ * 缩略图：hot_stellar_1~6_thumb；详情正文/评论先占位（条目2 复用 news-stellar-mod 完整详情）
+ */
+export const hotStellarList: HotNewsItem[] = [
+  {
+    id: 'stellar-jk-mod',
+    title: '剑星JK有领连衣裙伊芙 mods + 安装教程',
+    timeLabel: '9小时前',
+    tag: 'CHENSTUDIOS',
+    commentCount: 7,
+    thumbType: 'image',
+    thumbColors: ['#5A3A2A', '#2A1810'],
+    coverImg: $r('app.media.hot_stellar_1_thumb'),
+    thumbLabel: 'JK',
+    showInAll: false,
+    channelIds: ['stellar'],
+  },
+  {
+    // 与「全部」第二条同源，点进可看完整正文与评论
+    id: 'news-stellar-mod',
+    title: '剑星可爱白色蓬蓬裙伊芙 mods + 安装教程',
+    timeLabel: '昨天15:12',
+    tag: 'CHENSTUDIOS',
+    commentCount: 14,
+    thumbType: 'image',
+    thumbColors: ['#4A5568', '#2D3748'],
+    coverImg: $r('app.media.hot_stellar_2_thumb'),
+    thumbLabel: 'MOD',
+    showInAll: false,
+    channelIds: ['stellar'],
+  },
+  {
+    id: 'stellar-eve-ninja',
+    title: '剑星EVE（真人快打紫色忍者装）mods + 安装教程',
+    timeLabel: '昨天18:20',
+    tag: 'CHENSTUDIOS',
+    commentCount: 6,
+    thumbType: 'image',
+    thumbColors: ['#3A2A4A', '#1A1020'],
+    coverImg: $r('app.media.hot_stellar_3_thumb'),
+    thumbLabel: 'EVE',
+    showInAll: false,
+    channelIds: ['stellar'],
+  },
+  {
+    id: 'stellar-eve-look',
+    title: '伊芙:我看看盒友都发了啥',
+    timeLabel: '3天前',
+    tag: '无良液终身大股东',
+    commentCount: 487,
+    thumbType: 'image',
+    thumbColors: ['#2A2A3A', '#101018'],
+    coverImg: $r('app.media.hot_stellar_4_thumb'),
+    thumbLabel: '伊芙',
+    showInAll: false,
+    channelIds: ['stellar'],
+  },
+  {
+    id: 'stellar-ns2-esrb',
+    title: 'NS2版《剑星》在ESRB上获17+评级！评级描述内含暴...',
+    timeLabel: '5小时前',
+    tag: '无心队长Captain',
+    commentCount: 25,
+    thumbType: 'image',
+    thumbColors: ['#1A2A4A', '#0A1528'],
+    coverImg: $r('app.media.hot_stellar_5_thumb'),
+    thumbLabel: 'ESRB',
+    showInAll: false,
+    channelIds: ['stellar'],
+  },
+  {
+    id: 'stellar-ns2-release',
+    title: 'NS2版剑星过审17+无删减！发售倒计时正式开启',
+    timeLabel: '1天前',
+    tag: 'Jeho的游戏日常',
+    commentCount: 64,
+    thumbType: 'image',
+    thumbColors: ['#4A3A2A', '#201810'],
+    coverImg: $r('app.media.hot_stellar_6_thumb'),
+    thumbLabel: 'NS2',
+    showInAll: false,
+    channelIds: ['stellar'],
+  },
+];
+
+export function getStellarFeed(): HotNewsItem[] {
+  return hotStellarList;
 }
