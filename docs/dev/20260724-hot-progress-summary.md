@@ -17,6 +17,9 @@
 | 第二条新闻「新闻2」配图/头像/游戏卡/评论 | 已完成 | [20260724-hot-news2-images.md](./20260724-hot-news2-images.md) |
 | 热榜总条目 1–10 + 热榜1 详情 | 已完成 | [20260725-hot-rank-list-and-rank1.md](./20260725-hot-rank-list-and-rank1.md) |
 | 第三条新闻「新闻3」HD2时报 | 已完成 | [20260725-hot-news3-hd2.md](./20260725-hot-news3-hd2.md) |
+| 第四条新闻「新闻4」褪色者版双职业 | 已完成 | [20260725-hot-news4-elden.md](./20260725-hot-news4-elden.md) |
+| 第五条新闻「新闻5」王者牛年返场 | 已完成 | [20260726-hot-news5-wzry.md](./20260726-hot-news5-wzry.md) |
+| 剑星频道主页 6 条目 + 占位详情 | 已完成 | [20260726-hot-stellar-channel.md](./20260726-hot-stellar-channel.md) |
 
 ## 架构边界（当前）
 
@@ -43,6 +46,9 @@
 | `hot_news2_img1~5` / `avatar` / `game` | 第二条新闻展示图 + 作者头像 + 剑星封面 |
 | `hot_rank1_img1~5` / `avatar` | 热榜第1 配图 + 作者头像 |
 | `hot_news3_img1~4` / `avatar` / `thumb` | 第三条 HD2时报 配图 + 作者头像 + 列表缩略图 |
+| `hot_news4_img1~3` / `avatar` / `thumb` | 第四条 褪色者版 配图 + 作者头像 + 列表缩略图 |
+| `hot_news5_img1~4` / `avatar` | 第五条 王者牛年返场 配图 + 作者头像 |
+| `hot_stellar_1~6_thumb` | 剑星频道列表条目 1–6 缩略图 |
 
 ## 验证总览
 
@@ -58,7 +64,8 @@
 - 详情大图为整页截图，非可交互价格组件
 - Banner / 游戏卡点击跳转未接
 - 评论区 mock 未按最新截图重做
-- 游戏频道（剑星 / Steam 等）仍为待开发占位
+- 剑星频道已接 6 条主列表；Steam / 战术小队 / 绝地求生 仍为待开发占位
+- 剑星条目 1/3/4/5/6 详情仍为正文+评论占位（条目2 复用新闻2 完整详情）
 
 ## 分支说明
 

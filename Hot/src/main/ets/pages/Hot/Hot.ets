@@ -4,11 +4,14 @@ import {
   HotChannel,
   HotNewsItem,
   HotRankItem,
+  HotStellarHeader,
   DealCell,
   hotBanners,
   hotChannels,
   hotRankList,
+  hotStellarHeader,
   getAllFeedNews,
+  getStellarFeed,
 } from '../../model/HotModel';
 import {
   HotThemeColors,
@@ -25,7 +28,8 @@ import { HotRoutes } from '../../router/HotRoutes';
  * - 深色：HotTheme.HOT_DEFAULT_THEME_MODE = 'dark' 调试；后期由上层主题接管
  * - 全部：Banner + 新闻列表
  * - 热榜：排行列表
- * - 剑星 / Steam 等：待开发占位
+ * - 剑星：顶部游戏卡 + 6 条主列表（对照 剑星/主页面条目）
+ * - 其它游戏频道：待开发占位
  */
 @Component
 export struct Hot {
@@ -38,6 +42,8 @@ export struct Hot {
   private banners: HotBanner[] = hotBanners;
   private feedList: HotNewsItem[] = getAllFeedNews();
   private rankList: HotRankItem[] = hotRankList;
+  private stellarHeader: HotStellarHeader = hotStellarHeader;
+  private stellarList: HotNewsItem[] = getStellarFeed();
 
   private theme(): HotThemeColors {
     return getHotTheme(this.themeMode);
@@ -469,7 +475,93 @@ export struct Hot {
     .edgeEffect(EdgeEffect.Spring)
   }
 
-  // ---------- 游戏频道待开发 ----------
+  // ---------- 剑星频道：顶部游戏卡 + 6 条列表 ----------
+  @Builder
+  StellarHeaderCardBuilder() {
+    Row() {
+      if (this.stellarHeader.coverImg) {
+        Image(this.stellarHeader.coverImg)
+          .width(52)
+          .height(52)
+          .borderRadius(8)
+          .objectFit(ImageFit.Cover)
+      } else {
+        Column()
+          .width(52)
+          .height(52)
+          .borderRadius(8)
+          .linearGradient({
+            angle: 120,
+            colors: [[this.stellarHeader.gradientColors[0], 0], [this.stellarHeader.gradientColors[1], 1]],
+          })
+      }
+
+      Column() {
+        Text(this.stellarHeader.titleLabel)
+          .fontSize(16)
+          .fontWeight(FontWeight.Bold)
+          .fontColor(Color.White)
+
+        Row() {
+          ForEach(this.stellarHeader.chips, (chip: string) => {
+            Text(chip)
+              .fontSize(11)
+              .fontColor('rgba(255,255,255,0.88)')
+              .padding({ left: 8, right: 8, top: 4, bottom: 4 })
+              .backgroundColor('rgba(255,255,255,0.18)')
+              .borderRadius(4)
+              .margin({ right: 6 })
+          }, (chip: string) => chip)
+        }
+        .margin({ top: 8 })
+        .width('100%')
+      }
+      .layoutWeight(1)
+      .alignItems(HorizontalAlign.Start)
+      .padding({ left: 12 })
+    }
+    .width('100%')
+    .padding({ left: 12, right: 12, top: 12, bottom: 12 })
+    .borderRadius(10)
+    .linearGradient({
+      angle: 100,
+      colors: [['#3A4A5A', 0], ['#1A2430', 1]],
+    })
+  }
+
+  @Builder
+  StellarFeedBuilder() {
+    List() {
+      ListItem() {
+        Column() {
+          this.StellarHeaderCardBuilder();
+        }
+        .width('100%')
+        .padding({ left: 12, right: 12, top: 8, bottom: 4 })
+      }
+
+      ForEach(this.stellarList, (item: HotNewsItem) => {
+        ListItem() {
+          this.NewsItemBuilder(item);
+        }
+      }, (item: HotNewsItem) => item.id)
+
+      ListItem() {
+        Text('已经到底啦')
+          .fontSize(12)
+          .fontColor(this.theme().emptyText)
+          .width('100%')
+          .textAlign(TextAlign.Center)
+          .padding({ top: 12, bottom: 24 })
+      }
+    }
+    .width('100%')
+    .layoutWeight(1)
+    .scrollBar(BarState.Off)
+    .edgeEffect(EdgeEffect.Spring)
+  }
+
+  // ---------- 其它游戏频道待开发 ----------
   @Builder
   GamePlaceholderBuilder() {
     Column() {
@@ -501,6 +593,8 @@ export struct Hot {
       this.AllFeedBuilder();
     } else if (this.currentChannel().type === 'rank') {
       this.RankListBuilder();
+    } else if (this.currentChannel().id === 'stellar') {
+      this.StellarFeedBuilder();
     } else {
       this.GamePlaceholderBuilder();
     }

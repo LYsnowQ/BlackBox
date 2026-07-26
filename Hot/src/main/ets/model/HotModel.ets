@@ -70,6 +70,16 @@ export interface HotRankItem {
   newsId?: string;
 }
 
+/** 剑星频道顶部游戏卡（对照 剑星/主页面条目 结构截图） */
+export interface HotStellarHeader {
+  name: string;
+  /** 右侧小箭头文案，如「剑星 >」 */
+  titleLabel: string;
+  coverImg?: ResourceStr;
+  chips: string[];
+  gradientColors: [string, string];
+}
+
 /** 正文内嵌游戏卡片 */
 export interface HotGameCard {
   name: string;
@@ -235,27 +245,30 @@ export const hotNewsList: HotNewsItem[] = [
     showInAll: true,
   },
   {
-    id: 'news-gta-titan',
-    title: '[GTA 活动攻略]：参与泰坦差事领取一次性丰厚奖励',
-    timeLabel: '2小时前',
-    tag: '侠盗猎车手V',
-    commentCount: 22,
+    id: 'news-elden-faded',
+    title: '《艾尔登法环：褪色者版》双新职业公开，完整开局属性...',
+    timeLabel: '昨天16:49',
+    tag: '主机游戏',
+    commentCount: 17,
     thumbType: 'image',
-    thumbColors: ['#5A3A1A', '#2A1A0A'],
-    thumbLabel: 'THE TITAN JOB',
+    thumbColors: ['#3A2A1A', '#1A1008'],
+    thumbLabel: '褪色者版',
+    // 列表缩略图：新闻4-列表缩略图.png
+    coverImg: $r('app.media.hot_news4_thumb'),
     showInAll: true,
   },
   {
-    id: 'news-steam-end',
-    title: '【7.23】仅剩1天！不少折扣即将结束！骨折价。154款佳作',
-    timeLabel: '昨天23:33',
-    tag: 'Steam',
-    commentCount: 17,
+    id: 'news-wzry-oxyear',
+    title: '牛年限定返场半天，百万玩家纷纷入手，为何涉及抽奖热...',
+    timeLabel: '昨天19:57',
+    tag: '王者荣耀',
+    commentCount: 8,
     thumbType: 'image',
-    thumbColors: ['#6A4A1A', '#3A2A0A'],
-    thumbLabel: '史低合集',
+    thumbColors: ['#1A3A6A', '#0A1A3A'],
+    thumbLabel: '限定返场',
+    // 列表专用缩略图未单独提供，暂用正文图1
+    coverImg: $r('app.media.hot_news5_img1'),
     showInAll: true,
-    channelIds: ['steam'],
   },
   {
     id: 'news-gta-weekly',
@@ -762,6 +775,270 @@ const detailStellarMod: HotNewsDetailData = {
       },
       content: '剑星伊芙蓬蓬裙mod',
       likeCount: 0,
+    },
+  ],
+};
+
+/** 新闻4 作者「阿熊快讯」 */
+const authorAxiong: HotAuthor = {
+  name: '阿熊快讯',
+  level: 'Lv.17',
+  levelColor: '#E53935',
+  timeLocation: '昨天16:49·河南',
+  verified: true,
+  avatarColors: ['#E8C060', '#8A6A20'],
+  avatarText: '熊',
+  avatarImg: $r('app.media.hot_news4_avatar'),
+};
+
+/** 新闻4：艾尔登法环褪色者版双新职业（对照 新闻4 正文/评论截图） */
+const detailEldenFaded: HotNewsDetailData = {
+  id: 'news-elden-faded',
+  title: '《艾尔登法环：褪色者版》双新职业公开，完整开局属性一览',
+  author: authorAxiong,
+  platforms: ['主机游戏'],
+  likeCount: 22,
+  starCount: 8,
+  shareCount: 0,
+  commentCount: 18,
+  blocks: [
+    {
+      type: 'paragraph',
+      text:
+        'FromSoftware 官方放出《艾尔登法环：褪色者版》重磅情报，本作新增重装骑士、伊德斯骑士两个全新初始职业，全部开局属性数值完整曝光，8 月 28 日随完整版同步上线全平台。',
+    },
+    {
+      type: 'image',
+      imageLabel: '官方官推 · 双职业',
+      imageIndex: '1/3',
+      imageColors: ['#2A1A10', '#100808'],
+      imageSrc: $r('app.media.hot_news4_img1'),
+    },
+    {
+      type: 'heading',
+      text: '一、重装骑士（Heavy Knight）',
+    },
+    {
+      type: 'bullet',
+      bullets: [
+        '开局等级：10 级',
+        '基础属性：生命力 14、集中力 8、耐力 17、力气 15、灵巧 11、智力 7、信仰 8、感应 9',
+        '定位：纯力量坦骑，自带全套厚重钢甲与巨型弯刀，耐力数值全职业顶尖，能穿戴高负重重甲，正面抗伤能力拉满。',
+        '优缺点：开局血量、负重优势明显，开荒不用频繁升级耐力；魔法、感应属性极低，法术、出血异常流完全不适合。',
+      ],
+    },
+    {
+      type: 'image',
+      imageLabel: 'HEAVY KNIGHT',
+      imageIndex: '2/3',
+      imageColors: ['#3A2A1A', '#1A1008'],
+      imageSrc: $r('app.media.hot_news4_img2'),
+    },
+    {
+      type: 'heading',
+      text: '二、伊德斯骑士（Idus Knight）',
+    },
+    {
+      type: 'bullet',
+      bullets: [
+        '开局等级：7 级',
+        '基础属性：生命力 10、集中力 12、耐力 11、力气 13、灵巧 15、智力 8、信仰 11、感应 6',
+        '定位：敏捷型轻甲武士，来自全新设定“伊德斯之地”，初始自带轻量铠甲与女爵大剑，灵巧属性突出，兼顾信仰加成。',
+        '优缺点：灵巧成长优秀，战技、武器连击手感顺滑，还能简单使用祷告；初始等级低，前期血量偏少，重甲完全穿不动。',
+      ],
+    },
+    {
+      type: 'image',
+      imageLabel: 'IDUS KNIGHT',
+      imageIndex: '3/3',
+      imageColors: ['#2A3A2A', '#101810'],
+      imageSrc: $r('app.media.hot_news4_img3'),
+    },
+    {
+      type: 'heading',
+      text: '版本配套信息',
+    },
+    {
+      type: 'paragraph',
+      text:
+        '《艾尔登法环：褪色者版》整合游戏本体 +《黄金树幽影》DLC，两个新职业所有平台均可选用，老玩家购买升级包就能解锁，预购还能拿到限定动作、灵马皮肤。另外伊德斯骑士所属的“伊德斯之地”是交界地全新背景地名，不少魂学家推测后续会围绕该地区补充剧情内容。',
+    },
+  ],
+  // 评论按 新闻4-评论截图 原文，不杜撰
+  comments: [
+    {
+      id: 'e1',
+      author: {
+        name: '刃暖枪寒',
+        level: 'Lv.15',
+        levelColor: '#E53935',
+        timeLocation: '昨天16:59·江苏',
+        avatarColors: ['#E0E0E0', '#8A8A8A'],
+        avatarText: '刃',
+      },
+      content: '法环的职业有任何意义么，还要买升级包解锁？🤔',
+      likeCount: 9,
+      replies: [
+        {
+          userName: '弹反派生第六感',
+          content: '有意义啊，卡级需要😭，卡级属性点算得死死的',
+          timeLocation: '昨天17:05·广东',
+        },
+        {
+          userName: '泰勒斯斯文文',
+          content: 'PVP吧，虽然都玩无限联机了',
+          timeLocation: '10小时前·河北',
+        },
+      ],
+    },
+    {
+      id: 'e2',
+      author: {
+        name: 'Watcher',
+        level: 'Lv.17',
+        levelColor: '#E53935',
+        timeLocation: '昨天17:12·山东',
+        avatarColors: ['#6A2A6A', '#3A103A'],
+        avatarText: 'W',
+      },
+      content:
+        'FS要不你直接把黑魂123重做了当法环DLC卖得了😑反正黑环里也出现了你就圆一圆再圈一波(bushi',
+      likeCount: 2,
+    },
+    {
+      id: 'e3',
+      author: {
+        name: '【置顶】',
+        level: 'Lv.12',
+        levelColor: '#9B6BFF',
+        timeLocation: '9小时前·福建',
+        avatarColors: ['#F0C0C0', '#8A6060'],
+        avatarText: '置',
+      },
+      content: '圈一波，再圈一波，再圈一波，再圈一波，不愧是商业游戏',
+      likeCount: 2,
+    },
+    {
+      id: 'e4',
+      author: {
+        name: '略显笨拙',
+        level: 'Lv.17',
+        levelColor: '#E53935',
+        timeLocation: '15分钟前·广东',
+        avatarColors: ['#C0A080', '#6A5030'],
+        avatarText: '略',
+      },
+      content: '可以的出来了再打一个周目🤪',
+      likeCount: 0,
+    },
+    {
+      id: 'e5',
+      author: {
+        name: '杠精',
+        level: 'Lv.14',
+        levelColor: '#E8A838',
+        timeLocation: '8小时前·宁夏',
+        avatarColors: ['#E0C0A0', '#8A6A40'],
+        avatarText: '杠',
+      },
+      content: '那我玩盾戳是不是就可以无脑重装骑士了🥰',
+      likeCount: 0,
+    },
+    {
+      id: 'e6',
+      author: {
+        name: '寒天碎梦',
+        level: 'Lv.28',
+        levelColor: '#1A1A1A',
+        timeLocation: '9小时前·广东',
+        avatarColors: ['#D0D0E0', '#707080'],
+        avatarText: '寒',
+      },
+      content: '伊德斯骑士，从未出现过的名词，难不成是新作里的一个势力？🤪',
+      likeCount: 0,
+    },
+    {
+      id: 'e7',
+      author: {
+        name: 'AoirKunS',
+        level: 'Lv.8',
+        levelColor: '#6BB8FF',
+        timeLocation: '昨天22:10·四川',
+        avatarColors: ['#C0A080', '#6A5030'],
+        avatarText: 'A',
+      },
+      content: '杂七杂八的职业，到二周目都一样😑🫡',
+      likeCount: 1,
+    },
+    {
+      id: 'e8',
+      author: {
+        name: 'taecg1985',
+        level: 'Lv.9',
+        levelColor: '#6BB8FF',
+        timeLocation: '昨天20:28·福建',
+        avatarColors: ['#5A1A1A', '#2A0808'],
+        avatarText: 't',
+      },
+      content: '新职业是为了多周目的吗？',
+      likeCount: 1,
+      replies: [
+        {
+          userName: '不是这名字都有人起',
+          content: '不是',
+          timeLocation: '9小时前·江苏',
+        },
+      ],
+    },
+    {
+      id: 'e9',
+      author: {
+        name: '于是乎福来运转',
+        level: 'Lv.13',
+        levelColor: '#E8A838',
+        timeLocation: '昨天20:05·吉林',
+        avatarColors: ['#3A5A7A', '#1A2A3A'],
+        avatarText: '于',
+      },
+      content: '😊这个重装骑士应该配上哈维尔大盾，那样就无敌了',
+      likeCount: 0,
+      replies: [
+        {
+          userName: '玩家83957981',
+          content: '翻的动吗',
+          timeLocation: '昨天20:32·中国香港',
+        },
+        {
+          userName: '拾號風球',
+          content: '回复 玩家83957981: 需要翻吗',
+          timeLocation: '昨天21:40·广东',
+        },
+      ],
+    },
+    {
+      id: 'e10',
+      author: {
+        name: '意挽卿',
+        level: 'Lv.13',
+        levelColor: '#E8A838',
+        timeLocation: '昨天17:10·陕西',
+        avatarColors: ['#E0C0B0', '#8A6A5A'],
+        avatarText: '意',
+      },
+      content: '你们说这个包出的时候法环会打折吗🐮',
+      likeCount: 1,
+      replies: [
+        {
+          userName: 'TheMonitor',
+          content: '我说顺带涨一波，有没有懂的😊',
+          timeLocation: '9小时前·湖南',
+        },
+        {
+          userName: 'kakiest',
+          content: '再问给你永涨200',
+          timeLocation: '5小时前·山西',
+        },
+      ],
     },
   ],
 };
@@ -1341,21 +1618,22 @@ const detailGpuPrice: HotNewsDetailData = {
   ],
 };
 
-/** 通用占位详情（无专属正文时使用） */
+/** 通用占位详情（无专属正文时使用；详情页仅正文 / 评论 Tab） */
 function buildPlaceholderDetail(item: HotNewsItem): HotNewsDetailData {
+  const isStellar = (item.channelIds ?? []).indexOf('stellar') >= 0;
   return {
     id: item.id,
     title: item.title,
     author: {
-      name: '黑盒编辑部',
-      level: 'Lv12',
+      name: isStellar ? item.tag : '黑盒编辑部',
+      level: isStellar ? 'Lv12' : 'Lv12',
       levelColor: '#9B6BFF',
-      timeLocation: `${item.timeLabel}·小黑盒`,
+      timeLocation: isStellar ? `${item.timeLabel}·剑星` : `${item.timeLabel}·小黑盒`,
       verified: true,
       avatarColors: item.thumbColors,
-      avatarText: '盒',
+      avatarText: isStellar ? item.tag.substring(0, 1) : '盒',
     },
-    platforms: [item.tag],
+    platforms: isStellar ? ['剑星'] : [item.tag],
     likeCount: 20 + item.commentCount,
     starCount: 8,
     shareCount: 6,
@@ -1364,17 +1642,23 @@ function buildPlaceholderDetail(item: HotNewsItem): HotNewsDetailData {
       {
         type: 'image',
         imageLabel: item.thumbLabel ?? item.tag,
-        imageIndex: '1/3',
+        imageIndex: '1/1',
         imageColors: item.thumbColors,
         imageSrc: item.coverImg,
       },
       {
-        type: 'paragraph',
-        text: `${item.title}（本篇为前端 Mock 正文，仅用于界面展示。）`,
+        type: 'heading',
+        text: '正文占位',
       },
       {
         type: 'paragraph',
-        text: '更多详情与真实数据接入后将替换此占位内容。欢迎在评论区讨论。',
+        text: isStellar
+          ? `【剑星频道】${item.title}\n本条详情暂未接入完整截图正文，仅作列表跳转与「正文 / 评论」Tab 结构占位。`
+          : `${item.title}（本篇为前端 Mock 正文，仅用于界面展示。）`,
+      },
+      {
+        type: 'paragraph',
+        text: '后续可按素材补配图、安装教程或新闻全文；评论区见下方「评论」Tab。',
       },
     ],
     comments: [
@@ -1388,17 +1672,247 @@ function buildPlaceholderDetail(item: HotNewsItem): HotNewsDetailData {
           avatarColors: ['#3A3A4A', '#1A1A22'],
           avatarText: '路',
         },
-        content: '先占个沙发，等正式内容～',
+        content: isStellar
+          ? '（评论占位）剑星频道条目详情评论区待补真实截图内容。'
+          : '先占个沙发，等正式内容～',
         likeCount: 1,
+      },
+      {
+        id: 'p2',
+        author: {
+          name: '黑盒游客',
+          level: 'Lv3',
+          levelColor: '#6BB8FF',
+          timeLocation: '1分钟前·上海',
+          avatarColors: ['#2A3A4A', '#101820'],
+          avatarText: '游',
+        },
+        content: '顶栏可切换「正文」「评论」查看占位内容。',
+        likeCount: 0,
       },
     ],
   };
 }
 
+/** 新闻5 作者「可儿游戏说」 */
+const authorKeer: HotAuthor = {
+  name: '可儿游戏说',
+  level: 'Lv.11',
+  levelColor: '#9B6BFF',
+  timeLocation: '昨天19:57·湖南',
+  verified: true,
+  avatarColors: ['#F0C0A0', '#C08060'],
+  avatarText: '可',
+  avatarImg: $r('app.media.hot_news5_avatar'),
+};
+
+/** 新闻5：王者荣耀牛年限定返场（对照 新闻5 正文/评论截图） */
+const detailWzryOxyear: HotNewsDetailData = {
+  id: 'news-wzry-oxyear',
+  title: '牛年限定返场半天，百万玩家纷纷入手，为何涉及抽奖热度还这么高',
+  author: authorKeer,
+  platforms: ['王者荣耀'],
+  likeCount: 2,
+  starCount: 0,
+  shareCount: 0,
+  commentCount: 9,
+  blocks: [
+    {
+      type: 'paragraph',
+      text:
+        '最近王者荣耀返场了一套年限皮肤，也就是牛年限定。总共四款牛年限定皮肤，分别属于公孙离、吕布、牛魔还有诸葛亮。',
+    },
+    {
+      type: 'image',
+      imageLabel: '限定皮肤限时返场',
+      imageIndex: '1/4',
+      imageColors: ['#1A3A6A', '#0A1A3A'],
+      imageSrc: $r('app.media.hot_news5_img1'),
+    },
+    {
+      type: 'paragraph',
+      text:
+        '这四款都是通过抽奖的方式返场，价格并不算便宜，但即便如此，依旧有大量玩家参与了这次的抽奖活动。那么为何这次的抽奖活动有这么多玩家参与呢？我想应该和下面这三点原因有关。',
+    },
+    {
+      type: 'heading',
+      text: '1、公孙离新推出星传说',
+    },
+    {
+      type: 'paragraph',
+      text:
+        '原因一，就是这次返场四款牛年限定皮肤的同时，还给公孙离的祁雪灵祝出了一套星传说。这套星传说的配色以蓝白色为主，造型特别好看，局内的特效质量也非常高，很多玩家就是冲着这套星传说才参加的抽奖获得。',
+    },
+    {
+      type: 'image',
+      imageLabel: '公孙离-寒羽凝歌',
+      imageIndex: '2/4',
+      imageColors: ['#2A4A7A', '#1A2A4A'],
+      imageSrc: $r('app.media.hot_news5_img2'),
+    },
+    {
+      type: 'paragraph',
+      text:
+        '虽然星传说是抽奖，但这套星传说的价格并不贵，保底价格也就两百块钱左右，相比较皮肤本身的抽奖价格要便宜许多。很多玩家就是有了祁雪灵祝，才去抽的这套星传说。',
+    },
+    {
+      type: 'heading',
+      text: '2、几位英雄人气热度都很高',
+    },
+    {
+      type: 'paragraph',
+      text:
+        '这次祈愿活动参与玩家数量众多的另外一个原因就是这些英雄的人气都很高。四款牛年限定皮肤的归属英雄中，除了牛魔之外，另外三个英雄的人气都非常高。',
+    },
+    {
+      type: 'paragraph',
+      text:
+        '诸葛亮不用说，这个英雄一直以来都是热门打野中路英雄，而且他的这款年限皮肤时雨天司的质量也非常高，外观非常设计的很高级，而且和荣耀典藏还有联动，不少玩家这次就是冲着诸葛亮的时雨天司才参与抽奖活动的。',
+    },
+    {
+      type: 'paragraph',
+      text:
+        '至于公孙离，一直以来都是版本热门射手，热度常年居高不下，她的皮肤销量也非常高，这次出了星传说，很多玩家都为她的星传说买单。',
+    },
+    {
+      type: 'image',
+      imageLabel: '返场祈愿界面',
+      imageIndex: '3/4',
+      imageColors: ['#1A2A4A', '#0A1528'],
+      imageSrc: $r('app.media.hot_news5_img3'),
+    },
+    {
+      type: 'paragraph',
+      text:
+        '再一个吕布，这个英雄在对抗路一直以来都是万金油游戏，出场率非常高。吕布的年限皮肤很多玩家都有，但这次官方还返场了吕布年限皮肤的星史诗。很多玩家也是为了去抽吕布的星史诗，才参与的这次抽奖活动。而且吕布这款星史诗的价格也不贵，保底价格大概在一百块钱以内，运气好点的好几次，六七十块钱就能抽到吕布的这款星史诗了。',
+    },
+    {
+      type: 'paragraph',
+      text:
+        '相比之下，牛魔这个英雄因为人气低，所以兑换他皮肤的玩家是最少的，估计也是因为人气低，所以四款牛年限定皮肤中，牛魔是唯一一个没有出星元皮肤的。',
+    },
+    {
+      type: 'heading',
+      text: '3、皮肤爆率很高',
+    },
+    {
+      type: 'paragraph',
+      text:
+        '还有一个深层次的原因，就是这次的祈愿活动据说爆率很高。在祈愿活动上线之后，很多玩家都晒出了自己的抽奖记录，其中有相当一部分玩家，只花费了很少的点券，级直接抽中了永久皮肤。比如一位玩家一个十连抽直接抽中了牛魔的年限皮肤，还有玩家直接抽中的诸葛亮的时雨天司。',
+    },
+    {
+      type: 'image',
+      imageLabel: '抽奖记录晒图',
+      imageIndex: '4/4',
+      imageColors: ['#2A4A6A', '#1A2A3A'],
+      imageSrc: $r('app.media.hot_news5_img4'),
+    },
+    {
+      type: 'paragraph',
+      text:
+        '另外还有抽公孙离星传说的玩家，很多也是提前出货了，很多玩家只抽了一百多块钱，就抽到了足够的道具，可以去兑换公孙离的星传说。运气好的玩家甚至只抽了一百块钱不到，抽到的积分就可以兑换公孙离的星传说了。',
+    },
+    {
+      type: 'paragraph',
+      text:
+        '当然了，这个爆率更高仅仅只是玩家的主观感受，到底是不是爆率更高还不清楚，大家如果想要入手这些皮肤的话，最好还是做好保底的预算哦。',
+    },
+  ],
+  // 评论按 新闻5-评论截图 原文，不杜撰
+  comments: [
+    {
+      id: 'w1',
+      author: {
+        name: '暮光云湮',
+        level: 'Lv.16',
+        levelColor: '#E53935',
+        timeLocation: '昨天23:56·江苏',
+        avatarColors: ['#E8E0D8', '#A09080'],
+        avatarText: '暮',
+      },
+      content: '卧槽王者荣耀是真会赚钱，同样的皮肤换个颜色就能让你再花一两百📦',
+      likeCount: 3,
+      replies: [
+        {
+          userName: 'Save',
+          content: '别尬黑！还得换个原画呢😊',
+          timeLocation: '9小时前·广东',
+        },
+      ],
+    },
+    {
+      id: 'w2',
+      author: {
+        name: '知更杨',
+        level: 'Lv.19',
+        levelColor: '#1A1A1A',
+        timeLocation: '7分钟前·河北',
+        avatarColors: ['#3A3A4A', '#1A1A22'],
+        avatarText: '知',
+      },
+      content: '也就牛魔皮肤可以抽了，其他都不行',
+      likeCount: 0,
+    },
+    {
+      id: 'w3',
+      author: {
+        name: '尝尝我的黑暗料理',
+        level: 'Lv.23',
+        levelColor: '#2A8A6A',
+        timeLocation: '2小时前·上海',
+        avatarColors: ['#E8C060', '#8A6A20'],
+        avatarText: '尝',
+      },
+      content: '你们要多冲米',
+      likeCount: 1,
+    },
+    {
+      id: 'w4',
+      author: {
+        name: '陳國易楊',
+        level: 'Lv.18',
+        levelColor: '#E53935',
+        timeLocation: '3小时前·四川',
+        avatarColors: ['#2A2A3A', '#101018'],
+        avatarText: '陳',
+      },
+      content: '这b活动爆率是真的低啊 基本换算1rmb不到2个积分 还是我脸太黑了',
+      likeCount: 0,
+    },
+    {
+      id: 'w5',
+      author: {
+        name: '我不叫夏洛啊',
+        level: 'Lv.19',
+        levelColor: '#1A1A1A',
+        timeLocation: '昨天20:47·河北',
+        avatarColors: ['#2A3A5A', '#101828'],
+        avatarText: '我',
+      },
+      content: '阿离的星传说必须抽是吗？我有一堆币也没用？',
+      likeCount: 0,
+      replies: [
+        {
+          userName: 'becase798',
+          content: '对 必须抽 200保底😭',
+          timeLocation: '昨天21:09·四川',
+        },
+        {
+          userName: '暮光云湮',
+          content: '回复 becase798: 过分了，星传说还要抽，星元皮肤就是个大坑',
+          timeLocation: '昨天23:57·江苏',
+        },
+      ],
+    },
+  ],
+};
+
 const detailMap: Record<string, HotNewsDetailData> = {
   'news-steam-sale': detailSteamSale,
   'news-stellar-mod': detailStellarMod,
   'news-hd2-report': detailHd2Report,
+  'news-elden-faded': detailEldenFaded,
+  'news-wzry-oxyear': detailWzryOxyear,
   'news-gpu-price': detailGpuPrice,
 };
 
@@ -1409,6 +1923,11 @@ export function getHotNewsById(id: string): HotNewsDetailData | undefined {
   const listItem = hotNewsList.find((n) => n.id === id);
   if (listItem) {
     return buildPlaceholderDetail(listItem);
+  }
+  // 剑星频道条目（无专属正文时占位：仅正文 + 评论 Tab）
+  const stellarItem = hotStellarList.find((n) => n.id === id);
+  if (stellarItem) {
+    return buildPlaceholderDetail(stellarItem);
   }
   // 热榜无独立详情时，尽量映射到 newsId 或占位
   const rank = hotRankList.find((r) => r.id === id || r.newsId === id);
@@ -1434,4 +1953,103 @@ export function getHotNewsById(id: string): HotNewsDetailData | undefined {
 
 export function getAllFeedNews(): HotNewsItem[] {
   return hotNewsList.filter((n) => n.showInAll);
+}
+
+/** 剑星频道顶部卡 */
+export const hotStellarHeader: HotStellarHeader = {
+  name: '剑星',
+  titleLabel: '剑星 >',
+  coverImg: $r('app.media.hot_news2_game'),
+  chips: ['存档解析', '纳米服图鉴', '怪物图鉴'],
+  gradientColors: ['#2A3A5A', '#101828'],
+};
+
+/**
+ * 剑星频道主列表（对照 主页面条目 条目1–6，仅 6 条）
+ * 缩略图：hot_stellar_1~6_thumb；详情正文/评论先占位（条目2 复用 news-stellar-mod 完整详情）
+ */
+export const hotStellarList: HotNewsItem[] = [
+  {
+    id: 'stellar-jk-mod',
+    title: '剑星JK有领连衣裙伊芙 mods + 安装教程',
+    timeLabel: '9小时前',
+    tag: 'CHENSTUDIOS',
+    commentCount: 7,
+    thumbType: 'image',
+    thumbColors: ['#5A3A2A', '#2A1810'],
+    coverImg: $r('app.media.hot_stellar_1_thumb'),
+    thumbLabel: 'JK',
+    showInAll: false,
+    channelIds: ['stellar'],
+  },
+  {
+    // 与「全部」第二条同源，点进可看完整正文与评论
+    id: 'news-stellar-mod',
+    title: '剑星可爱白色蓬蓬裙伊芙 mods + 安装教程',
+    timeLabel: '昨天15:12',
+    tag: 'CHENSTUDIOS',
+    commentCount: 14,
+    thumbType: 'image',
+    thumbColors: ['#4A5568', '#2D3748'],
+    coverImg: $r('app.media.hot_stellar_2_thumb'),
+    thumbLabel: 'MOD',
+    showInAll: false,
+    channelIds: ['stellar'],
+  },
+  {
+    id: 'stellar-eve-ninja',
+    title: '剑星EVE（真人快打紫色忍者装）mods + 安装教程',
+    timeLabel: '昨天18:20',
+    tag: 'CHENSTUDIOS',
+    commentCount: 6,
+    thumbType: 'image',
+    thumbColors: ['#3A2A4A', '#1A1020'],
+    coverImg: $r('app.media.hot_stellar_3_thumb'),
+    thumbLabel: 'EVE',
+    showInAll: false,
+    channelIds: ['stellar'],
+  },
+  {
+    id: 'stellar-eve-look',
+    title: '伊芙:我看看盒友都发了啥',
+    timeLabel: '3天前',
+    tag: '无良液终身大股东',
+    commentCount: 487,
+    thumbType: 'image',
+    thumbColors: ['#2A2A3A', '#101018'],
+    coverImg: $r('app.media.hot_stellar_4_thumb'),
+    thumbLabel: '伊芙',
+    showInAll: false,
+    channelIds: ['stellar'],
+  },
+  {
+    id: 'stellar-ns2-esrb',
+    title: 'NS2版《剑星》在ESRB上获17+评级！评级描述内含暴...',
+    timeLabel: '5小时前',
+    tag: '无心队长Captain',
+    commentCount: 25,
+    thumbType: 'image',
+    thumbColors: ['#1A2A4A', '#0A1528'],
+    coverImg: $r('app.media.hot_stellar_5_thumb'),
+    thumbLabel: 'ESRB',
+    showInAll: false,
+    channelIds: ['stellar'],
+  },
+  {
+    id: 'stellar-ns2-release',
+    title: 'NS2版剑星过审17+无删减！发售倒计时正式开启',
+    timeLabel: '1天前',
+    tag: 'Jeho的游戏日常',
+    commentCount: 64,
+    thumbType: 'image',
+    thumbColors: ['#4A3A2A', '#201810'],
+    coverImg: $r('app.media.hot_stellar_6_thumb'),
+    thumbLabel: 'NS2',
+    showInAll: false,
+    channelIds: ['stellar'],
+  },
+];
+
+export function getStellarFeed(): HotNewsItem[] {
+  return hotStellarList;
 }
