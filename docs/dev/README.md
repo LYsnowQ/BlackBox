@@ -16,3 +16,4 @@
 | 2026-07-25 | hot | 第四条新闻替换为褪色者版双职业（新闻4） | [20260725-hot-news4-elden.md](./20260725-hot-news4-elden.md) |
 | 2026-07-26 | hot | 第五条新闻替换为王者牛年返场（新闻5） | [20260726-hot-news5-wzry.md](./20260726-hot-news5-wzry.md) |
 | 2026-07-26 | hot | 剑星频道主页 6 条目 + 占位详情 | [20260726-hot-stellar-channel.md](./20260726-hot-stellar-channel.md) |
+| 2026-07-26 | hot | 合并 master 冲突清理（pages/Hot + Profile Chat） | [20260726-hot-merge-master-conflicts.md](./20260726-hot-merge-master-conflicts.md) |
