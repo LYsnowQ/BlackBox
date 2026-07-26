@@ -342,24 +342,33 @@ export struct GameLibrarySection {
 
   @Builder
   CoverBuilder(game: LibraryGame) {
-    Column() {
-      Text(game.title.substring(0, 1))
-        .fontSize(16)
-        .fontWeight(FontWeight.Medium)
-        .fontColor(Color.White)
+    if (game.coverImg !== undefined) {
+      Image(game.coverImg)
+        .width(this.coverW)
+        .height(this.coverH)
+        .borderRadius(6)
+        .objectFit(ImageFit.Cover)
+        .clip(true)
+    } else {
+      Column() {
+        Text(game.title.substring(0, 1))
+          .fontSize(16)
+          .fontWeight(FontWeight.Medium)
+          .fontColor(Color.White)
+      }
+      .width(this.coverW)
+      .height(this.coverH)
+      .borderRadius(6)
+      .justifyContent(FlexAlign.Center)
+      .clip(true)
+      .linearGradient({
+        angle: 135,
+        colors: [
+          [game.coverColors[0], 0],
+          [game.coverColors[1], 1],
+        ],
+      })
     }
-    .width(this.coverW)
-    .height(this.coverH)
-    .borderRadius(6)
-    .justifyContent(FlexAlign.Center)
-    .clip(true)
-    .linearGradient({
-      angle: 135,
-      colors: [
-        [game.coverColors[0], 0],
-        [game.coverColors[1], 1],
-      ],
-    })
   }
 
   /** 史低方形标签 */

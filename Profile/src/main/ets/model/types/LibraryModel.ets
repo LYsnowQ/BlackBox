@@ -18,8 +18,10 @@ export type LowestTagType = 'none' | 'lowest' | 'newLowest';
 export interface LibraryGame {
   id: string;
   title: string;
-  /** 封面占位渐变 */
+  /** 封面占位渐变（无 coverImg 时使用） */
   coverColors: string[];
+  /** 封面图：复用 entry media（与游戏库等同名资源） */
+  coverImg?: ResourceStr;
   /** 总时长（小时） */
   totalHours: number;
   /** 近两周时长（小时） */
