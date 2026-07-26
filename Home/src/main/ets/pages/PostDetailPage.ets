@@ -1,10 +1,15 @@
 import { promptAction, router } from '@kit.ArkUI';
+import { HomeInteractStore, LocalReplyBundle, PostInteractState } from '../model/HomeInteractStore';
 import {
   CommentReply,
   PostComment,
   PostDetail as PostDetailModel,
+  PostImage,
+  followPosts,
   getPostDetailById,
+  recommendPosts,
 } from '../model/HomeModel';
+import { HomeRoutes } from '../router/HomeRoutes';
 
 /**
  * 帖子详情内容（由 entry 路由壳 pages/Home/PostDetail 挂载）
@@ -26,25 +31,300 @@ export struct PostDetailPage {
   @State comments: PostComment[] = [];
   @State draft: string = '';
   @State showComposer: boolean = false;
+  /** 回复目标：空串表示发一级评论 */
+  @State replyToCommentId: string = '';
+  @State replyToName: string = '';
+  /** 本帖内已点赞的评论 id */
+  @State likedCommentIds: string[] = [];
+  /** 0=热门 1=最新 */
+  @State commentSort: number = 0;
   private listScroller: Scroller = new Scroller();
   private jumpToComment: boolean = false;
+  private postId: string = '';
+
+  /** 资源宽/高；未知时用较中性的 4:3 */
+  private mediaAspectRatio(key: string): number {
+    if (key === 'scrape_messi1' || key === 'scrape_jiahao1' || key === 'scrape_wzry1' ||
+      key === 'scrape_gf1') {
+      return 0.46;
+    }
+    if (key === 'scrape_cf4') {
+      return 0.51;
+    }
+    if (key === 'scrape_doubao1' || key === 'scrape_cf2' || key === 'scrape_cf3') {
+      return 0.77;
+    }
+    if (key === 'scrape_cf1' || key === 'scrape_honor1') {
+      return 0.95;
+    }
+    if (key === 'scrape_cxmt1' || key === 'scrape_greenhell1' || key === 'scrape_muse1' ||
+      key === 'scrape_tom1' || key === 'scrape_fields1' || key === 'scrape_fields2' ||
+      key === 'scrape_honor2') {
+      return 1.78;
+    }
+    return 1.33;
+  }
+
+  private feedImages(id: string): PostImage[] {
+    for (let i = 0; i < recommendPosts.length; i++) {
+      if (recommendPosts[i].id === id) {
+        return recommendPosts[i].images;
+      }
+    }
+    for (let i = 0; i < followPosts.length; i++) {
+      if (followPosts[i].id === id) {
+        return followPosts[i].images;
+      }
+    }
+    return [];
+  }
+
+  private detailMediaKeys(d: PostDetailModel): string[] {
+    const imgs = this.feedImages(d.id);
+    const keys: string[] = [];
+    for (let i = 0; i < imgs.length; i++) {
+      if (imgs[i].mediaKey.length > 0) {
+        keys.push(imgs[i].mediaKey);
+      }
+    }
+    if (keys.length > 0) {
+      return keys;
+    }
+    if (d.heroMediaKey.length > 0) {
+      return [d.heroMediaKey];
+    }
+    return [];
+  }
 
   aboutToAppear(): void {
     const params = router.getParams() as Record<string, Object>;
     const id = params ? (params['id'] as string) : '';
     const tab = params ? (params['tab'] as string) : '';
+    this.postId = id;
     this.detail = getPostDetailById(id);
     if (this.detail) {
-      this.following = this.detail.isFollowing;
-      this.likeCount = this.detail.likeCount;
-      this.starCount = this.detail.starCount;
-      this.awardCount = this.detail.awardCount;
-      this.commentCount = this.detail.commentCount;
-      this.comments = this.detail.comments.slice();
+      this.applyBase(this.detail);
     }
     if (tab === 'comment') {
       this.jumpToComment = true;
     }
+    const ctx = getContext(this) as Context;
+    HomeInteractStore.ensureLoaded(ctx).then(() => {
+      this.applyPersisted();
+    });
+  }
+
+  private applyBase(d: PostDetailModel): void {
+    this.following = d.isFollowing;
+    this.liked = false;
+    this.starred = false;
+    this.awarded = false;
+    this.likeCount = d.likeCount;
+    this.starCount = d.starCount;
+    this.awardCount = d.awardCount;
+    this.commentCount = d.commentCount;
+    this.comments = d.comments.slice();
+  }
+
+  private applyPersisted(): void {
+    if (!this.detail || this.postId.length === 0) {
+      return;
+    }
+    const saved = HomeInteractStore.get(this.postId);
+    if (!saved) {
+      return;
+    }
+    this.following = saved.following;
+    this.liked = saved.liked;
+    this.starred = saved.starred;
+    this.awarded = saved.awarded;
+    this.likeCount = saved.likeCount;
+    this.starCount = saved.starCount;
+    this.awardCount = saved.awardCount;
+    this.commentCount = saved.commentCount;
+    this.likedCommentIds = saved.likedCommentIds ? saved.likedCommentIds.slice() : [];
+    const base: PostComment[] = [];
+    for (let i = 0; i < this.detail.comments.length; i++) {
+      const c = this.detail.comments[i];
+      let extraRs: CommentReply[] = [];
+      for (let b = 0; b < saved.extraReplies.length; b++) {
+        if (saved.extraReplies[b].parentId === c.id) {
+          extraRs = saved.extraReplies[b].replies;
+          break;
+        }
+      }
+      if (extraRs.length === 0) {
+        base.push(c);
+      } else {
+        const replies: CommentReply[] = [];
+        for (let r = 0; r < extraRs.length; r++) {
+          replies.push(extraRs[r]);
+        }
+        for (let r = 0; r < c.replies.length; r++) {
+          replies.push(c.replies[r]);
+        }
+        base.push(this.cloneComment(c, c.likeCount, replies, c.replyTotal + extraRs.length));
+      }
+    }
+    const merged: PostComment[] = [];
+    for (let i = 0; i < saved.extraComments.length; i++) {
+      merged.push(saved.extraComments[i]);
+    }
+    for (let i = 0; i < base.length; i++) {
+      merged.push(base[i]);
+    }
+    this.comments = merged;
+  }
+
+  private cloneComment(
+    c: PostComment,
+    likeCount: number,
+    replies: CommentReply[],
+    replyTotal: number
+  ): PostComment {
+    return {
+      id: c.id,
+      authorName: c.authorName,
+      authorAvatarColor: c.authorAvatarColor,
+      authorAvatarText: c.authorAvatarText,
+      levelLabel: c.levelLabel,
+      isAuthor: c.isAuthor,
+      isOfficial: c.isOfficial,
+      isPinned: c.isPinned,
+      timeText: c.timeText,
+      region: c.region,
+      content: c.content,
+      imageKey: c.imageKey,
+      imageColor: c.imageColor,
+      likeCount: likeCount,
+      replyTotal: replyTotal,
+      replies: replies,
+    };
+  }
+
+  private isCommentLiked(id: string): boolean {
+    return this.likedCommentIds.indexOf(id) >= 0;
+  }
+
+  /** 展示赞数 = mock/本地基数 + 当前用户是否点过；依赖 likedCommentIds 触发重绘 */
+  private displayCommentLikeCount(comment: PostComment): number {
+    const base = comment.likeCount;
+    return this.isCommentLiked(comment.id) ? base + 1 : base;
+  }
+
+  private sortedComments(): PostComment[] {
+    const src = this.comments;
+    const arr: PostComment[] = [];
+    for (let i = 0; i < src.length; i++) {
+      arr.push(src[i]);
+    }
+    if (this.commentSort === 0) {
+      // 热门：置顶优先，再按展示赞数降序
+      arr.sort((a: PostComment, b: PostComment) => {
+        if (a.isPinned && !b.isPinned) {
+          return -1;
+        }
+        if (!a.isPinned && b.isPinned) {
+          return 1;
+        }
+        return this.displayCommentLikeCount(b) - this.displayCommentLikeCount(a);
+      });
+    } else {
+      // 最新：本地新评优先，其余保持 mock 倒序（后出现的在前）
+      arr.sort((a: PostComment, b: PostComment) => {
+        const aLocal = a.id.indexOf('local-') === 0 ? 1 : 0;
+        const bLocal = b.id.indexOf('local-') === 0 ? 1 : 0;
+        if (aLocal !== bLocal) {
+          return bLocal - aLocal;
+        }
+        if (aLocal === 1 && bLocal === 1) {
+          return b.id.localeCompare(a.id);
+        }
+        // 非本地：按数组原下标倒序 —— 用 id 字符串弱近似
+        return b.id.localeCompare(a.id);
+      });
+    }
+    return arr;
+  }
+
+  private openUserProfile(
+    name: string,
+    avatarColor: string,
+    avatarText: string,
+    levelLabel: string = '',
+    authorId: string = ''
+  ): void {
+    router.pushUrl({
+      url: HomeRoutes.USER_PROFILE,
+      params: {
+        name: name,
+        avatarColor: avatarColor,
+        avatarText: avatarText,
+        levelLabel: levelLabel,
+        authorId: authorId,
+      },
+    });
+  }
+
+  private openImagePreview(index: number): void {
+    router.pushUrl({
+      url: HomeRoutes.IMAGE_PREVIEW,
+      params: { postId: this.postId, index: index },
+    });
+  }
+
+  private toggleCommentLike(commentId: string): void {
+    const liked = this.isCommentLiked(commentId);
+    const nextLiked: string[] = [];
+    for (let i = 0; i < this.likedCommentIds.length; i++) {
+      if (this.likedCommentIds[i] !== commentId) {
+        nextLiked.push(this.likedCommentIds[i]);
+      }
+    }
+    if (!liked) {
+      nextLiked.push(commentId);
+    }
+    // 只改 @State 点赞集合；赞数由 displayCommentLikeCount 推导，避免 ForEach 同 key 不刷新数字
+    this.likedCommentIds = nextLiked;
+    this.persist();
+  }
+
+  private persist(): void {
+    if (!this.detail || this.postId.length === 0) {
+      return;
+    }
+    const extra: PostComment[] = [];
+    const replyBundles: LocalReplyBundle[] = [];
+    for (let i = 0; i < this.comments.length; i++) {
+      const c = this.comments[i];
+      if (c.id.indexOf('local-') === 0) {
+        extra.push(c);
+      } else {
+        const localRs: CommentReply[] = [];
+        for (let r = 0; r < c.replies.length; r++) {
+          if (c.replies[r].id.indexOf('local-') === 0) {
+            localRs.push(c.replies[r]);
+          }
+        }
+        if (localRs.length > 0) {
+          replyBundles.push({ parentId: c.id, replies: localRs });
+        }
+      }
+    }
+    const state: PostInteractState = {
+      liked: this.liked,
+      starred: this.starred,
+      awarded: this.awarded,
+      following: this.following,
+      likeCount: this.likeCount,
+      starCount: this.starCount,
+      awardCount: this.awardCount,
+      commentCount: this.commentCount,
+      extraComments: extra,
+      extraReplies: replyBundles,
+      likedCommentIds: this.likedCommentIds.slice(),
+    };
+    HomeInteractStore.save(getContext(this) as Context, this.postId, state);
   }
 
   onPageShow(): void {
@@ -102,6 +382,7 @@ export struct PostDetailPage {
       this.liked = true;
       this.likeCount = this.likeCount + 1;
     }
+    this.persist();
   }
 
   private toggleStar(): void {
@@ -112,6 +393,7 @@ export struct PostDetailPage {
       this.starred = true;
       this.starCount = this.starCount + 1;
     }
+    this.persist();
   }
 
   private toggleAward(): void {
@@ -123,6 +405,28 @@ export struct PostDetailPage {
       this.awardCount = this.awardCount + 1;
       promptAction.showToast({ message: '充电成功（mock）', duration: 1500 });
     }
+    this.persist();
+  }
+
+  private toggleFollowing(): void {
+    this.following = !this.following;
+    this.persist();
+  }
+
+  private openComposer(commentId: string = '', name: string = ''): void {
+    this.replyToCommentId = commentId;
+    this.replyToName = name;
+    this.showComposer = true;
+    if (commentId.length > 0) {
+      this.scrollToComments();
+    }
+  }
+
+  private closeComposer(): void {
+    this.showComposer = false;
+    this.replyToCommentId = '';
+    this.replyToName = '';
+    this.draft = '';
   }
 
   private submitComment(): void {
@@ -134,6 +438,50 @@ export struct PostDetailPage {
     if (!this.detail) {
       return;
     }
+
+    // 回复某条评论 → 挂到该楼层 replies
+    if (this.replyToCommentId.length > 0) {
+      const parentId = this.replyToCommentId;
+      const reply: CommentReply = {
+        id: `local-r-${Date.now()}`,
+        authorName: '我',
+        isAuthor: false,
+        content: text,
+        timeText: '刚刚',
+        region: '本地',
+        replyToName: this.replyToName,
+      };
+      const next: PostComment[] = [];
+      for (let i = 0; i < this.comments.length; i++) {
+        const c = this.comments[i];
+        if (c.id === parentId) {
+          const replies: CommentReply[] = [reply];
+          for (let j = 0; j < c.replies.length; j++) {
+            replies.push(c.replies[j]);
+          }
+          next.push(this.cloneComment(c, c.likeCount, replies, c.replyTotal + 1));
+        } else {
+          next.push(c);
+        }
+      }
+      this.comments = next;
+      this.commentCount = this.commentCount + 1;
+      // 展开该楼，避免只预览前 2 条时看不到新回复；并依赖 ForEach key 含 replies.length 强制重绘
+      if (this.expandedCommentIds.indexOf(parentId) < 0) {
+        const exp: string[] = [];
+        for (let i = 0; i < this.expandedCommentIds.length; i++) {
+          exp.push(this.expandedCommentIds[i]);
+        }
+        exp.push(parentId);
+        this.expandedCommentIds = exp;
+      }
+      this.closeComposer();
+      this.scrollToComments();
+      this.persist();
+      promptAction.showToast({ message: '回复已发布（mock）', duration: 1200 });
+      return;
+    }
+
     const item: PostComment = {
       id: `local-${Date.now()}`,
       authorName: '我',
@@ -158,9 +506,9 @@ export struct PostDetailPage {
     }
     this.comments = next;
     this.commentCount = this.commentCount + 1;
-    this.draft = '';
-    this.showComposer = false;
+    this.closeComposer();
     this.scrollToComments();
+    this.persist();
     promptAction.showToast({ message: '评论已发布（mock）', duration: 1200 });
   }
 
@@ -187,42 +535,127 @@ export struct PostDetailPage {
       Image($r('app.media.chain'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'mita') {
       Image($r('app.media.mita'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'nba') {
       Image($r('app.media.nba'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'fighter') {
       Image($r('app.media.fighter'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'Palworld') {
       Image($r('app.media.Palworld'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'party') {
       Image($r('app.media.party'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'monster') {
       Image($r('app.media.monster'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
     } else if (key === 'OverCooked') {
       Image($r('app.media.OverCooked'))
         .width('100%')
         .height('100%')
-        .objectFit(ImageFit.Cover)
+        .objectFit(ImageFit.Contain)
+    } else if (key === 'scrape_fields1') {
+      Image($r('app.media.scrape_fields1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Contain)
+    } else if (key === 'scrape_fields2') {
+      Image($r('app.media.scrape_fields2'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Contain)
+    } else if (key === 'scrape_honor1') {
+      Image($r('app.media.scrape_honor1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Contain)
+    } else if (key === 'scrape_honor2') {
+      Image($r('app.media.scrape_honor2'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Contain)
+    } else if (key === 'scrape_tom1') {
+      Image($r('app.media.scrape_tom1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Contain)
+    } else if (key === 'scrape_gf1') {
+      Image($r('app.media.scrape_gf1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Contain)
+    } else if (key === 'scrape_greenhell1') {
+      Image($r('app.media.scrape_greenhell1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Contain)
+    } else if (key === 'scrape_jiahao1') {
+      Image($r('app.media.scrape_jiahao1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Contain)
+    } else if (key === 'scrape_muse1') {
+      Image($r('app.media.scrape_muse1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Contain)
+    } else if (key === 'scrape_doubao1') {
+      Image($r('app.media.scrape_doubao1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Contain)
+    } else if (key === 'scrape_messi1') {
+      Image($r('app.media.scrape_messi1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Contain)
+    } else if (key === 'scrape_cxmt1') {
+      Image($r('app.media.scrape_cxmt1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Contain)
+    } else if (key === 'scrape_wzry1') {
+      Image($r('app.media.scrape_wzry1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Contain)
+    } else if (key === 'scrape_cf1') {
+      Image($r('app.media.scrape_cf1'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Contain)
+    } else if (key === 'scrape_cf2') {
+      Image($r('app.media.scrape_cf2'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Contain)
+    } else if (key === 'scrape_cf3') {
+      Image($r('app.media.scrape_cf3'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Contain)
+    } else if (key === 'scrape_cf4') {
+      Image($r('app.media.scrape_cf4'))
+        .width('100%')
+        .height('100%')
+        .objectFit(ImageFit.Contain)
     } else {
       Column()
         .width('100%')
@@ -283,16 +716,19 @@ export struct PostDetailPage {
           .width(36)
           .onClick(() => router.back())
 
-        this.AvatarBuilder(28, d.authorAvatarColor, d.authorAvatarText)
-
-        Text(d.authorName)
-          .fontSize(14)
-          .fontWeight(FontWeight.Medium)
-          .fontColor('#1A1A1A')
-          .margin({ left: 8 })
-          .maxLines(1)
-          .textOverflow({ overflow: TextOverflow.Ellipsis })
-          .constraintSize({ maxWidth: 120 })
+        Row() {
+          this.AvatarBuilder(28, d.authorAvatarColor, d.authorAvatarText)
+          Text(d.authorName)
+            .fontSize(14)
+            .fontWeight(FontWeight.Medium)
+            .fontColor('#1A1A1A')
+            .margin({ left: 8 })
+            .maxLines(1)
+            .textOverflow({ overflow: TextOverflow.Ellipsis })
+            .constraintSize({ maxWidth: 120 })
+        }
+        .onClick(() => this.openUserProfile(
+          d.authorName, d.authorAvatarColor, d.authorAvatarText, d.levelLabel))
 
         Text(this.following ? '已关注' : '+ 关注')
           .fontSize(12)
@@ -301,9 +737,7 @@ export struct PostDetailPage {
           .padding({ left: 10, right: 10, top: 5, bottom: 5 })
           .borderRadius(14)
           .margin({ left: 8 })
-          .onClick(() => {
-            this.following = !this.following;
-          })
+          .onClick(() => this.toggleFollowing())
 
         Blank()
 
@@ -328,43 +762,47 @@ export struct PostDetailPage {
         .width('100%')
 
       Row() {
-        this.AvatarBuilder(40, d.authorAvatarColor, d.authorAvatarText)
+        Row() {
+          this.AvatarBuilder(40, d.authorAvatarColor, d.authorAvatarText)
 
-        Column() {
-          Row() {
-            Text(d.authorName)
-              .fontSize(14)
-              .fontWeight(FontWeight.Medium)
-              .fontColor('#1A1A1A')
-            if (d.isOfficial) {
-              Text('✔')
-                .fontSize(10)
-                .fontColor(Color.White)
-                .backgroundColor('#3B82F6')
-                .width(14)
-                .height(14)
-                .textAlign(TextAlign.Center)
-                .borderRadius(7)
-                .margin({ left: 4 })
+          Column() {
+            Row() {
+              Text(d.authorName)
+                .fontSize(14)
+                .fontWeight(FontWeight.Medium)
+                .fontColor('#1A1A1A')
+              if (d.isOfficial) {
+                Text('✔')
+                  .fontSize(10)
+                  .fontColor(Color.White)
+                  .backgroundColor('#3B82F6')
+                  .width(14)
+                  .height(14)
+                  .textAlign(TextAlign.Center)
+                  .borderRadius(7)
+                  .margin({ left: 4 })
+              }
+              if (d.levelLabel !== '') {
+                Text(d.levelLabel)
+                  .fontSize(10)
+                  .fontColor('#C47B00')
+                  .backgroundColor('#FFF3D6')
+                  .padding({ left: 5, right: 5, top: 1, bottom: 1 })
+                  .borderRadius(4)
+                  .margin({ left: 6 })
+              }
             }
-            if (d.levelLabel !== '') {
-              Text(d.levelLabel)
-                .fontSize(10)
-                .fontColor('#C47B00')
-                .backgroundColor('#FFF3D6')
-                .padding({ left: 5, right: 5, top: 1, bottom: 1 })
-                .borderRadius(4)
-                .margin({ left: 6 })
-            }
+            Text(`${d.publishTime}·${d.region}`)
+              .fontSize(11)
+              .fontColor('#B0B0B0')
+              .margin({ top: 3 })
           }
-          Text(`${d.publishTime}·${d.region}`)
-            .fontSize(11)
-            .fontColor('#B0B0B0')
-            .margin({ top: 3 })
+          .alignItems(HorizontalAlign.Start)
+          .margin({ left: 10 })
         }
-        .alignItems(HorizontalAlign.Start)
-        .margin({ left: 10 })
         .layoutWeight(1)
+        .onClick(() => this.openUserProfile(
+          d.authorName, d.authorAvatarColor, d.authorAvatarText, d.levelLabel))
 
         Text(this.following ? '已关注' : '+ 关注')
           .fontSize(13)
@@ -372,9 +810,7 @@ export struct PostDetailPage {
           .backgroundColor(this.following ? '#F0F0F0' : '#1A1A1A')
           .padding({ left: 12, right: 12, top: 6, bottom: 6 })
           .borderRadius(16)
-          .onClick(() => {
-            this.following = !this.following;
-          })
+          .onClick(() => this.toggleFollowing())
       }
       .width('100%')
       .margin({ top: 16 })
@@ -402,17 +838,24 @@ export struct PostDetailPage {
       }
       .width('100%')
 
-      Stack({ alignContent: Alignment.BottomEnd }) {
-        this.MediaByKey(d.heroMediaKey, d.heroColor)
-        Text('小黑盒')
-          .fontSize(11)
-          .fontColor('rgba(255,255,255,0.85)')
-          .margin({ right: 10, bottom: 10 })
+      Column({ space: 8 }) {
+        ForEach(this.detailMediaKeys(d), (key: string, i: number) => {
+          Stack({ alignContent: Alignment.BottomEnd }) {
+            this.MediaByKey(key, d.heroColor)
+            Text('小黑盒')
+              .fontSize(11)
+              .fontColor('rgba(255,255,255,0.85)')
+              .margin({ right: 10, bottom: 10 })
+          }
+          .width('100%')
+          .aspectRatio(this.mediaAspectRatio(key))
+          .borderRadius(10)
+          .clip(true)
+          .backgroundColor(d.heroColor.length > 0 ? d.heroColor : '#F3F4F6')
+          .onClick(() => this.openImagePreview(i))
+        }, (key: string, i: number) => `${i}|${key}`)
       }
       .width('100%')
-      .height(200)
-      .borderRadius(10)
-      .clip(true)
       .margin({ top: 14 })
 
       if (d.caption !== '') {
@@ -581,6 +1024,8 @@ export struct PostDetailPage {
               .borderRadius({ topLeft: 8, bottomRight: 6 })
           }
         }
+        .onClick(() => this.openUserProfile(
+          comment.authorName, comment.authorAvatarColor, comment.authorAvatarText, comment.levelLabel))
 
         Column() {
           Row() {
@@ -588,6 +1033,8 @@ export struct PostDetailPage {
               .fontSize(14)
               .fontWeight(FontWeight.Medium)
               .fontColor('#1A1A1A')
+              .onClick(() => this.openUserProfile(
+                comment.authorName, comment.authorAvatarColor, comment.authorAvatarText, comment.levelLabel))
             if (comment.isAuthor) {
               Text('作者')
                 .fontSize(10)
@@ -618,9 +1065,18 @@ export struct PostDetailPage {
                 .margin({ left: 6 })
             }
             Blank()
-            Text(`👍 ${comment.likeCount}`)
-              .fontSize(12)
-              .fontColor('#B0B0B0')
+            Row() {
+              Image(this.isCommentLiked(comment.id) ? $r('app.media.ic_like_on') : $r('app.media.ic_like_muted'))
+                .width(14)
+                .height(14)
+                .objectFit(ImageFit.Contain)
+              Text(`${this.displayCommentLikeCount(comment)}`)
+                .fontSize(12)
+                .fontColor(this.isCommentLiked(comment.id) ? '#1A1A1A' : '#B0B0B0')
+                .fontWeight(this.isCommentLiked(comment.id) ? FontWeight.Medium : FontWeight.Normal)
+                .margin({ left: 3 })
+            }
+            .onClick(() => this.toggleCommentLike(comment.id))
           }
           .width('100%')
 
@@ -635,6 +1091,12 @@ export struct PostDetailPage {
             .lineHeight(22)
             .margin({ top: 8 })
             .width('100%')
+
+          Text('回复')
+            .fontSize(12)
+            .fontColor('#888888')
+            .margin({ top: 8 })
+            .onClick(() => this.openComposer(comment.id, comment.authorName))
 
           if (comment.imageKey !== '') {
             Stack() {
@@ -714,18 +1176,34 @@ export struct PostDetailPage {
           .fontWeight(FontWeight.Bold)
           .fontColor('#1A1A1A')
         Blank()
-        Text('热门')
-          .fontSize(13)
-          .fontColor('#888888')
+        Row() {
+          Text('热门')
+            .fontSize(13)
+            .fontColor(this.commentSort === 0 ? '#1A1A1A' : '#888888')
+            .fontWeight(this.commentSort === 0 ? FontWeight.Medium : FontWeight.Normal)
+            .onClick(() => {
+              this.commentSort = 0;
+            })
+          Text(' | ')
+            .fontSize(13)
+            .fontColor('#CCCCCC')
+          Text('最新')
+            .fontSize(13)
+            .fontColor(this.commentSort === 1 ? '#1A1A1A' : '#888888')
+            .fontWeight(this.commentSort === 1 ? FontWeight.Medium : FontWeight.Normal)
+            .onClick(() => {
+              this.commentSort = 1;
+            })
+        }
       }
       .width('100%')
       .padding({ left: 16, right: 16 })
       .margin({ bottom: 12 })
 
       Column() {
-        ForEach(this.comments, (c: PostComment) => {
+        ForEach(this.sortedComments(), (c: PostComment) => {
           this.CommentItemBuilder(c)
-        }, (c: PostComment) => c.id)
+        }, (c: PostComment) => `${this.commentSort}|${c.id}|r${c.replies.length}|t${c.replyTotal}|l${this.displayCommentLikeCount(c)}`)
       }
       .width('100%')
       .padding({ left: 16, right: 16 })
@@ -745,8 +1223,28 @@ export struct PostDetailPage {
   BottomBarBuilder() {
     Column() {
       if (this.showComposer) {
+        if (this.replyToName.length > 0) {
+          Row() {
+            Text(`回复 @${this.replyToName}`)
+              .fontSize(12)
+              .fontColor('#888888')
+              .layoutWeight(1)
+            Text('取消')
+              .fontSize(12)
+              .fontColor('#3B6FE0')
+              .onClick(() => {
+                this.replyToCommentId = '';
+                this.replyToName = '';
+              })
+          }
+          .width('100%')
+          .padding({ left: 16, right: 16, top: 8, bottom: 0 })
+        }
         Row() {
-          TextInput({ text: this.draft, placeholder: '来说点什么吧!' })
+          TextInput({
+            text: this.draft,
+            placeholder: this.replyToName.length > 0 ? `回复 ${this.replyToName}` : '来说点什么吧!',
+          })
             .layoutWeight(1)
             .height(36)
             .fontSize(14)
@@ -778,16 +1276,21 @@ export struct PostDetailPage {
           .backgroundColor('#F3F4F6')
           .borderRadius(20)
           .onClick(() => {
-            this.showComposer = !this.showComposer;
+            if (this.showComposer) {
+              this.closeComposer();
+            } else {
+              this.openComposer();
+            }
           })
 
         Column() {
-          Text('👍')
-            .fontSize(18)
-            .fontColor(this.liked ? '#FF5A5A' : '#1A1A1A')
+          Image(this.liked ? $r('app.media.ic_like_on') : $r('app.media.ic_like'))
+            .width(22)
+            .height(22)
+            .objectFit(ImageFit.Contain)
           Text(`${this.likeCount}`)
             .fontSize(10)
-            .fontColor(this.liked ? '#FF5A5A' : '#666666')
+            .fontColor(this.liked ? '#1A1A1A' : '#666666')
             .fontWeight(this.liked ? FontWeight.Medium : FontWeight.Normal)
             .margin({ top: 2 })
         }
@@ -796,9 +1299,10 @@ export struct PostDetailPage {
         .onClick(() => this.toggleLike())
 
         Column() {
-          Text(this.starred ? '★' : '☆')
-            .fontSize(18)
-            .fontColor(this.starred ? '#F5A623' : '#1A1A1A')
+          Image(this.starred ? $r('app.media.ic_star_on') : $r('app.media.ic_star'))
+            .width(22)
+            .height(22)
+            .objectFit(ImageFit.Contain)
           Text(`${this.starCount}`)
             .fontSize(10)
             .fontColor(this.starred ? '#F5A623' : '#666666')
@@ -808,9 +1312,10 @@ export struct PostDetailPage {
         .onClick(() => this.toggleStar())
 
         Column() {
-          Text('⚡')
-            .fontSize(18)
-            .fontColor(this.awarded ? '#FF7A00' : '#1A1A1A')
+          Image(this.awarded ? $r('app.media.ic_charge_on') : $r('app.media.ic_charge'))
+            .width(22)
+            .height(22)
+            .objectFit(ImageFit.Contain)
           Text(`${this.awardCount}`)
             .fontSize(10)
             .fontColor(this.awarded ? '#FF7A00' : '#666666')
@@ -820,8 +1325,10 @@ export struct PostDetailPage {
         .onClick(() => this.toggleAward())
 
         Column() {
-          Text('💬')
-            .fontSize(18)
+          Image($r('app.media.ic_comment'))
+            .width(22)
+            .height(22)
+            .objectFit(ImageFit.Contain)
           Text(`${this.commentCount}`)
             .fontSize(10)
             .fontColor('#666666')
@@ -829,7 +1336,7 @@ export struct PostDetailPage {
         }
         .width(44)
         .onClick(() => {
-          this.showComposer = true;
+          this.openComposer();
           this.scrollToComments();
         })
       }

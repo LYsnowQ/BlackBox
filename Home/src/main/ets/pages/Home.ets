@@ -1,3 +1,6 @@
+import { router } from '@kit.ArkUI';
+import { HomeInteractStore } from '../model/HomeInteractStore';
+import { HomeRoutes } from '../router/HomeRoutes';
 import { FollowFeed } from './FollowFeed';
 import { HomeRecommend } from './HomeRecommend';
 
@@ -5,6 +8,18 @@ import { HomeRecommend } from './HomeRecommend';
 export struct Home {
   /** 0 = 关注，1 = 推荐（默认推荐，与截图一致） */
   @State topTabIndex: number = 1;
+
+  aboutToAppear(): void {
+    HomeInteractStore.ensureLoaded(getContext(this) as Context);
+  }
+
+  private goSearch(): void {
+    router.pushUrl({ url: HomeRoutes.SEARCH });
+  }
+
+  private goMessages(): void {
+    router.pushUrl({ url: HomeRoutes.MESSAGES });
+  }
 
   @Builder
   HeaderBuilder() {
@@ -31,13 +46,17 @@ export struct Home {
       Blank()
 
       Row() {
-        Text('🔍')
-          .fontSize(18)
-          .fontColor('#1A1A1A')
-          .margin({ right: 18 })
-        Text('✉️')
-          .fontSize(18)
-          .fontColor('#1A1A1A')
+        Image($r('app.media.ic_search'))
+          .width(22)
+          .height(22)
+          .objectFit(ImageFit.Contain)
+          .margin({ right: 16 })
+          .onClick(() => this.goSearch())
+        Image($r('app.media.ic_mail'))
+          .width(22)
+          .height(22)
+          .objectFit(ImageFit.Contain)
+          .onClick(() => this.goMessages())
       }
     }
     .width('100%')

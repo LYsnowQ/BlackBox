@@ -1,0 +1,773 @@
+已根据截图提取完整内容，结构化 JSON 如下：
+
+```json
+[
+  {
+    "folder": 7,
+    "authorName": "骷髅会梦到骸骨羊吗",
+    "levelLabel": "Lv.17",
+    "isOfficial": false,
+    "publishTime": "昨天10:47",
+    "region": "山东",
+    "fullTitle": "抽这期公孙离皮肤时注意一下",
+    "summary": "充值一定要在活动页面充！！！",
+    "bodyParagraphs": [
+      "充值一定要在活动页面充！！！",
+      "我为了图省事，直接在游戏里充了，导致没有送的抽数，感觉血亏"
+    ],
+    "circles": ["王者荣耀"],
+    "topicTags": [],
+    "gameTag": "王者荣耀",
+    "circleIdGuess": "chat",
+    "hotTag": "",
+    "likeCount": 35,
+    "starCount": 3,
+    "awardCount": null,
+    "commentCount": 70,
+    "imageCount": 1,
+    "imageDesc": "王者荣耀「返场祈愿」活动页：公孙离·祈雪灵祝等皮肤展示，单抽6/十抽60，充值得抽数档位表",
+    "comments": [
+      {
+        "authorName": "呀咩日",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "一想到再过个三四年这几年的年兽也要抽我就要哭",
+        "likeCount": 0,
+        "replies": [
+          {
+            "authorName": "我啥对下玩年兽",
+            "isAuthor": false,
+            "content": "永远有小猪或者各种菜都让我哭",
+            "timeText": "",
+            "region": "",
+            "replyToName": ""
+          },
+          {
+            "authorName": "是吧",
+            "isAuthor": false,
+            "content": "没事，这四年年兽已经全拿了",
+            "timeText": "",
+            "region": "",
+            "replyToName": ""
+          },
+          {
+            "authorName": "钟爱青叶开",
+            "isAuthor": false,
+            "content": "今年这个年兽谁也舍不得买了！",
+            "timeText": "",
+            "region": "广西",
+            "replyToName": ""
+          },
+          {
+            "authorName": "强子手",
+            "isAuthor": false,
+            "content": "马年兽确实难看",
+            "timeText": "",
+            "region": "",
+            "replyToName": ""
+          },
+          {
+            "authorName": "心安",
+            "isAuthor": false,
+            "content": "这玩意年兽自己也买不了",
+            "timeText": "",
+            "region": "",
+            "replyToName": ""
+          },
+          {
+            "authorName": "Aurory",
+            "isAuthor": false,
+            "content": "一抽三抽都一样",
+            "timeText": "",
+            "region": "",
+            "replyToName": "心安"
+          },
+          {
+            "authorName": "W",
+            "isAuthor": false,
+            "content": "年兽刚出第一眼：简直个好皮+好了，后面越发着三四五六就……",
+            "timeText": "",
+            "region": "",
+            "replyToName": ""
+          },
+          {
+            "authorName": "年兽我名字的是孤儿",
+            "isAuthor": false,
+            "content": "感觉一般，特效难看太严重，没怎么新的设计，就靠红C拿手感好了一点",
+            "timeText": "",
+            "region": "",
+            "replyToName": "强子手"
+          },
+          {
+            "authorName": "玩家59158648",
+            "isAuthor": false,
+            "content": "特效下塌，建模确实……",
+            "timeText": "",
+            "region": "",
+            "replyToName": "强子手"
+          }
+        ]
+      },
+      {
+        "authorName": "我不玩小学生",
+        "levelLabel": "Lv.17",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "買下来花了420点券一个星传说吧",
+        "likeCount": 17,
+        "replies": [
+          {
+            "authorName": "大白兔·北方兔兔",
+            "isAuthor": false,
+            "content": "这么便宜啊？之前不是要2000吗",
+            "timeText": "",
+            "region": "",
+            "replyToName": ""
+          },
+          {
+            "authorName": "0豆南",
+            "isAuthor": false,
+            "content": "你不看号就自己过了549吗耗了",
+            "timeText": "",
+            "region": "",
+            "replyToName": "大白兔·北方兔兔"
+          },
+          {
+            "authorName": "骷髅会梦到骸骨羊吗",
+            "isAuthor": true,
+            "content": "会员，会员，和欧服MA比",
+            "timeText": "",
+            "region": "",
+            "replyToName": "大白兔·北方兔兔"
+          },
+          {
+            "authorName": "大白兔·北方兔兔",
+            "isAuthor": false,
+            "content": "有意思只想要个公孙离星元",
+            "timeText": "",
+            "region": "",
+            "replyToName": "骷髅会梦到骸骨羊吗"
+          },
+          {
+            "authorName": "我不玩小学生",
+            "isAuthor": false,
+            "content": "确实有点低 两个十连能有50?",
+            "timeText": "",
+            "region": "",
+            "replyToName": "骷髅会梦到骸骨羊吗"
+          },
+          {
+            "authorName": "我不玩小学生",
+            "isAuthor": false,
+            "content": "是的 星传说和传说皮肤都算",
+            "timeText": "",
+            "region": "",
+            "replyToName": "大白兔·北方兔兔"
+          },
+          {
+            "authorName": "我不玩小学生",
+            "isAuthor": false,
+            "content": "准备吃1抽3块",
+            "timeText": "",
+            "region": "",
+            "replyToName": "首日重医"
+          },
+          {
+            "authorName": "牢c做好了",
+            "isAuthor": false,
+            "content": "有星巧抽送抽计，非常送1抽",
+            "timeText": "",
+            "region": "",
+            "replyToName": "大白兔·北方兔兔"
+          },
+          {
+            "authorName": "braindrift",
+            "isAuthor": false,
+            "content": "我花了130左右",
+            "timeText": "",
+            "region": "",
+            "replyToName": ""
+          },
+          {
+            "authorName": "白墨",
+            "isAuthor": false,
+            "content": "这活动能用现有已经有的点券抽吗",
+            "timeText": "",
+            "region": "",
+            "replyToName": "骷髅会梦到骸骨羊吗"
+          },
+          {
+            "authorName": "骷髅会梦到骸骨羊吗",
+            "isAuthor": true,
+            "content": "可以的",
+            "timeText": "",
+            "region": "",
+            "replyToName": "白墨"
+          }
+        ]
+      },
+      {
+        "authorName": "Dearki",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "大难了，一堆楼主说多欠多年的一年，你农为了返场服，结果来个抽奖返场",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "dddddd",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "欢颜请多保重。非要买满血，混蛋的我",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "库拉奇幽冥",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "各种抽多发",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "阳光男孩IV",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "满贯它这个要充200才有优惠券好死我充了200，但只花了143，多充的钱会以点券形式放到我的账号上，还是说这个界面？",
+        "likeCount": 6,
+        "replies": [
+          {
+            "authorName": "骷髅会梦到骸骨羊吗",
+            "isAuthor": true,
+            "content": "留在账号上",
+            "timeText": "",
+            "region": "",
+            "replyToName": ""
+          },
+          {
+            "authorName": "阳光男孩IV",
+            "isAuthor": false,
+            "content": "ok谢谢",
+            "timeText": "",
+            "region": "",
+            "replyToName": "骷髅会梦到骸骨羊吗"
+          }
+        ]
+      },
+      {
+        "authorName": "君井肘肘肘",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "如果大家有雪兔和时雨两个英雄的，这次拿一个648直接赚了都快了，包括雪兔和时雨两个皮肤的星元、吕布牛魔的皮肤以及吕布的星元件，没有任何东西是抽出来的，全部积分换的。说得大爹爹爹，上一次吕布神装返场那个也挺贵，不过都外抽了吕布的狼神王装，看起来没那么亏罢了。",
+        "likeCount": 3,
+        "replies": [
+          {
+            "authorName": "谦言云意",
+            "isAuthor": false,
+            "content": "意思是648砸了两个传说+一个领羽",
+            "timeText": "",
+            "region": "",
+            "replyToName": ""
+          },
+          {
+            "authorName": "Tfahh",
+            "isAuthor": false,
+            "content": "你这个意思就对了吧",
+            "timeText": "",
+            "region": "",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "CYNIght",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "王者真是日了设了，抽子里是充钱有，就想充100一把传说抽出来，结果非的没变，220一个传说，我抽大乔和孙策的花嫁星传说两个加起来才花300，端抽奖里的皮皮",
+        "likeCount": 1,
+        "replies": [
+          {
+            "authorName": "Tfahh",
+            "isAuthor": false,
+            "content": "每次都是6分还是吧? 我这抽奖就是要做好打的打算",
+            "timeText": "",
+            "region": "",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "岁月日",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "看了一下，这个页面里点券把最高档的奖励拿满，然后再转，剩下点券可以留着下次用，買下来一百不到一个传说哇",
+        "likeCount": 3,
+        "replies": []
+      },
+      {
+        "authorName": "启科cxk",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "这么贵不知道值不值啊",
+        "likeCount": 0,
+        "replies": [
+          {
+            "authorName": "高手小",
+            "isAuthor": false,
+            "content": "我抽这个了",
+            "timeText": "",
+            "region": "",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "皇☆々☆さい",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "哎，返场的老皮肤，除了本身没几人看上上架的",
+        "likeCount": 2,
+        "replies": []
+      },
+      {
+        "authorName": "苏拉波的羊驼精",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "价格还是有些贵，不过传说皮肤好了大爹爹爹的时候买了，虽然原价买的，感觉至少比现在便宜",
+        "likeCount": 2,
+        "replies": []
+      },
+      {
+        "authorName": "南海我",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "買下了，一个传说皮肤大概在404，本来还打算的现在完全没必要了，继续玩我的无敌了",
+        "likeCount": 1,
+        "replies": []
+      },
+      {
+        "authorName": "1分小猪",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "牛牛皮肤多少钱",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "大狼狼带带",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "我抽了170",
+        "likeCount": 0,
+        "replies": [
+          {
+            "authorName": "蛋名粉粉",
+            "isAuthor": false,
+            "content": "买满时648",
+            "timeText": "",
+            "region": "",
+            "replyToName": "大狼狼带带"
+          }
+        ]
+      },
+      {
+        "authorName": "隐云",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "年少无知就太多了现在玩不起来了",
+        "likeCount": 1,
+        "replies": []
+      },
+      {
+        "authorName": "我才不是张女红",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "你这些都有加特好",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "大布布即非即",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "花了之后就一个星传说跟强健",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "风宁宁",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "这么夸张吗，感觉不是很准。136拿了",
+        "likeCount": 0,
+        "replies": [
+          {
+            "authorName": "Haoranran",
+            "isAuthor": false,
+            "content": "136拿下传说和强健",
+            "timeText": "",
+            "region": "",
+            "replyToName": "风宁宁"
+          },
+          {
+            "authorName": "风宁宁",
+            "isAuthor": false,
+            "content": "公孙离星传说和强健",
+            "timeText": "",
+            "region": "",
+            "replyToName": "Haoranran"
+          }
+        ]
+      },
+      {
+        "authorName": "SSSSssss",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "还是我太贪了 我还是坚持皮肤第一时间买，错过了毕竟少那一个皮肤也不是不能玩",
+        "likeCount": 0,
+        "replies": [
+          {
+            "authorName": "骷髅会梦到骸骨羊吗",
+            "isAuthor": true,
+            "content": "对，我也是第一时间买，早有折扣，晚买就贵",
+            "timeText": "",
+            "region": "",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "两五不和合",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "所以这个活动在哪",
+        "likeCount": 0,
+        "replies": []
+      },
+      {
+        "authorName": "NumberBrother",
+        "levelLabel": "",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "",
+        "region": "",
+        "content": "我服了，B的史诗，我抽了34抽",
+        "likeCount": 0,
+        "replies": []
+      }
+    ]
+  },
+  {
+    "folder": 8,
+    "authorName": "JulyEDC",
+    "levelLabel": "Lv.19",
+    "isOfficial": false,
+    "publishTime": "昨天19:04",
+    "region": "广东",
+    "fullTitle": "宏伟的科技大厦原来这么脆弱（",
+    "summary": "太难绷了",
+    "bodyParagraphs": [
+      "太难绷了"
+    ],
+    "circles": ["数码硬件", "沙雕日常"],
+    "topicTags": [],
+    "gameTag": "",
+    "circleIdGuess": "digital",
+    "hotTag": "",
+    "likeCount": 22,
+    "starCount": 38,
+    "awardCount": null,
+    "commentCount": 19,
+    "imageCount": 4,
+    "imageDesc": "Cloudflare托起一堆主流网站的梗图 | 现代数字基础设施层层叠叠梗图（电→芯片→Linux→Cloudflare/AWS→前端） | 同架构图加愤怒的小鸟角色恶搞版 | 扩展宇宙梗图：笔记本上网用途占比+地球+熵+量子真空衰变",
+    "comments": [
+      {
+        "authorName": "经典飞机悲",
+        "levelLabel": "Lv.21",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "昨天20:13",
+        "region": "北京",
+        "content": "还记得去年年底cloudflare的一个神秘更新直接炸掉了半个互联网",
+        "likeCount": 100,
+        "replies": [
+          {
+            "authorName": "鲁能边缘赵本山",
+            "isAuthor": false,
+            "content": "真正的原子弹这一块",
+            "timeText": "昨天21:47",
+            "region": "山东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "卷出ptsd的摆摆柠檬精",
+            "isAuthor": false,
+            "content": "还有2024年的CrowdStrike",
+            "timeText": "7小时前",
+            "region": "江苏",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "回響o",
+        "levelLabel": "Lv.19",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "昨天19:32",
+        "region": "上海",
+        "content": "这验证老卡我",
+        "likeCount": 31,
+        "replies": [
+          {
+            "authorName": "Moriecho",
+            "isAuthor": false,
+            "content": "没办法，坏人太多",
+            "timeText": "昨天19:49",
+            "region": "辽宁",
+            "replyToName": ""
+          },
+          {
+            "authorName": "寄叶机体9号S型",
+            "isAuthor": false,
+            "content": "666还有机器人发帖",
+            "timeText": "昨天19:58",
+            "region": "江苏",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "sbeam",
+        "levelLabel": "Lv.20",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "昨天20:47",
+        "region": "河北",
+        "content": "显然，作基底没什么油水。",
+        "likeCount": 8,
+        "replies": []
+      },
+      {
+        "authorName": "lingyushan",
+        "levelLabel": "Lv.17",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "昨天19:15",
+        "region": "吉林",
+        "content": "什么屎山科技树",
+        "likeCount": 2,
+        "replies": []
+      },
+      {
+        "authorName": "MUIili",
+        "levelLabel": "Lv.19",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "昨天21:44",
+        "region": "北京",
+        "content": "基于很多开源项目的，开源项目维护没什么钱，纯热爱和攒经验，所以互联网真的就在开源项目岌岌可危的地基上来的",
+        "likeCount": 9,
+        "replies": []
+      },
+      {
+        "authorName": "FZ超蛋白小熊饼干",
+        "levelLabel": "Lv.20",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "3小时前",
+        "region": "内蒙古",
+        "content": "去年对邓煜的采访时，人家说流体力学的一部分东西是得承认流体在微观层面是“稀疏气体”才能运行的",
+        "likeCount": 4,
+        "replies": [
+          {
+            "authorName": "涅墨西斯2077",
+            "isAuthor": false,
+            "content": "是这样，一个是流体太混沌了，一个是超算的性能还没强大到每一个流体分子轨迹都能精准模拟",
+            "timeText": "3小时前",
+            "region": "广东",
+            "replyToName": ""
+          },
+          {
+            "authorName": "diosmentiras",
+            "isAuthor": false,
+            "content": "能模拟预测流体轨迹的模型估计能在一定程度上预测未来了",
+            "timeText": "55分钟前",
+            "region": "广东",
+            "replyToName": "涅墨西斯2077"
+          },
+          {
+            "authorName": "涅墨西斯2077",
+            "isAuthor": false,
+            "content": "现在其实也接近了，像气象台的超算，但大部分时候都是依赖往期案例推理，这种程度的超算只在《混沌蝴蝶》这个小说见过",
+            "timeText": "47分钟前",
+            "region": "广东",
+            "replyToName": "diosmentiras"
+          }
+        ]
+      },
+      {
+        "authorName": "Deuce",
+        "levelLabel": "Lv.16",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "昨天22:04",
+        "region": "内蒙古",
+        "content": "之前微软强制更新还是有bug蓝屏来着，全美机场瘫痪",
+        "likeCount": 6,
+        "replies": [
+          {
+            "authorName": "美味蘑菇一我是笨蛋",
+            "isAuthor": false,
+            "content": "微软是大屎山",
+            "timeText": "昨天23:04",
+            "region": "河南",
+            "replyToName": ""
+          },
+          {
+            "authorName": "卷出ptsd的摆摆柠檬精",
+            "isAuthor": false,
+            "content": "是CrowdStrike更新",
+            "timeText": "7小时前",
+            "region": "江苏",
+            "replyToName": ""
+          }
+        ]
+      },
+      {
+        "authorName": "涅墨西斯2077",
+        "levelLabel": "Lv.16",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "3小时前",
+        "region": "广东",
+        "content": "太屎山了，win一个小更能玩死一堆人（你猜我为什么用老系统），上次那个人机验证平台更新又是整死一堆平台",
+        "likeCount": 1,
+        "replies": []
+      },
+      {
+        "authorName": "Zyklone",
+        "levelLabel": "Lv.17",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "8小时前",
+        "region": "上海",
+        "content": "为什么rs要炸甲骨文",
+        "likeCount": 1,
+        "replies": []
+      },
+      {
+        "authorName": "TZ 吃我一发大伊万",
+        "levelLabel": "Lv.19",
+        "isAuthor": false,
+        "isOfficial": false,
+        "isPinned": false,
+        "timeText": "9小时前",
+        "region": "河北",
+        "content": "整个互联网其实就是屎山代码",
+        "likeCount": 0,
+        "replies": []
+      }
+    ]
+  }
+]
+```
+
+**备注**
+- 帖 7：`commentCount=70`（顶栏「全部评论 70」）；底栏互动约为赞 35 / 藏 3；评论区部分楼层等级、时间、地区在截图中被折叠或过小，已尽量按可见字还原，个别昵称/用词可能有近似。
+- 帖 8：顶栏显示「全部评论 8」但可见顶层评论更多，底栏评论数为 19，故 `commentCount` 取 19；赞 22 / 藏 38。
+- 未写入任何项目文件。

@@ -21,6 +21,12 @@ export class AppRoutes {
   // ── Home ──
   /** 帖子详情 params: { id: string, tab?: 'comment' } */
   static readonly HOME_POST_DETAIL: string = 'pages/Home/PostDetail';
+  /** 首页搜索 */
+  static readonly HOME_SEARCH: string = 'pages/Home/Search';
+  /** 用户主页 params: { name, avatarColor, avatarText, levelLabel?, authorId? } */
+  static readonly HOME_USER_PROFILE: string = 'pages/Home/UserProfile';
+  /** 配图预览 params: { postId: string, index?: number } */
+  static readonly HOME_IMAGE_PREVIEW: string = 'pages/Home/ImagePreview';
 
   // ── Hot ──
   /** 热点新闻详情 params: { id: string, themeMode?: 'light' | 'dark' } */
