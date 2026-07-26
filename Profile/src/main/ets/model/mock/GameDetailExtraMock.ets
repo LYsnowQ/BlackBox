@@ -3,6 +3,7 @@
  * 页面请走 api/GameCatalogApi。
  */
 import { getGameById } from './GameCatalogMock';
+import { profileBackground } from '../utils/ProfileMedia';
 import {
   CommunityPost,
   DatabaseItem,
@@ -21,7 +22,7 @@ export {
 export function getGameCommunityPosts(gameId: string): CommunityPost[] {
   const game = getGameById(gameId);
   const titleStr = game ? game.title : '这款游戏';
-  const cover = game?.coverImg ?? $r('app.media.background');
+  const cover = game?.coverImg ?? profileBackground();
 
   if (gameId === 'chained-together') {
     return [

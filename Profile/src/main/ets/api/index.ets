@@ -49,6 +49,12 @@ export {
 } from './GameCatalogApi';
 
 export {
+  fetchProfileCover,
+  getProfileCoverSync,
+  getProfileBackgroundSync,
+} from './MediaApi';
+
+export {
   fetchMessageSessions,
   fetchMessageSessionById,
   fetchChatMessages,

@@ -38,4 +38,7 @@ export {
   fetchMessageSessions,
   fetchChatMessages,
   sendChatMessage,
+  fetchProfileCover,
+  getProfileCoverSync,
+  getProfileBackgroundSync,
 } from './src/main/ets/api/index';

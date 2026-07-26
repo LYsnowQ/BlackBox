@@ -14,6 +14,7 @@ import {
   getGameDatabaseItemsSync,
   getGameRegionPricesSync,
 } from '../api/GameCatalogApi';
+import { getProfileBackgroundSync } from '../api/MediaApi';
 
 interface StatCell {
   value: string;
@@ -235,7 +236,7 @@ export struct ProfileGameDetailPage {
             .width('100%')
             .height('100%')
             .objectFit(ImageFit.Cover)
-            .alt($r('app.media.background'))
+            .alt(getProfileBackgroundSync())
         } else {
           Column() {
             Text(game.englishTitle.toUpperCase())

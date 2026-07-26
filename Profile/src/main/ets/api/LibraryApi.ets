@@ -13,6 +13,7 @@ import {
 } from '../model/types/LibraryModel';
 import { isLowestOrNew } from '../model/utils/LibraryFormat';
 import { MOCK_LIBRARY_GAMES } from '../model/mock/LibraryMock';
+import { getProfileCoverSync } from './MediaApi';
 
 function copyGame(g: LibraryGame): LibraryGame {
   const colors: string[] = [];
@@ -23,6 +24,9 @@ function copyGame(g: LibraryGame): LibraryGame {
     id: g.id,
     title: g.title,
     coverColors: colors,
+    coverKey: g.coverKey,
+    // 仅通过 Profile MediaApi 解析本 HAR media，不读 entry / 他模块资源名
+    coverImg: g.coverKey !== undefined ? getProfileCoverSync(g.coverKey) : g.coverImg,
     totalHours: g.totalHours,
     twoWeekHours: g.twoWeekHours,
     achievementUnlocked: g.achievementUnlocked,
