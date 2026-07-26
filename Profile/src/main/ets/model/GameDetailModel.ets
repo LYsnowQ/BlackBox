@@ -1,7 +1,7 @@
 /**
  * 游戏详情模块数据模型（社区帖子、数据库条目、全球区价）
  */
-import { GameItem, getGameById } from '../GameLibrary/GameLibraryModel';
+import { GameItem, getGameById } from './GameLibraryModel';
 
 export interface PostCommentReply {
   id?: string;

@@ -3,7 +3,7 @@ import {
   HeaderToolItem,
   getGameById,
   resolveProfileLibraryToGameId,
-} from '../../model/GameLibrary/GameLibraryModel';
+} from '../model/GameLibraryModel';
 import {
   getGameCommunityPosts,
   getGameDatabaseItems,
@@ -14,7 +14,7 @@ import {
   PostGameCard,
   DatabaseItem,
   RegionPrice,
-} from '../../model/GameDetail/GameDetailModel';
+} from '../model/GameDetailModel';
 
 interface StatCell {
   value: string;
@@ -50,13 +50,19 @@ export struct ProfileGameDetailPage {
   aboutToAppear(): void {
     try {
       const params = this.getUIContext().getRouter().getParams() as Record<string, Object>;
-      const rawId = params ? (params['id'] as string) : '';
-      const gameId = resolveProfileLibraryToGameId(rawId);
+      let rawId: string = '';
+      if (params !== undefined && params !== null) {
+        const idVal: Object | undefined = params['id'];
+        if (typeof idVal === 'string') {
+          rawId = idVal;
+        }
+      }
+      const gameId: string = resolveProfileLibraryToGameId(rawId);
       this.game = getGameById(gameId);
       if (this.game === undefined) {
         this.game = getGameById('palworld');
       }
-    } catch (err) {
+    } catch {
       this.game = getGameById('palworld');
     }
   }
@@ -93,7 +99,7 @@ export struct ProfileGameDetailPage {
         .onClick(() => {
           try {
             this.getUIContext().getRouter().back();
-          } catch (err) {
+          } catch {
           }
         })
 
@@ -852,7 +858,8 @@ export struct ProfileGameDetailPage {
                 this.postDetailTab = 1;
                 try {
                   this.postScroller.scrollTo({ xOffset: 0, yOffset: 0 });
-                } catch (e) {}
+                } catch {
+                }
               })
             }
             .layoutWeight(1)
@@ -1145,7 +1152,9 @@ export struct ProfileGameDetailPage {
 
                   if (this.replyingCommentId && this.replyTargetUser) {
                     // 玩家回复已有评论/回复
-                    const targetComment = post.comments.find((c) => c.id === this.replyingCommentId);
+                    const targetComment = post.comments.find(
+                      (c: PostComment) => c.id === this.replyingCommentId
+                    );
                     if (targetComment) {
                       const newReply: PostCommentReply = {
                         authorName: '盒友999',
@@ -1227,7 +1236,8 @@ export struct ProfileGameDetailPage {
               this.postDetailTab = 1;
               try {
                 this.postScroller.scrollTo({ xOffset: 0, yOffset: 0 });
-              } catch (e) {}
+              } catch {
+              }
             })
           }
           .width('100%')
