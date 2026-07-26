@@ -1,9 +1,7 @@
-import {
-  currentUser,
-  ProfileStat,
-  UserProfile,
-} from '../model/ProfileModel';
+import { ProfileStat, UserProfile } from '../model/types/UserModel';
+import { getCurrentUserSync } from '../api/UserApi';
 import { PlatformPanel } from './PlatformPanel';
+import { GameLibrarySection } from './GameLibrarySection';
 
 /**
  * 「数据」Tab
@@ -12,7 +10,7 @@ import { PlatformPanel } from './PlatformPanel';
  */
 @Component
 export struct DataTab {
-  private user: UserProfile = currentUser;
+  private user: UserProfile = getCurrentUserSync();
 
   @Builder
   AvatarBuilder() {
@@ -116,6 +114,13 @@ export struct DataTab {
         // 紧邻个人信息下方的平台绑定窗口
         Column() {
           PlatformPanel()
+        }
+        .width('100%')
+        .padding({ left: 16, right: 16, top: 12 })
+
+        // 平台卡片下方：游戏库导航 + 列表
+        Column() {
+          GameLibrarySection()
         }
         .width('100%')
         .padding({ left: 16, right: 16, top: 12 })

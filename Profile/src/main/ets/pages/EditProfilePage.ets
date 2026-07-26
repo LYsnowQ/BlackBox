@@ -1,13 +1,37 @@
 import { router } from '@kit.ArkUI';
-import { currentUser } from '../model/ProfileModel';
+import { UpdateProfileRequest, UserProfile } from '../model/types/UserModel';
+import { getCurrentUserSync, updateCurrentUser } from '../api/UserApi';
 
 /**
  * 编辑个人资料页内容（由 entry 路由壳挂载，从设置进入）
  */
 @Component
 export struct EditProfilePage {
-  @State nickname: string = currentUser.nickname;
-  @State signature: string = currentUser.signature;
+  @State nickname: string = '';
+  @State signature: string = '';
+  @State avatarChar: string = '';
+  @State userId: string = '';
+  @State level: string = '';
+
+  aboutToAppear(): void {
+    const user: UserProfile = getCurrentUserSync();
+    this.nickname = user.nickname;
+    this.signature = user.signature;
+    this.avatarChar = user.avatarChar;
+    this.userId = user.userId;
+    this.level = user.level;
+  }
+
+  private onSave(): void {
+    const req: UpdateProfileRequest = {
+      nickname: this.nickname,
+      signature: this.signature,
+    };
+    const res = updateCurrentUser(req);
+    if (res.code === 0) {
+      router.back();
+    }
+  }
 
   @Builder
   NavBarBuilder() {
@@ -36,7 +60,7 @@ export struct EditProfilePage {
         .width(48)
         .height(40)
         .textAlign(TextAlign.Center)
-        .onClick(() => router.back())
+        .onClick(() => this.onSave())
     }
     .width('100%')
     .height(48)
@@ -52,7 +76,7 @@ export struct EditProfilePage {
         Column() {
           Column({ space: 10 }) {
             Column() {
-              Text(currentUser.avatarChar)
+              Text(this.avatarChar)
                 .fontSize(28)
                 .fontWeight(FontWeight.Medium)
                 .fontColor(Color.White)
@@ -94,7 +118,7 @@ export struct EditProfilePage {
               .fontColor('#999999')
               .width('100%')
               .margin({ top: 18, bottom: 8 })
-            Text(currentUser.userId)
+            Text(this.userId)
               .fontSize(15)
               .fontColor('#B0B0B0')
               .width('100%')
@@ -108,7 +132,7 @@ export struct EditProfilePage {
               .fontColor('#999999')
               .width('100%')
               .margin({ top: 18, bottom: 8 })
-            Text(currentUser.level)
+            Text(this.level)
               .fontSize(15)
               .fontColor('#B0B0B0')
               .width('100%')

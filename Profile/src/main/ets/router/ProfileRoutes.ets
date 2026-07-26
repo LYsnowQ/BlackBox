@@ -15,4 +15,6 @@ export class ProfileRoutes {
   static readonly SCAN: string = 'pages/Profile/Scan';
   /** 编辑个人资料 */
   static readonly EDIT_PROFILE: string = 'pages/Profile/EditProfile';
+  /** 消息聊天 params: { id: string } */
+  static readonly CHAT: string = 'pages/Profile/Chat';
 }

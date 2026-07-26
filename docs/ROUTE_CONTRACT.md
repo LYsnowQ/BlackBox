@@ -53,6 +53,7 @@
 | `AppRoutes.PROFILE_MESSAGES` / `ProfileRoutes.MESSAGES` / `HomeRoutes.MESSAGES` | `pages/Profile/Messages` | 消息（首页顶栏复用） |
 | `AppRoutes.PROFILE_SCAN` / `ProfileRoutes.SCAN` | `pages/Profile/Scan` | 扫一扫 |
 | `AppRoutes.PROFILE_EDIT` / `ProfileRoutes.EDIT_PROFILE` | `pages/Profile/EditProfile` | 编辑资料 |
+| `AppRoutes.PROFILE_CHAT` / `ProfileRoutes.CHAT` | `pages/Profile/Chat` | 消息聊天 `params: { id }` |
 
 ## Index 与包引用（现状）
 

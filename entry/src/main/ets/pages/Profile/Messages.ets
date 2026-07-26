@@ -4,14 +4,20 @@ import { MessagesPage } from 'profile';
  * entry 路由壳：ProfileRoutes.MESSAGES / AppRoutes.PROFILE_MESSAGES
  * 路径 pages/Profile/Messages · 业务：profile.MessagesPage
  *
- * 注意：@Entry 的 build 根节点必须是容器组件，不能直接放自定义组件。
+ * onPageShow 递增 refreshToken，从聊天返回时刷新未读角标
  */
 @Entry
 @Component
 struct Messages {
+  @State refreshToken: number = 0;
+
+  onPageShow(): void {
+    this.refreshToken = this.refreshToken + 1;
+  }
+
   build() {
     Column() {
-      MessagesPage()
+      MessagesPage({ refreshToken: this.refreshToken })
     }
     .width('100%')
     .height('100%')
