@@ -7,8 +7,8 @@
   "license": "",
   "dependencies": {
     "home": "file:../Home",
+    "hot": "file:../Hot",
     "profile": "file:../Profile",
-    "gamelibrary": "file:../Gamelibrary",
-    "hot": "file:../Hot"
+    "gamelibrary": "file:../Gamelibrary"
   }
 }

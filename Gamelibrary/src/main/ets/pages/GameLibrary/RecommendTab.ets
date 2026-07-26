@@ -1,4 +1,5 @@
 import { GameItem, gameList, getGameById } from '../../model/GameLibrary/GameLibraryModel';
+import { GameLibraryRoutes } from '../../router/GameLibraryRoutes';
 
 interface QuickNav {
   title: string;
@@ -726,7 +727,7 @@ export struct RecommendTab {
   private goDetail(id: string): void {
     try {
       this.getUIContext().getRouter().pushUrl({
-        url: 'pages/GameDetail/GameDetail',
+        url: GameLibraryRoutes.GAME_DETAIL,
         params: { id },
       });
     } catch (err) {
