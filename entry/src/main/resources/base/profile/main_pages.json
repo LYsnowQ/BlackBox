@@ -17,6 +17,9 @@
     "pages/Profile/Blacklist",
     "pages/Profile/Notification",
     "pages/Profile/DarkMode",
-    "pages/Profile/About"
+    "pages/Profile/About",
+    "pages/Home/Search",
+    "pages/Home/UserProfile",
+    "pages/Home/ImagePreview"
   ]
 }

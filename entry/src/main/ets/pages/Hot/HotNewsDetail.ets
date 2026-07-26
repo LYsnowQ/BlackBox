@@ -1,4 +1,4 @@
-import { HotNewsDetail as HotNewsDetailPage } from 'hot';
+import { HotNewsDetail as HotNewsDetailComponent } from 'hot';
 
 /**
  * entry 路由壳：HotRoutes.NEWS_DETAIL / AppRoutes.HOT_NEWS_DETAIL
@@ -11,7 +11,7 @@ import { HotNewsDetail as HotNewsDetailPage } from 'hot';
 struct HotNewsDetail {
   build() {
     Column() {
-      HotNewsDetailPage()
+      HotNewsDetailComponent()
     }
     .width('100%')
     .height('100%')
