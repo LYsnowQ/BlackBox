@@ -77,6 +77,7 @@ docs/Home.md / ROUTE_CONTRACT.md
 
 > 每完成一小部分功能，在此追加一条（新在上）。
 
+- 2026-07-26 · 补齐缺详情帖 mock（r4–r7、f3–f7）· `HomeModel.postDetails` 长正文+评论
 - 2026-07-25 · 图标贴近小黑盒 · media `ic_like/star/charge/comment/search/mail` 实心剪影；触底加载延迟 650ms
 - 2026-07-25 · 评论热门/最新排序 · `PostDetailPage` 本地 sort
 - 2026-07-25 · 下拉刷新 + 触底加载 · `HomeRecommend` `FollowFeed` Refresh + 分页 mock
@@ -115,7 +116,7 @@ docs/Home.md / ROUTE_CONTRACT.md
 
 - 搜索为本地 mock 过滤（标题/摘要/作者/标签），无网络；可后续补热搜/历史
 - 帖图：真实帖多用 `scrape_*`；其余仍复用游戏库 media / 纯色
-- 真实帖 mock：旧爬取 4 篇（rs1–rs4）+ 截图补 8 篇（rs5–rs12）；评论区为截图可见楼层精简
+- 真实帖 mock：旧爬取 4 篇（rs1–rs4）+ 截图补 8 篇（rs5–rs12）；另有推荐 r1–r7、关注 f1–f7 等本地长文详情；评论多为精简楼层
 - Hot 业务仍主要在 `entry/.../pages/Hot/`，`Hot/` HAR 尚未承接业务
 - 充电无真实支付；仅本地计数 + toast（状态已持久化）
 - mediaKey → `$r` 硬编码 if/else 双份，后续可抽公共映射
