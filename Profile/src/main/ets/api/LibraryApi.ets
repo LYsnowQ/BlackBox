@@ -13,6 +13,7 @@ import {
 } from '../model/types/LibraryModel';
 import { isLowestOrNew } from '../model/utils/LibraryFormat';
 import { MOCK_LIBRARY_GAMES } from '../model/mock/LibraryMock';
+import { getProfileCoverSync } from './MediaApi';
 
 function copyGame(g: LibraryGame): LibraryGame {
   const colors: string[] = [];
@@ -23,6 +24,9 @@ function copyGame(g: LibraryGame): LibraryGame {
     id: g.id,
     title: g.title,
     coverColors: colors,
+    coverKey: g.coverKey,
+    // 仅通过 Profile MediaApi 解析本 HAR media，不读 entry / 他模块资源名
+    coverImg: g.coverKey !== undefined ? getProfileCoverSync(g.coverKey) : g.coverImg,
     totalHours: g.totalHours,
     twoWeekHours: g.twoWeekHours,
     achievementUnlocked: g.achievementUnlocked,
@@ -154,4 +158,25 @@ export function getLibraryGamesSync(query: LibraryListQuery): LibraryGame[] {
 
 export function getAllLibraryGamesSync(): LibraryGame[] {
   return fetchAllLibraryGames().data;
+}
+
+/**
+ * 按 id 取个人库游戏（详情页）
+ * GET /api/v1/profile/library/games/{id}
+ */
+export function fetchLibraryGameById(id: string): ApiResult<LibraryGame | null> {
+  for (let i = 0; i < MOCK_LIBRARY_GAMES.length; i++) {
+    if (MOCK_LIBRARY_GAMES[i].id === id) {
+      return apiOk(copyGame(MOCK_LIBRARY_GAMES[i]));
+    }
+  }
+  return apiOk(null);
+}
+
+export function getLibraryGameByIdSync(id: string): LibraryGame | undefined {
+  const res = fetchLibraryGameById(id);
+  if (res.data === null) {
+    return undefined;
+  }
+  return res.data;
 }

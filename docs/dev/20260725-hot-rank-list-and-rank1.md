@@ -36,7 +36,8 @@
 | 10 | 电影《生化危机：爆发夜》… | 9.3万 | 生化危机2重… | 216 |
 
 - 第 1 条：`coverImg = hot_rank1_img1`，`newsId = news-gpu-price`
-- 第 2–10：暂无独立真图，仍用渐变 + `thumbLabel` 占位
+- 第 2–7：`coverImg = hot_rankN_thumb`（见 [20260726-hot-rank-thumbs-2-7.md](./20260726-hot-rank-thumbs-2-7.md)）
+- 第 8–10：暂无独立真图，仍用渐变 + `thumbLabel` 占位
 
 ### 热榜1 详情（`news-gpu-price`）
 

@@ -20,6 +20,7 @@
 | 第四条新闻「新闻4」褪色者版双职业 | 已完成 | [20260725-hot-news4-elden.md](./20260725-hot-news4-elden.md) |
 | 第五条新闻「新闻5」王者牛年返场 | 已完成 | [20260726-hot-news5-wzry.md](./20260726-hot-news5-wzry.md) |
 | 剑星频道主页 6 条目 + 占位详情 | 已完成 | [20260726-hot-stellar-channel.md](./20260726-hot-stellar-channel.md) |
+| 热榜 2–7 列表缩略图 | 已完成 | [20260726-hot-rank-thumbs-2-7.md](./20260726-hot-rank-thumbs-2-7.md) |
 
 ## 架构边界（当前）
 
@@ -45,6 +46,7 @@
 | `hot_news1_avatar.png` | 作者「塔可松」头像 |
 | `hot_news2_img1~5` / `avatar` / `game` | 第二条新闻展示图 + 作者头像 + 剑星封面 |
 | `hot_rank1_img1~5` / `avatar` | 热榜第1 配图 + 作者头像 |
+| `hot_rank2~7_thumb` | 热榜第2–7 列表缩略图 |
 | `hot_news3_img1~4` / `avatar` / `thumb` | 第三条 HD2时报 配图 + 作者头像 + 列表缩略图 |
 | `hot_news4_img1~3` / `avatar` / `thumb` | 第四条 褪色者版 配图 + 作者头像 + 列表缩略图 |
 | `hot_news5_img1~4` / `avatar` | 第五条 王者牛年返场 配图 + 作者头像 |

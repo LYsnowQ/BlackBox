@@ -329,6 +329,7 @@ export const hotRankList: HotRankItem[] = [
     commentCount: 503,
     thumbColors: ['#3A4A6A', '#1A2438'],
     thumbLabel: '二游',
+    coverImg: $r('app.media.hot_rank2_thumb'),
   },
   {
     id: 'rank-3',
@@ -339,6 +340,7 @@ export const hotRankList: HotRankItem[] = [
     commentCount: 662,
     thumbColors: ['#1A3A5A', '#0A1A2A'],
     thumbLabel: '显卡涨价',
+    coverImg: $r('app.media.hot_rank3_thumb'),
   },
   {
     id: 'rank-4',
@@ -349,6 +351,7 @@ export const hotRankList: HotRankItem[] = [
     commentCount: 536,
     thumbColors: ['#6A3A2A', '#3A1A10'],
     thumbLabel: '西游记',
+    coverImg: $r('app.media.hot_rank4_thumb'),
   },
   {
     id: 'rank-5',
@@ -360,6 +363,7 @@ export const hotRankList: HotRankItem[] = [
     thumbColors: ['#3A2A4A', '#1A1020'],
     thumbLabel: '2026 / 10 / 29',
     newsId: 'news-shadow-blade',
+    coverImg: $r('app.media.hot_rank5_thumb'),
   },
   {
     id: 'rank-6',
@@ -370,6 +374,7 @@ export const hotRankList: HotRankItem[] = [
     commentCount: 492,
     thumbColors: ['#8A5A2A', '#4A2A10'],
     thumbLabel: '科隆',
+    coverImg: $r('app.media.hot_rank6_thumb'),
   },
   {
     id: 'rank-7',
@@ -380,6 +385,7 @@ export const hotRankList: HotRankItem[] = [
     commentCount: 140,
     thumbColors: ['#4A2A3A', '#201018'],
     thumbLabel: '主播',
+    coverImg: $r('app.media.hot_rank7_thumb'),
   },
   {
     id: 'rank-8',

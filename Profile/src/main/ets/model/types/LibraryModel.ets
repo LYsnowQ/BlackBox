@@ -18,8 +18,15 @@ export type LowestTagType = 'none' | 'lowest' | 'newLowest';
 export interface LibraryGame {
   id: string;
   title: string;
-  /** 封面占位渐变 */
+  /** 封面占位渐变（无 coverImg 时使用） */
   coverColors: string[];
+  /**
+   * 封面资源键（Profile 自有 media，见 ProfileMedia / MediaApi）
+   * 列表 mock 只存 key；API 组装时解析为 coverImg
+   */
+  coverKey?: string;
+  /** 封面图 Resource（由 LibraryApi 根据 coverKey 解析填充） */
+  coverImg?: ResourceStr;
   /** 总时长（小时） */
   totalHours: number;
   /** 近两周时长（小时） */

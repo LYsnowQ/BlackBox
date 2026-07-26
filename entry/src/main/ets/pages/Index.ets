@@ -68,17 +68,26 @@ struct Index {
     Row() {
       ForEach(this.bottomNavItems, (item: BottomNavItem, index: number) => {
         if (index === 2) {
+          // 外层占位均分底栏；内层固定正方形，避免 layoutWeight 把按钮横向拉扁/拉宽
           Column() {
-            Text(item.icon)
-              .fontSize(20)
-              .fontColor(Color.White)
+            Column() {
+              Text(item.icon)
+                .fontSize(18)
+                .fontWeight(FontWeight.Medium)
+                .fontColor(Color.White)
+            }
+            .width(31)
+            .height(31)
+            .constraintSize({ minWidth: 31, maxWidth: 31, minHeight: 31, maxHeight: 31 })
+            .borderRadius(8)
+            .backgroundColor('#1A1A1A')
+            .justifyContent(FlexAlign.Center)
+            .alignItems(HorizontalAlign.Center)
           }
-          .width(44)
-          .height(44)
-          .borderRadius(12)
-          .backgroundColor('#1A1A1A')
-          .justifyContent(FlexAlign.Center)
           .layoutWeight(1)
+          .height('100%')
+          .justifyContent(FlexAlign.Center)
+          .alignItems(HorizontalAlign.Center)
         } else {
           Column() {
             Text(item.icon)
