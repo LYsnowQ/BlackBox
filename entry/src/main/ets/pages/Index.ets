@@ -68,19 +68,26 @@ struct Index {
     Row() {
       ForEach(this.bottomNavItems, (item: BottomNavItem, index: number) => {
         if (index === 2) {
-          // 中间「发布」按钮：尺寸对齐其它 Tab 图标区，避免相对底栏显得肿大
+          // 外层占位均分底栏；内层固定正方形，避免 layoutWeight 把按钮横向拉扁/拉宽
           Column() {
-            Text(item.icon)
-              .fontSize(16)
-              .fontWeight(FontWeight.Medium)
-              .fontColor(Color.White)
+            Column() {
+              Text(item.icon)
+                .fontSize(16)
+                .fontWeight(FontWeight.Medium)
+                .fontColor(Color.White)
+            }
+            .width(24)
+            .height(24)
+            .constraintSize({ minWidth: 24, maxWidth: 24, minHeight: 24, maxHeight: 24 })
+            .borderRadius(8)
+            .backgroundColor('#1A1A1A')
+            .justifyContent(FlexAlign.Center)
+            .alignItems(HorizontalAlign.Center)
           }
-          .width(24)
-          .height(24)
-          .borderRadius(8)
-          .backgroundColor('#1A1A1A')
-          .justifyContent(FlexAlign.Center)
           .layoutWeight(1)
+          .height('100%')
+          .justifyContent(FlexAlign.Center)
+          .alignItems(HorizontalAlign.Center)
         } else {
           Column() {
             Text(item.icon)
