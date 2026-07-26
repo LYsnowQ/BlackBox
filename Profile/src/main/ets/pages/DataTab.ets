@@ -1,8 +1,5 @@
-import {
-  currentUser,
-  ProfileStat,
-  UserProfile,
-} from '../model/ProfileModel';
+import { ProfileStat, UserProfile } from '../model/types/UserModel';
+import { getCurrentUserSync } from '../api/UserApi';
 import { PlatformPanel } from './PlatformPanel';
 import { GameLibrarySection } from './GameLibrarySection';
 
@@ -13,7 +10,7 @@ import { GameLibrarySection } from './GameLibrarySection';
  */
 @Component
 export struct DataTab {
-  private user: UserProfile = currentUser;
+  private user: UserProfile = getCurrentUserSync();
 
   @Builder
   AvatarBuilder() {

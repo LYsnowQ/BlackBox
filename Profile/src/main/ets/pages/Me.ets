@@ -2,6 +2,7 @@ import { router } from '@kit.ArkUI';
 import { DataTab } from './DataTab';
 import { DynamicTab } from './DynamicTab';
 import { ProfileRoutes } from '../router/ProfileRoutes';
+import { formatUnreadBadge, getUnreadTotalSync } from '../api/MessageApi';
 
 /**
  * 个人中心内容区（嵌入 Index 底部导航「我」）
@@ -14,6 +15,16 @@ import { ProfileRoutes } from '../router/ProfileRoutes';
 export struct Me {
   // 0 = 数据, 1 = 动态
   @State topTabIndex: number = 0;
+  /** 消息入口总未读 */
+  @State unreadTotal: number = 0;
+
+  aboutToAppear(): void {
+    this.refreshUnread();
+  }
+
+  private refreshUnread(): void {
+    this.unreadTotal = getUnreadTotalSync();
+  }
 
   private goSettings(): void {
     router.pushUrl({
@@ -73,15 +84,32 @@ export struct Me {
           .margin({ left: 4 })
           .onClick(() => this.goSettings())
 
-        // 邮件 / 消息
-        Text('✉')
-          .fontSize(17)
-          .fontColor('#1A1A1A')
-          .width(32)
-          .height(32)
-          .textAlign(TextAlign.Center)
-          .margin({ left: 4 })
-          .onClick(() => this.goMessages())
+        // 邮件 / 消息 + 总未读角标
+        Stack({ alignContent: Alignment.TopEnd }) {
+          Text('✉')
+            .fontSize(17)
+            .fontColor('#1A1A1A')
+            .width(32)
+            .height(32)
+            .textAlign(TextAlign.Center)
+
+          if (this.unreadTotal > 0) {
+            Text(formatUnreadBadge(this.unreadTotal))
+              .fontSize(this.unreadTotal > 9 ? 8 : 9)
+              .fontWeight(FontWeight.Medium)
+              .fontColor(Color.White)
+              .constraintSize({ minWidth: 14, minHeight: 14 })
+              .padding({ left: this.unreadTotal > 9 ? 3 : 0, right: this.unreadTotal > 9 ? 3 : 0 })
+              .borderRadius(7)
+              .backgroundColor('#FF3B30')
+              .textAlign(TextAlign.Center)
+              .offset({ x: 4, y: -2 })
+          }
+        }
+        .width(32)
+        .height(32)
+        .margin({ left: 4 })
+        .onClick(() => this.goMessages())
       }
       .alignItems(VerticalAlign.Center)
     }
@@ -102,5 +130,11 @@ export struct Me {
     .width('100%')
     .layoutWeight(1)
     .backgroundColor('#FFFFFF')
+    // 从消息页返回时刷新入口角标
+    .onVisibleAreaChange([0.0, 1.0], (isVisible: boolean) => {
+      if (isVisible) {
+        this.refreshUnread();
+      }
+    })
   }
 }

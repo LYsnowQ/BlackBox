@@ -1,0 +1,259 @@
+{
+  "folder": 6,
+  "id": "rs10",
+  "authorName": "明天去月球",
+  "levelLabel": "Lv.13",
+  "isOfficial": true,
+  "publishTime": "07-17",
+  "region": "甘肃",
+  "fullTitle": "新贵诞生：PC厂商争相锁定长鑫存储供应，内存订单延续至2027年",
+  "summary": "关注@明天去月球，黑盒硬件新闻早知道~",
+  "bodyParagraphs": [
+    "关注@明天去月球，黑盒硬件新闻早知道~",
+    "当下长鑫存储发展形势一片大好，地缘政治风险也显现缓和迹象。",
+    "DRAM 供货持续紧张，各大 PC 品牌已将长鑫内存订单预定至 2027 年",
+    "国内 DRAM 厂商长鑫存储正迎来跨越式发展。一方面各大主板厂商优化自家硬件平台，全面适配长鑫存储出品的高规格 DDR5 内存模组；",
+    "（微星华硕等主板近日接连更新BIOS，均已支持8000频率的长鑫内存）",
+    "另一方面全球内存芯片持续短缺，整机厂商备货困难，众多品牌纷纷提前锁定长鑫的 DRAM 产能。",
+    "据《金融时报》7 月 8 日报道，苹果已开始测试长鑫存储的 DRAM 内存芯片，计划用于在中国市场销售的设备。与此同时，苹果 CEO 蒂姆·库克（Tim Cook）亲自向美国财政部长斯科特·贝森特（Scott Bessent）等特朗普政府官员展开游说，希望降低与长鑫存储、长江存储合作可能引发的政治风险。",
+    "据 Omdia 数据，按 2025 年第四季度 DRAM 销售额统计，长鑫存储全球市场份额已达 7.6%，位列全球第四大 DRAM 厂商。",
+    "长鑫存储目前处于满产状态，2025 年约占全球 DRAM 晶圆产能的 11%，随着合肥、上海和北京新生产线陆续投产，这一比例预计在 2028 年提升至 15%。",
+    "报道称，一线 PC 大厂均已完成长鑫内存产品的兼容性测试，但拿货竞争激烈；长鑫会优先保障头部大客户的订单，中小厂商拿货难度大幅上升。",
+    "戴尔、惠普、联想、苹果均属于享有优先供货配额的企业，而体量较小的数码品牌或将完全拿不到长鑫 DRAM 产能。",
+    "当前消费级内存零售价创下历史新高，长鑫存储大批量落地的 DRAM 订单，能够有效帮助 PC 整机厂商缓解芯片紧缺、满足终端市场需求。现阶段，长鑫存储的产能供给仍会优先倾斜国内市场，重点满足本土需求。"
+  ],
+  "circles": ["Steam", "数码硬件"],
+  "topicTags": ["热点计划", "单机游戏专项创作计划", "电脑装机", "电脑", "内存", "电脑配置"],
+  "gameTag": "",
+  "circleIdGuess": "digital",
+  "hotTag": "",
+  "likeCount": 228,
+  "starCount": 58,
+  "awardCount": 123,
+  "commentCount": 36,
+  "imageCount": 1,
+  "mediaKey": "scrape_cxmt1",
+  "imageLayout": "right",
+  "comments": [
+    {
+      "authorName": "玩家kkkkkk",
+      "levelLabel": "Lv.12",
+      "isAuthor": false,
+      "isPinned": false,
+      "timeText": "07-17",
+      "region": "四川",
+      "content": "最近他上市把a股科技都吸干了吧",
+      "likeCount": 199,
+      "replies": [
+        {"authorName": "啊的名A的影", "isAuthor": false, "content": "并不会，流通股才五百多亿，而且这个月大A见人就杀，已经把人杀光了", "timeText": "07-17", "region": "江苏", "replyToName": ""},
+        {"authorName": "玩家kkkkkk", "isAuthor": false, "content": "不知道在什么位置", "timeText": "07-17", "region": "广东", "replyToName": "啊的名A的影"},
+        {"authorName": "啊的名A的影", "isAuthor": false, "content": "下周一再杀一波恐惶盘往上狂A就该下场给带血的筹码了美名其曰抄盘嘛，当然要是杀不出量还得继续死磕", "timeText": "07-17", "region": "江苏", "replyToName": "玩家kkkkkk"},
+        {"authorName": "11HAN", "isAuthor": false, "content": "啊的名A的影你：难道杀盘3600？一袋", "timeText": "07-18", "region": "广东", "replyToName": ""},
+        {"authorName": "我特量八分之二油", "isAuthor": false, "content": "我朋友跟目前就一个中签，只能说还好，应该不会是中芯嘉在早些年中石油那次了，大家壳里都有钱，我要给中签给我分个几百股也成啊", "timeText": "07-18", "region": "四川", "replyToName": ""},
+        {"authorName": "好肚油肚", "isAuthor": false, "content": "没关系。虽然都是流动性的事，但是这次大跌是全球流动性危机，跟长鑫没关系", "timeText": "07-18", "region": "浙江", "replyToName": ""},
+        {"authorName": "啊的名A的影", "isAuthor": false, "content": "都说这次不一样这次不一样，但是这次玩数不一样，以前杀得没这么凶，文革已经被国内资本分配完了开市就炸。以后怎么玩散户基本要退出股市了", "timeText": "07-18", "region": "江苏", "replyToName": "11HAN"},
+        {"authorName": "乾坤未定别失望", "isAuthor": false, "content": "兄弟你买多少也吃多少。a股没人不行情一点道理没有。", "timeText": "07-18", "region": "山东", "replyToName": ""},
+        {"authorName": "清寒的月", "isAuthor": false, "content": "反正就是超盘，每一次反弹都是跑路机会", "timeText": "07-18", "region": "广东", "replyToName": ""},
+        {"authorName": "清寒的月", "isAuthor": false, "content": "确实不太一样，没想到jpx能这样子似了，以前还能幻想一下是不是到底了，现在真不敢想，开盘就是最高点", "timeText": "07-18", "region": "广东", "replyToName": ""},
+        {"authorName": "哪来的昵称", "isAuthor": false, "content": "清寒的月：光看站在光里", "timeText": "07-18", "region": "山东", "replyToName": "清寒的月"}
+      ]
+    },
+    {
+      "authorName": "有感觉吗",
+      "levelLabel": "Lv.10",
+      "isAuthor": false,
+      "isPinned": false,
+      "timeText": "07-17",
+      "region": "江苏",
+      "content": "长鑫扛过快速发展把镁光三星海力士市场抢去一半后后三大家联合哭诉要摸垄断，然后广大网友怒斥早干嘛去了",
+      "likeCount": 228,
+      "replies": [
+        {"authorName": "duva", "isAuthor": false, "content": "长鑫抢不了那三家的盘子。duv机器都买不了，三星海力士现在都开始在内引上用euv了；国产duv还得几年验证，目前长鑫只是能做。跟那三家相比还差得远", "timeText": "07-17", "region": "上海", "replyToName": ""},
+        {"authorName": "sentooooo", "isAuthor": false, "content": "不太可能，工厂就算干冒烟都干不到10%的市占率", "timeText": "07-18", "region": "江西", "replyToName": ""}
+      ]
+    },
+    {
+      "authorName": "阿钻",
+      "levelLabel": "Lv.11",
+      "isAuthor": false,
+      "isPinned": false,
+      "timeText": "07-17",
+      "region": "新疆",
+      "content": "（附图评论略）",
+      "likeCount": 87,
+      "replies": [
+        {"authorName": "超能大潮", "isAuthor": false, "content": "真的吗", "timeText": "07-17", "region": "山东", "replyToName": ""},
+        {"authorName": "李维护斯文", "isAuthor": false, "content": "基本得起步", "timeText": "07-17", "region": "广东", "replyToName": ""}
+      ]
+    },
+    {
+      "authorName": "iii_lbys",
+      "levelLabel": "Lv.9",
+      "isAuthor": false,
+      "isPinned": false,
+      "timeText": "07-18",
+      "region": "湖北",
+      "content": "这内存价格除非突破新技术，怕是一年都下不来了。而且这技术还得非只能用在游戏上，不然a股还是能通杀",
+      "likeCount": 70,
+      "replies": [
+        {"authorName": "冠军老祖", "isAuthor": false, "content": "产量上去就行了，还是得在光刻机那块有突破，突破了以后美上去了产能就能暴增", "timeText": "07-18", "region": "湖北", "replyToName": ""},
+        {"authorName": "Toxakalin", "isAuthor": false, "content": "冠军老祖 DRAM良率不算低吧，就算造出体质不好的流入中低端市场照样卖啊", "timeText": "07-19", "region": "浙江", "replyToName": "冠军老祖"}
+      ]
+    },
+    {
+      "authorName": "我真的是砖家",
+      "levelLabel": "Lv.10",
+      "isAuthor": false,
+      "isPinned": false,
+      "timeText": "07-18",
+      "region": "天津",
+      "content": "大厂故意减产，收入暴增500%，从订单明细排到延期3年后，还是资本家会赚钱",
+      "likeCount": 14,
+      "replies": [
+        {"authorName": "这我不信了", "isAuthor": false, "content": "人之常情 西欧就这么多，都分配给ai大厂了，做灯游戏这点利润不过人家十分之一了", "timeText": "07-18", "region": "广西", "replyToName": ""},
+        {"authorName": "睡到人问家饭时", "isAuthor": false, "content": "这是扩产线罢了，早几年的时候扩产扩弄了 这次说要慢慢来", "timeText": "07-18", "region": "广东", "replyToName": ""},
+        {"authorName": "琉璃岛石头盲说之谈", "isAuthor": false, "content": "ai洪流，老黄都不做游戏了，还指望泡沫破裂？", "timeText": "07-18", "region": "重庆", "replyToName": ""},
+        {"authorName": "梦龙是演员", "isAuthor": false, "content": "还减产？以前是消费端这些产品37企业那些产品，现在是19 产能全去生产服务器内存了，就算要扩产也是优先分配给服务器，少部分给消费端产品，钱少事多", "timeText": "昨天", "region": "江苏", "replyToName": ""}
+      ]
+    },
+    {
+      "authorName": "BOT-AL-1S",
+      "levelLabel": "Lv.12",
+      "isAuthor": false,
+      "isPinned": false,
+      "timeText": "07-18",
+      "region": "广东",
+      "content": "别搞笑了，长鑫现在产能有限，ddr都是优先供给服务器厂商的，DIY岛都不岛你，人家根本没有这个业务",
+      "likeCount": 17,
+      "replies": [
+        {"authorName": "淡然翻书", "isAuthor": false, "content": "diy才几个钱啊，而且钱少事多。", "timeText": "07-18", "region": "上海", "replyToName": ""}
+      ]
+    },
+    {
+      "authorName": "Time",
+      "levelLabel": "Lv.8",
+      "isAuthor": false,
+      "isPinned": false,
+      "timeText": "07-18",
+      "region": "湖南",
+      "content": "只有pc和电子订单就是大利空？",
+      "likeCount": 4,
+      "replies": [
+        {"authorName": "好肚油肚", "isAuthor": false, "content": "你是指hdm？本来就是试产和风险量产，离量产利润还有距离呢", "timeText": "07-18", "region": "浙江", "replyToName": ""}
+      ]
+    },
+    {
+      "authorName": "玩家79195922",
+      "levelLabel": "Lv.6",
+      "isAuthor": false,
+      "isPinned": false,
+      "timeText": "07-21",
+      "region": "浙江",
+      "content": "我只关心能不能800买到双16g6000c28",
+      "likeCount": 0,
+      "replies": []
+    },
+    {
+      "authorName": "清水依水",
+      "levelLabel": "Lv.7",
+      "isAuthor": false,
+      "isPinned": false,
+      "timeText": "07-18",
+      "region": "福建",
+      "content": "中签率太高 很难是大肥羊 高开低走可能性极大",
+      "likeCount": 4,
+      "replies": []
+    },
+    {
+      "authorName": "BOT-AL-1S",
+      "levelLabel": "Lv.12",
+      "isAuthor": false,
+      "isPinned": false,
+      "timeText": "07-18",
+      "region": "广东",
+      "content": "再泼桶冷水，长鑫现在的主要客户是手机，车机和服务器，都涉及到国家命脉的，相比之下DIY真的是可有可无的，市场上能买到的颗粒大多都是厂商挑剩下的",
+      "likeCount": 1,
+      "replies": []
+    },
+    {
+      "authorName": "百分之零零零",
+      "levelLabel": "Lv.9",
+      "isAuthor": false,
+      "isPinned": false,
+      "timeText": "07-18",
+      "region": "江苏",
+      "content": "韩国美国商家都估计，不一定对，他们是想引起大家关注，然后融资拿钱扩厂扩产，提前保住自己的地位，把所有意外都计算在内。",
+      "likeCount": 0,
+      "replies": []
+    },
+    {
+      "authorName": "祛君名Z",
+      "levelLabel": "Lv.8",
+      "isAuthor": false,
+      "isPinned": false,
+      "timeText": "07-18",
+      "region": "湖北",
+      "content": "2？啊，我还看咸了7？",
+      "likeCount": 0,
+      "replies": []
+    },
+    {
+      "authorName": "玩家49665509",
+      "levelLabel": "Lv.5",
+      "isAuthor": false,
+      "isPinned": false,
+      "timeText": "07-18",
+      "region": "四川",
+      "content": "凌.6508774709087060 9770",
+      "likeCount": 0,
+      "replies": []
+    },
+    {
+      "authorName": "这好吗",
+      "levelLabel": "Lv.7",
+      "isAuthor": false,
+      "isPinned": false,
+      "timeText": "07-18",
+      "region": "河北",
+      "content": "这下可以延续涨价咯",
+      "likeCount": 0,
+      "replies": []
+    },
+    {
+      "authorName": "十夕",
+      "levelLabel": "Lv.8",
+      "isAuthor": false,
+      "isPinned": false,
+      "timeText": "07-18",
+      "region": "江苏",
+      "content": "半导体布局成熟了？？天天一睁眼就扣我钱，我都要哭了",
+      "likeCount": 0,
+      "replies": [
+        {"authorName": "玩家46137362", "isAuthor": false, "content": "一个月前你不是这么说半导体的", "timeText": "07-18", "region": "福建", "replyToName": ""},
+        {"authorName": "倒句比思", "isAuthor": false, "content": "半导体就要了，我买的红利都跌了", "timeText": "07-18", "region": "北京", "replyToName": ""}
+      ]
+    },
+    {
+      "authorName": "还有暑假作业",
+      "levelLabel": "Lv.6",
+      "isAuthor": false,
+      "isPinned": false,
+      "timeText": "07-18",
+      "region": "江苏",
+      "content": "他上市给我快整完了",
+      "likeCount": 0,
+      "replies": []
+    },
+    {
+      "authorName": "AMD用户",
+      "levelLabel": "Lv.9",
+      "isAuthor": false,
+      "isPinned": false,
+      "timeText": "07-18",
+      "region": "山东",
+      "content": "别闹！大A走势现在真成了A了见人就杀，下周一再开盘杀一次。",
+      "likeCount": 0,
+      "replies": []
+    }
+  ]
+}
