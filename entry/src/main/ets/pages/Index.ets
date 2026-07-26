@@ -68,14 +68,16 @@ struct Index {
     Row() {
       ForEach(this.bottomNavItems, (item: BottomNavItem, index: number) => {
         if (index === 2) {
+          // 中间「发布」按钮：尺寸对齐其它 Tab 图标区，避免相对底栏显得肿大
           Column() {
             Text(item.icon)
-              .fontSize(20)
+              .fontSize(18)
+              .fontWeight(FontWeight.Medium)
               .fontColor(Color.White)
           }
-          .width(44)
-          .height(44)
-          .borderRadius(12)
+          .width(32)
+          .height(32)
+          .borderRadius(8)
           .backgroundColor('#1A1A1A')
           .justifyContent(FlexAlign.Center)
           .layoutWeight(1)
