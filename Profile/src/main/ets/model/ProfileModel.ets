@@ -29,6 +29,8 @@ export {
 export {
   FeedItem,
   FeedListQuery,
+  FeedComment,
+  FeedDetail,
 } from './types/FeedModel';
 
 export {

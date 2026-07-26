@@ -21,13 +21,17 @@ export {
 export {
   fetchLibraryGames,
   fetchAllLibraryGames,
+  fetchLibraryGameById,
   getLibraryGamesSync,
   getAllLibraryGamesSync,
+  getLibraryGameByIdSync,
 } from './LibraryApi';
 
 export {
   fetchFeedList,
+  fetchFeedDetail,
   getFeedListSync,
+  getFeedDetailSync,
 } from './FeedApi';
 
 export {

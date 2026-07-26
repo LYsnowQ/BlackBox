@@ -1,3 +1,4 @@
+import { router } from '@kit.ArkUI';
 import {
   LibraryGame,
   LibraryListQuery,
@@ -12,6 +13,7 @@ import {
   resolveLowestTag,
 } from '../model/utils/LibraryFormat';
 import { getLibraryGamesSync } from '../api/LibraryApi';
+import { ProfileRoutes } from '../router/ProfileRoutes';
 
 /**
  * 平台卡片下方 · 游戏库分区
@@ -103,6 +105,16 @@ export struct GameLibrarySection {
     if (key === 'owned' || key === 'perfect') {
       this.ownedSort = 'total';
     }
+  }
+
+  /** 跳转 Profile 自包含游戏详情（不与 gamelibrary 联动） */
+  private openGameDetail(game: LibraryGame): void {
+    router.pushUrl({
+      url: ProfileRoutes.GAME_DETAIL,
+      params: {
+        'id': game.id,
+      },
+    });
   }
 
   // ── 主导航：四钮紧贴 + 分隔线 ──
@@ -529,6 +541,7 @@ export struct GameLibrarySection {
     .width('100%')
     .padding({ top: 10, bottom: 10 })
     .alignItems(VerticalAlign.Center)
+    .onClick(() => this.openGameDetail(game))
   }
 
   @Builder

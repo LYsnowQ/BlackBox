@@ -33,4 +33,8 @@ export class AppRoutes {
   static readonly PROFILE_EDIT: string = 'pages/Profile/EditProfile';
   /** 消息聊天 params: { id: string } */
   static readonly PROFILE_CHAT: string = 'pages/Profile/Chat';
+  /** 个人动态详情 params: { id: string } */
+  static readonly PROFILE_FEED_DETAIL: string = 'pages/Profile/FeedDetail';
+  /** 个人库游戏详情 params: { id: string }（与 GAME_DETAIL 隔离） */
+  static readonly PROFILE_GAME_DETAIL: string = 'pages/Profile/GameDetail';
 }

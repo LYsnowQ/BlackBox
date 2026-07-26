@@ -9,6 +9,8 @@
     "pages/Profile/Messages",
     "pages/Profile/Scan",
     "pages/Profile/EditProfile",
-    "pages/Profile/Chat"
+    "pages/Profile/Chat",
+    "pages/Profile/FeedDetail",
+    "pages/Profile/GameDetail"
   ]
 }

@@ -1,12 +1,25 @@
+import { router } from '@kit.ArkUI';
 import { FeedItem } from '../model/types/FeedModel';
 import { getFeedListSync } from '../api/FeedApi';
+import { ProfileRoutes } from '../router/ProfileRoutes';
 
 /**
  * 「动态」Tab — 仿小黑盒个人动态流
+ * 点击卡片 → Profile 自包含动态详情（不与 Home 联动）
  */
 @Component
 export struct DynamicTab {
   private feeds: FeedItem[] = getFeedListSync();
+
+  private openFeedDetail(item: FeedItem): void {
+    router.pushUrl({
+      url: ProfileRoutes.FEED_DETAIL,
+      params: {
+        'id': item.id,
+      },
+    });
+  }
+
   @Builder
   FeedCardBuilder(item: FeedItem) {
     Column() {
@@ -71,6 +84,7 @@ export struct DynamicTab {
     .borderRadius(14)
     .backgroundColor(Color.White)
     .alignItems(HorizontalAlign.Start)
+    .onClick(() => this.openFeedDetail(item))
   }
 
   @Builder
