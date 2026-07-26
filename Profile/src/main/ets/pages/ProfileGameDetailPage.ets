@@ -18,7 +18,8 @@ import { getLibraryGameByIdSync } from '../api/LibraryApi';
 @Component
 export struct ProfileGameDetailPage {
   @State game: LibraryGame | undefined = undefined;
-  @State tabIndex: number = 0;
+  /** 避免与 CustomComponent.tabIndex 冲突 */
+  @State detailTabIndex: number = 0;
   @State wishlisted: boolean = false;
   @State favorited: boolean = false;
 
@@ -416,14 +417,14 @@ export struct ProfileGameDetailPage {
   TabItemBuilder(name: string, index: number) {
     Text(name)
       .fontSize(14)
-      .fontWeight(this.tabIndex === index ? FontWeight.Bold : FontWeight.Normal)
-      .fontColor(this.tabIndex === index ? Color.White : '#666666')
-      .backgroundColor(this.tabIndex === index ? '#1A1A1A' : Color.Transparent)
+      .fontWeight(this.detailTabIndex === index ? FontWeight.Bold : FontWeight.Normal)
+      .fontColor(this.detailTabIndex === index ? Color.White : '#666666')
+      .backgroundColor(this.detailTabIndex === index ? '#1A1A1A' : Color.Transparent)
       .padding({ left: 14, right: 14, top: 6, bottom: 6 })
       .borderRadius(6)
       .margin({ right: 8 })
       .onClick(() => {
-        this.tabIndex = index;
+        this.detailTabIndex = index;
       })
   }
 
@@ -647,9 +648,9 @@ export struct ProfileGameDetailPage {
             this.TabBarBuilder()
 
             Column() {
-              if (this.tabIndex === 0) {
+              if (this.detailTabIndex === 0) {
                 this.OverviewTabBuilder(this.game)
-              } else if (this.tabIndex === 1) {
+              } else if (this.detailTabIndex === 1) {
                 this.DataTabBuilder(this.game)
               } else {
                 this.AboutTabBuilder(this.game)
