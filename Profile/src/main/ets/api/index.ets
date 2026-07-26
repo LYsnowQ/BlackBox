@@ -35,6 +35,20 @@ export {
 } from './FeedApi';
 
 export {
+  resolveLibraryToCatalogId,
+  fetchCatalogGameById,
+  fetchCatalogGameForLibraryId,
+  fetchGameCommunityPosts,
+  fetchGameDatabaseItems,
+  fetchGameRegionPrices,
+  getCatalogGameByIdSync,
+  getCatalogGameForLibraryIdSync,
+  getGameCommunityPostsSync,
+  getGameDatabaseItemsSync,
+  getGameRegionPricesSync,
+} from './GameCatalogApi';
+
+export {
   fetchMessageSessions,
   fetchMessageSessionById,
   fetchChatMessages,

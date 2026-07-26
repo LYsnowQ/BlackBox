@@ -34,6 +34,17 @@ export {
 } from './types/FeedModel';
 
 export {
+  HeaderToolItem,
+  GameItem,
+  PostCommentReply,
+  PostComment,
+  PostGameCard,
+  CommunityPost,
+  DatabaseItem,
+  RegionPrice,
+} from './types/GameCatalogModel';
+
+export {
   MessageSessionType,
   MessageSession,
   ChatMessage,

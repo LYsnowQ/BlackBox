@@ -30,10 +30,12 @@
   - 动态：`ProfileRoutes.FEED_DETAIL` → `pages/Profile/FeedDetail`，`params.id`
   - 游戏：`ProfileRoutes.GAME_DETAIL` → `pages/Profile/GameDetail`，`params.id`（`lg1`…）
 - **不**使用 `pages/GameDetail/GameDetail`（gamelibrary 包）与 `pages/Home/PostDetail`；代码为 **复制** 进 Profile
-- 游戏详情：整页复制 `Gamelibrary` 的 `GameDetail` + `GameLibraryModel` + `GameDetailModel`
+- 游戏详情：整页复制 `Gamelibrary` 的 `GameDetail` UI
   - 展示评分 / 介绍 / 价格 / 社区 / 统计（商城向），**不是**个人时长成就页
-  - `resolveProfileLibraryToGameId(lg*)` 映射到详情 slug；缺的游戏在 Profile 内补 stub
-- 动态详情：正文 + 评论列表 + 点赞/发评（本地 mock 状态）
+  - 数据分层：`types/GameCatalogModel` + `mock/GameCatalogMock` + `api/GameCatalogApi`
+  - `resolveLibraryToCatalogId(lg*)` 映射详情 slug；缺的游戏在 mock 内补 stub
+- 动态详情：`FeedApi` / `FeedMock`；正文 + 评论 + 点赞/发评
+- 详见 `20260726-profile-game-catalog-api.md`
 
 ## 验证方式
 

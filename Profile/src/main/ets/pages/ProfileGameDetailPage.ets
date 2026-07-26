@@ -1,20 +1,19 @@
 import {
   GameItem,
   HeaderToolItem,
-  getGameById,
-  resolveProfileLibraryToGameId,
-} from '../model/GameLibraryModel';
-import {
-  getGameCommunityPosts,
-  getGameDatabaseItems,
-  getGameRegionPrices,
   CommunityPost,
   PostComment,
   PostCommentReply,
   PostGameCard,
   DatabaseItem,
   RegionPrice,
-} from '../model/GameDetailModel';
+} from '../model/types/GameCatalogModel';
+import {
+  getCatalogGameForLibraryIdSync,
+  getGameCommunityPostsSync,
+  getGameDatabaseItemsSync,
+  getGameRegionPricesSync,
+} from '../api/GameCatalogApi';
 
 interface StatCell {
   value: string;
@@ -26,7 +25,7 @@ interface StatCell {
 /**
  * Profile 自包含游戏详情（从 Gamelibrary GameDetail 整页复制）
  * 展示商城向介绍 / 评分 / 社区 / 统计，非个人时长成就页。
- * 入参 params.id 支持个人库 lg* 或详情 slug，经 resolveProfileLibraryToGameId 解析。
+ * 入参 params.id 支持个人库 lg* 或详情 slug；数据经 GameCatalogApi。
  */
 @Component
 export struct ProfileGameDetailPage {
@@ -57,13 +56,9 @@ export struct ProfileGameDetailPage {
           rawId = idVal;
         }
       }
-      const gameId: string = resolveProfileLibraryToGameId(rawId);
-      this.game = getGameById(gameId);
-      if (this.game === undefined) {
-        this.game = getGameById('palworld');
-      }
+      this.game = getCatalogGameForLibraryIdSync(rawId);
     } catch {
-      this.game = getGameById('palworld');
+      this.game = getCatalogGameForLibraryIdSync('palworld');
     }
   }
 
@@ -525,7 +520,7 @@ export struct ProfileGameDetailPage {
       .margin({ bottom: 12 })
 
       // 2. 帖子列表
-      ForEach(getGameCommunityPosts(gameId), (post: CommunityPost) => {
+      ForEach(getGameCommunityPostsSync(gameId), (post: CommunityPost) => {
         Column() {
           // 作者信息行 (头像, 昵称, 等级, 三点更多)
           Row() {
@@ -1279,7 +1274,7 @@ export struct ProfileGameDetailPage {
       .margin({ bottom: 12 })
 
       Grid() {
-        ForEach(getGameDatabaseItems(gameId), (item: DatabaseItem) => {
+        ForEach(getGameDatabaseItemsSync(gameId), (item: DatabaseItem) => {
           GridItem() {
             Column() {
               Row() {
@@ -1377,7 +1372,7 @@ export struct ProfileGameDetailPage {
           .width('100%')
           .margin({ bottom: 10 })
 
-        ForEach(getGameRegionPrices(gameId), (region: RegionPrice) => {
+        ForEach(getGameRegionPricesSync(gameId), (region: RegionPrice) => {
           Row() {
             Text(region.flagEmoji)
               .fontSize(18)
