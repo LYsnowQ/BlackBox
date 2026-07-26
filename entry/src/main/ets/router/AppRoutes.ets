@@ -37,4 +37,16 @@ export class AppRoutes {
   static readonly PROFILE_FEED_DETAIL: string = 'pages/Profile/FeedDetail';
   /** 个人库游戏详情 params: { id: string }（与 GAME_DETAIL 隔离） */
   static readonly PROFILE_GAME_DETAIL: string = 'pages/Profile/GameDetail';
+  /** 账号与安全 */
+  static readonly PROFILE_ACCOUNT_SECURITY: string = 'pages/Profile/AccountSecurity';
+  /** 隐私设置 */
+  static readonly PROFILE_PRIVACY: string = 'pages/Profile/Privacy';
+  /** 黑名单 */
+  static readonly PROFILE_BLACKLIST: string = 'pages/Profile/Blacklist';
+  /** 消息通知 */
+  static readonly PROFILE_NOTIFICATION: string = 'pages/Profile/Notification';
+  /** 深色模式 */
+  static readonly PROFILE_DARK_MODE: string = 'pages/Profile/DarkMode';
+  /** 关于小黑盒 */
+  static readonly PROFILE_ABOUT: string = 'pages/Profile/About';
 }

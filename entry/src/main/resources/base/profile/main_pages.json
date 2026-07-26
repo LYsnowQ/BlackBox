@@ -11,6 +11,12 @@
     "pages/Profile/EditProfile",
     "pages/Profile/Chat",
     "pages/Profile/FeedDetail",
-    "pages/Profile/GameDetail"
+    "pages/Profile/GameDetail",
+    "pages/Profile/AccountSecurity",
+    "pages/Profile/Privacy",
+    "pages/Profile/Blacklist",
+    "pages/Profile/Notification",
+    "pages/Profile/DarkMode",
+    "pages/Profile/About"
   ]
 }

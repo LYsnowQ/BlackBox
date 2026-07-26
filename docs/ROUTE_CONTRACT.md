@@ -34,6 +34,12 @@
 | `AppRoutes.PROFILE_CHAT` / `ProfileRoutes.CHAT` | `pages/Profile/Chat` | 消息聊天 `params: { id }` |
 | `AppRoutes.PROFILE_FEED_DETAIL` / `ProfileRoutes.FEED_DETAIL` | `pages/Profile/FeedDetail` | 个人动态详情 `params: { id }`（Profile 自包含） |
 | `AppRoutes.PROFILE_GAME_DETAIL` / `ProfileRoutes.GAME_DETAIL` | `pages/Profile/GameDetail` | 个人库游戏详情 `params: { id }`（与 `pages/GameDetail/GameDetail` 隔离） |
+| `AppRoutes.PROFILE_ACCOUNT_SECURITY` / `ProfileRoutes.ACCOUNT_SECURITY` | `pages/Profile/AccountSecurity` | 账号与安全 |
+| `AppRoutes.PROFILE_PRIVACY` / `ProfileRoutes.PRIVACY` | `pages/Profile/Privacy` | 隐私设置 |
+| `AppRoutes.PROFILE_BLACKLIST` / `ProfileRoutes.BLACKLIST` | `pages/Profile/Blacklist` | 黑名单 |
+| `AppRoutes.PROFILE_NOTIFICATION` / `ProfileRoutes.NOTIFICATION` | `pages/Profile/Notification` | 消息通知 |
+| `AppRoutes.PROFILE_DARK_MODE` / `ProfileRoutes.DARK_MODE` | `pages/Profile/DarkMode` | 深色模式 |
+| `AppRoutes.PROFILE_ABOUT` / `ProfileRoutes.ABOUT` | `pages/Profile/About` | 关于小黑盒 |
 
 ## 使用示例
 
