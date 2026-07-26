@@ -6,3 +6,14 @@
 |------|------|------|------|
 | 2026-07-24 | hot | 热点全部/热榜/详情（Mock）+ 编译命名修复 | [20260724-hot-feed-detail.md](./20260724-hot-feed-detail.md) |
 | 2026-07-24 | hot | 默认浅色主题 + 深色调试配色 | [20260724-hot-light-theme.md](./20260724-hot-light-theme.md) |
+| 2026-07-24 | hot | entry Hot 页面/模型迁入 Hot HAR + 路由壳 | [20260724-hot-module-migrate.md](./20260724-hot-module-migrate.md) |
+| 2026-07-24 | hot | 顶部 Banner 接入图1–图4 真实轮播图 | [20260724-hot-banner-images.md](./20260724-hot-banner-images.md) |
+| 2026-07-24 | hot | 第一条新闻接入新闻1 配图与博主头像 | [20260724-hot-news1-images.md](./20260724-hot-news1-images.md) |
+| 2026-07-24 | hot | 阶段进度汇总（HAR 迁移 + Banner + 新闻1） | [20260724-hot-progress-summary.md](./20260724-hot-progress-summary.md) |
+| 2026-07-24 | hot | 第二条新闻接入新闻2 配图/头像/游戏图标与评论 | [20260724-hot-news2-images.md](./20260724-hot-news2-images.md) |
+| 2026-07-25 | hot | 热榜总条目 1–10 + 热榜1 详情真图 | [20260725-hot-rank-list-and-rank1.md](./20260725-hot-rank-list-and-rank1.md) |
+| 2026-07-25 | hot | 第三条新闻替换为 HD2时报（新闻3） | [20260725-hot-news3-hd2.md](./20260725-hot-news3-hd2.md) |
+| 2026-07-25 | hot | 第四条新闻替换为褪色者版双职业（新闻4） | [20260725-hot-news4-elden.md](./20260725-hot-news4-elden.md) |
+| 2026-07-26 | hot | 第五条新闻替换为王者牛年返场（新闻5） | [20260726-hot-news5-wzry.md](./20260726-hot-news5-wzry.md) |
+| 2026-07-26 | hot | 剑星频道主页 6 条目 + 占位详情 | [20260726-hot-stellar-channel.md](./20260726-hot-stellar-channel.md) |
+| 2026-07-26 | hot | 合并 master 冲突清理（pages/Hot + Profile Chat） | [20260726-hot-merge-master-conflicts.md](./20260726-hot-merge-master-conflicts.md) |

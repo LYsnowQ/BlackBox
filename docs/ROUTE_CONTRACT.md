@@ -28,10 +28,12 @@
 | `pages/GameLibrary/GameLibrary` | 游戏库独立页壳 |
 | `pages/GameDetail/GameDetail` | 游戏详情壳 |
 | `pages/Home/PostDetail` | 帖子详情壳 |
+| `pages/Hot/HotNewsDetail` | 热点新闻详情壳 |
 | `pages/Profile/Settings` | 设置 |
 | `pages/Profile/Messages` | 消息 |
 | `pages/Profile/Scan` | 扫一扫 |
 | `pages/Profile/EditProfile` | 编辑资料 |
+| `pages/Profile/Chat` | 消息聊天壳 |
 | `pages/Home/Search` | 首页搜索壳 |
 | `pages/Home/UserProfile` | 用户主页壳 |
 | `pages/Home/ImagePreview` | 配图全屏预览壳 |
@@ -42,10 +44,11 @@
 
 | 常量 | 路径 | 说明 |
 |------|------|------|
-| `AppRoutes.INDEX` | `pages/Index` | 主框架 |
-| `AppRoutes.GAME_LIBRARY` | `pages/GameLibrary/GameLibrary` | 游戏库页 |
-| `AppRoutes.GAME_DETAIL` / `GameLibraryRoutes.GAME_DETAIL` | `pages/GameDetail/GameDetail` | 详情 `params: { id }` |
-| `AppRoutes.HOME_POST_DETAIL` / `HomeRoutes.POST_DETAIL` | `pages/Home/PostDetail` | 帖子 `params: { id, tab? }` |
+| `AppRoutes.INDEX` | `pages/Index` | 主框架 / 底部 Tab |
+| `AppRoutes.GAME_LIBRARY` | `pages/GameLibrary/GameLibrary` | 游戏库独立页（若使用） |
+| `AppRoutes.GAME_DETAIL` / `GameLibraryRoutes.GAME_DETAIL` | `pages/GameDetail/GameDetail` | 游戏详情 `params: { id }` |
+| `AppRoutes.HOME_POST_DETAIL` / `HomeRoutes.POST_DETAIL` | `pages/Home/PostDetail` | 帖子详情 `params: { id, tab? }` |
+| `AppRoutes.HOT_NEWS_DETAIL` / `HotRoutes.NEWS_DETAIL` | `pages/Hot/HotNewsDetail` | 热点新闻详情 `params: { id, themeMode? }` |
 | `AppRoutes.HOME_SEARCH` / `HomeRoutes.SEARCH` | `pages/Home/Search` | 首页搜索 |
 | `AppRoutes.HOME_USER_PROFILE` / `HomeRoutes.USER_PROFILE` | `pages/Home/UserProfile` | 用户主页 `params: { name, avatarColor, avatarText, levelLabel?, authorId? }` |
 | `AppRoutes.HOME_IMAGE_PREVIEW` / `HomeRoutes.IMAGE_PREVIEW` | `pages/Home/ImagePreview` | 配图预览 `params: { postId, index? }` |
