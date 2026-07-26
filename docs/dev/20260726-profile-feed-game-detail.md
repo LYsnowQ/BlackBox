@@ -29,8 +29,10 @@
 - 路由：
   - 动态：`ProfileRoutes.FEED_DETAIL` → `pages/Profile/FeedDetail`，`params.id`
   - 游戏：`ProfileRoutes.GAME_DETAIL` → `pages/Profile/GameDetail`，`params.id`（`lg1`…）
-- **不**使用 `pages/GameDetail/GameDetail`（gamelibrary）与 `pages/Home/PostDetail`
-- 游戏详情 UI 参考游戏库详情框架（顶栏 / 封面渐变 / 价格条 / Tab / 统计 / 底栏），数据全用 `LibraryMock`
+- **不**使用 `pages/GameDetail/GameDetail`（gamelibrary 包）与 `pages/Home/PostDetail`；代码为 **复制** 进 Profile
+- 游戏详情：整页复制 `Gamelibrary` 的 `GameDetail` + `GameLibraryModel` + `GameDetailModel`
+  - 展示评分 / 介绍 / 价格 / 社区 / 统计（商城向），**不是**个人时长成就页
+  - `resolveProfileLibraryToGameId(lg*)` 映射到详情 slug；缺的游戏在 Profile 内补 stub
 - 动态详情：正文 + 评论列表 + 点赞/发评（本地 mock 状态）
 
 ## 验证方式
