@@ -71,12 +71,12 @@ struct Index {
           // 中间「发布」按钮：尺寸对齐其它 Tab 图标区，避免相对底栏显得肿大
           Column() {
             Text(item.icon)
-              .fontSize(18)
+              .fontSize(16)
               .fontWeight(FontWeight.Medium)
               .fontColor(Color.White)
           }
-          .width(29)
-          .height(29)
+          .width(24)
+          .height(24)
           .borderRadius(8)
           .backgroundColor('#1A1A1A')
           .justifyContent(FlexAlign.Center)
