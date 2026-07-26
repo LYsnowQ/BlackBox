@@ -21,14 +21,38 @@ export {
 export {
   fetchLibraryGames,
   fetchAllLibraryGames,
+  fetchLibraryGameById,
   getLibraryGamesSync,
   getAllLibraryGamesSync,
+  getLibraryGameByIdSync,
 } from './LibraryApi';
 
 export {
   fetchFeedList,
+  fetchFeedDetail,
   getFeedListSync,
+  getFeedDetailSync,
 } from './FeedApi';
+
+export {
+  resolveLibraryToCatalogId,
+  fetchCatalogGameById,
+  fetchCatalogGameForLibraryId,
+  fetchGameCommunityPosts,
+  fetchGameDatabaseItems,
+  fetchGameRegionPrices,
+  getCatalogGameByIdSync,
+  getCatalogGameForLibraryIdSync,
+  getGameCommunityPostsSync,
+  getGameDatabaseItemsSync,
+  getGameRegionPricesSync,
+} from './GameCatalogApi';
+
+export {
+  fetchProfileCover,
+  getProfileCoverSync,
+  getProfileBackgroundSync,
+} from './MediaApi';
 
 export {
   fetchMessageSessions,

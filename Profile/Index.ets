@@ -7,6 +7,14 @@ export { MessagesPage } from './src/main/ets/pages/MessagesPage';
 export { ChatPage } from './src/main/ets/pages/ChatPage';
 export { ScanPage } from './src/main/ets/pages/ScanPage';
 export { EditProfilePage } from './src/main/ets/pages/EditProfilePage';
+export { FeedDetailPage } from './src/main/ets/pages/FeedDetailPage';
+export { ProfileGameDetailPage } from './src/main/ets/pages/ProfileGameDetailPage';
+export { AccountSecurityPage } from './src/main/ets/pages/AccountSecurityPage';
+export { PrivacySettingsPage } from './src/main/ets/pages/PrivacySettingsPage';
+export { BlacklistPage } from './src/main/ets/pages/BlacklistPage';
+export { NotificationSettingsPage } from './src/main/ets/pages/NotificationSettingsPage';
+export { DarkModePage } from './src/main/ets/pages/DarkModePage';
+export { AboutPage } from './src/main/ets/pages/AboutPage';
 
 /** 路由契约：与 entry main_pages / 壳页面路径对齐 */
 export { ProfileRoutes } from './src/main/ets/router/ProfileRoutes';
@@ -19,8 +27,18 @@ export {
   fetchBoundAccount,
   bindPlatform,
   fetchLibraryGames,
+  fetchLibraryGameById,
   fetchFeedList,
+  fetchFeedDetail,
+  fetchCatalogGameById,
+  fetchCatalogGameForLibraryId,
+  fetchGameCommunityPosts,
+  fetchGameDatabaseItems,
+  fetchGameRegionPrices,
   fetchMessageSessions,
   fetchChatMessages,
   sendChatMessage,
+  fetchProfileCover,
+  getProfileCoverSync,
+  getProfileBackgroundSync,
 } from './src/main/ets/api/index';
